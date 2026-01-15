@@ -1,0 +1,378 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  ChevronRight, 
+  ChevronLeft, 
+  Trophy, 
+  User, 
+  Send, 
+  RefreshCw, 
+  CheckCircle2, 
+  Star,
+  BarChart3,
+  Mail
+} from 'lucide-react';
+
+// --- CONFIGURATION ---
+const SCRIPT_URL = ""; 
+
+const QUESTIONS = [
+  { id: 1, text: "Saya bekerja untuk menyelesaikan masalah daripada menghindarinya.", habit: "Habit 1: Be Proactive" },
+  { id: 2, text: "Saya bertanggung jawab atas tindakan saya daripada mencari alasan.", habit: "Habit 1: Be Proactive" },
+  { id: 3, text: "Saya memiliki tujuan jangka panjang dalam hidup.", habit: "Habit 2: Begin with the End in Mind" },
+  { id: 4, text: "Saya menentukan hasil yang diinginkan sebelum memulai percakapan penting.", habit: "Habit 2: Begin with the End in Mind" },
+  { id: 5, text: "Saya bekerja menuju solusi jangka panjang, bukan hanya solusi cepat.", habit: "Habit 3: Put First Things First" },
+  { id: 6, text: "Saya mengakui dan meminta maaf atas kesalahan.", habit: "Emotional Bank Account" },
+  { id: 7, text: "Saya melakukan yang terbaik untuk kelompok, bukan hanya diri sendiri.", habit: "Habit 4: Think Win-Win" },
+  { id: 8, text: "Saya berusaha memahami masalah sebelum mencoba menyelesaikannya.", habit: "Habit 5: Seek First to Understand" },
+  { id: 9, text: "Saya secara rutin mencari orang dengan sudut pandang berbeda.", habit: "Habit 6: Synergize" },
+  { id: 10, text: "Saya mengambil langkah untuk meningkatkan bakat saya.", habit: "Habit 7: Sharpen the Saw" }
+];
+
+export default function App() {
+  const [step, setStep] = useState('start'); // start, quiz, result, leaderboard
+  const [user, setUser] = useState({ name: '', email: '', dept: 'Sales' });
+  const [currentQ, setCurrentQ] = useState(0);
+  const [answers, setAnswers] = useState(new Array(QUESTIONS.length).fill(50));
+  const [loading, setLoading] = useState(false);
+  const [emailStatus, setEmailStatus] = useState('sending'); // sending, sent, error
+  const [leaderboard, setLeaderboard] = useState([]);
+
+  const fetchLeaderboard = async () => {
+    if (!SCRIPT_URL) return;
+    setLoading(true);
+    try {
+      const response = await fetch(SCRIPT_URL);
+      const data = await response.json();
+      setLeaderboard(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Gagal mengambil data:", error);
+      setLeaderboard([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const goToLeaderboard = () => {
+    setStep('leaderboard');
+    fetchLeaderboard();
+  };
+
+  const startQuiz = () => {
+    if (!user.name || !user.email) {
+      alert("Mohon lengkapi Nama dan Email!");
+      return;
+    }
+    setStep('quiz');
+  };
+
+  const handleSliderChange = (val) => {
+    const newAnswers = [...answers];
+    newAnswers[currentQ] = parseInt(val);
+    setAnswers(newAnswers);
+  };
+
+  const nextQuestion = () => {
+    if (currentQ < QUESTIONS.length - 1) {
+      setCurrentQ(currentQ + 1);
+    } else {
+      submitQuiz();
+    }
+  };
+
+  const prevQuestion = () => {
+    if (currentQ > 0) setCurrentQ(currentQ - 1);
+  };
+
+  const calculateTotalScore = () => {
+    const sum = answers.reduce((a, b) => a + b, 0);
+    return Math.round(sum / QUESTIONS.length);
+  };
+
+  const submitQuiz = async () => {
+    const finalScore = calculateTotalScore();
+    setStep('result');
+    setEmailStatus('sending');
+    if (!SCRIPT_URL) return;
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nama: user.name,
+          email: user.email,
+          dept: user.dept,
+          skor: finalScore,
+          tanggal: new Date().toLocaleString('id-ID')
+        })
+      });
+      setEmailStatus('sent');
+    } catch (error) {
+      console.error("Gagal mengirim data:", error);
+      setEmailStatus('error');
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#f0f2f5] flex items-center justify-center p-4 font-sans text-[#333]">
+      <div className="max-w-lg w-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-[#e1e4e8]">
+        
+        {/* Header - Worldwhite Enterprise Branding */}
+        <div className="bg-[#0f2c59] p-8 text-white text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-[#dac0a3] opacity-10 rounded-full -mr-16 -mt-16"></div>
+          <h1 className="text-2xl font-black tracking-widest">WORLDWHITE</h1>
+          <p className="text-[#dac0a3] text-xs font-bold uppercase tracking-[0.3em] mt-1">Enterprise</p>
+          <div className="mt-4 h-1 w-12 bg-[#dac0a3] mx-auto rounded-full"></div>
+        </div>
+
+        <div className="p-8">
+          
+          {/* STEP: START */}
+          {step === 'start' && (
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="text-center">
+                <h2 className="text-2xl font-bold text-[#0f2c59]">7 Habits Profile</h2>
+                <p className="text-slate-500 mt-2 text-sm leading-relaxed">
+                  Ukur tingkat efektivitas diri Anda berdasarkan 10 indikator utama The 7 Habits.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="group">
+                  <label className="text-[10px] font-bold uppercase text-slate-400 mb-1 ml-1 block">Nama Lengkap</label>
+                  <div className="relative">
+                    <User className="absolute left-4 top-3.5 text-slate-300" size={18} />
+                    <input 
+                      className="w-full pl-11 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 focus:border-[#0f2c59] outline-none transition-all bg-slate-50"
+                      placeholder="Masukkan nama Anda..."
+                      value={user.name}
+                      onChange={(e) => setUser({...user, name: e.target.value})}
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                   <div>
+                    <label className="text-[10px] font-bold uppercase text-slate-400 mb-1 ml-1 block">Departemen</label>
+                    <select 
+                      className="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-100 focus:border-[#0f2c59] outline-none transition-all bg-slate-50 appearance-none font-medium"
+                      value={user.dept}
+                      onChange={(e) => setUser({...user, dept: e.target.value})}
+                    >
+                      <option value="Sales">Sales</option>
+                      <option value="Marketing">Marketing</option>
+                      <option value="Operation">Operation</option>
+                      <option value="Finance">Finance</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold uppercase text-slate-400 mb-1 ml-1 block">Email</label>
+                    <input 
+                      className="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-100 focus:border-[#0f2c59] outline-none transition-all bg-slate-50"
+                      placeholder="nama@worldwhite.com"
+                      value={user.email}
+                      onChange={(e) => setUser({...user, email: e.target.value})}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <button 
+                onClick={startQuiz}
+                className="w-full bg-[#0f2c59] hover:bg-[#1a4a8d] text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-all transform active:scale-[0.98] shadow-xl shadow-indigo-100"
+              >
+                Mulai Evaluasi <ChevronRight size={20} />
+              </button>
+            </div>
+          )}
+
+          {/* STEP: QUIZ (Slider Mode) */}
+          {step === 'quiz' && (
+            <div className="animate-in slide-in-from-right duration-300">
+              <div className="flex justify-between items-center mb-6">
+                <span className="px-3 py-1 bg-[#dac0a3] text-[#0f2c59] rounded-full text-[10px] font-black uppercase tracking-wider">
+                  {QUESTIONS[currentQ].habit}
+                </span>
+                <span className="text-xs font-bold text-slate-400">
+                  {currentQ + 1} / {QUESTIONS.length}
+                </span>
+              </div>
+
+              <h2 className="text-xl font-bold text-[#0f2c59] leading-tight mb-12 min-h-[64px]">
+                {QUESTIONS[currentQ].text}
+              </h2>
+
+              <div className="space-y-10 mb-12">
+                <div className="relative pt-1">
+                  <div className="flex justify-between text-[10px] font-black uppercase text-slate-400 mb-4 px-2">
+                    <span className="text-red-400">Sangat Jarang</span>
+                    <span className="text-green-500">Sangat Sering</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="25"
+                    value={answers[currentQ]}
+                    onChange={(e) => handleSliderChange(e.target.value)}
+                    className="w-full h-3 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#0f2c59]"
+                  />
+                  <div className="flex justify-between mt-4 px-1">
+                    {[0, 25, 50, 75, 100].map(val => (
+                      <div key={val} className="flex flex-col items-center">
+                        <div className={`w-1.5 h-1.5 rounded-full mb-2 ${answers[currentQ] === val ? 'bg-[#0f2c59] scale-150' : 'bg-slate-200'}`}></div>
+                        <span className={`text-[10px] font-bold ${answers[currentQ] === val ? 'text-[#0f2c59]' : 'text-slate-300'}`}>{val}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <button 
+                  onClick={prevQuestion}
+                  disabled={currentQ === 0}
+                  className={`flex-1 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all ${currentQ === 0 ? 'bg-slate-50 text-slate-300 cursor-not-allowed' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                >
+                  <ChevronLeft size={20} /> Kembali
+                </button>
+                <button 
+                  onClick={nextQuestion}
+                  className="flex-[2] bg-[#0f2c59] hover:bg-[#1a4a8d] text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg"
+                >
+                  {currentQ === QUESTIONS.length - 1 ? 'Selesai & Kirim' : 'Lanjut'} <ChevronRight size={20} />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* STEP: RESULT */}
+          {step === 'result' && (
+            <div className="text-center animate-in zoom-in duration-500">
+              <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle2 className="text-green-600" size={40} />
+              </div>
+              <h2 className="text-2xl font-bold text-[#0f2c59]">Evaluasi Selesai</h2>
+              <p className="text-slate-500 mt-2 text-sm">Kerja bagus, {user.name}!</p>
+              
+              <div className="my-10 bg-[#0f2c59] rounded-[40px] p-10 text-white shadow-2xl relative overflow-hidden">
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dac0a3] mb-2">Skor Efektivitas</p>
+                <div className="text-8xl font-black">{calculateTotalScore()}</div>
+                <div className="mt-4 inline-block px-4 py-1 bg-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                  Level: {calculateTotalScore() > 80 ? 'Excellent' : 'Good'}
+                </div>
+              </div>
+
+              {/* Email Status Indicator */}
+              <div className="mb-8 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-wider px-6 py-2 bg-slate-50 rounded-full text-slate-400">
+                {emailStatus === 'sending' ? (
+                  <><RefreshCw className="animate-spin" size={12} /> Sedang mengirim laporan ke email...</>
+                ) : emailStatus === 'sent' ? (
+                  <><Mail className="text-green-500" size={12} /> Laporan telah dikirim ke {user.email}</>
+                ) : (
+                  <><Mail className="text-red-400" size={12} /> Gagal mengirim email otomatis</>
+                )}
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <button 
+                  onClick={goToLeaderboard}
+                  className="w-full bg-[#dac0a3] hover:bg-[#cbb092] text-[#0f2c59] font-black py-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md"
+                >
+                  <Trophy size={20} /> LIHAT PERINGKAT KARYAWAN
+                </button>
+                <button 
+                  onClick={() => window.location.reload()}
+                  className="w-full text-slate-400 hover:text-slate-600 text-xs font-bold py-2"
+                >
+                  ULANGI TES
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* STEP: LEADERBOARD */}
+          {step === 'leaderboard' && (
+            <div className="animate-in fade-in duration-500">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-xl font-bold text-[#0f2c59] flex items-center gap-2">
+                  <BarChart3 className="text-[#dac0a3]" size={24} /> Papan Skor
+                </h2>
+                <button 
+                  onClick={() => setStep('result')} 
+                  className="bg-slate-100 hover:bg-slate-200 p-2 rounded-xl text-slate-500 transition-all"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+              </div>
+
+              {loading ? (
+                <div className="py-24 text-center space-y-4">
+                  <RefreshCw className="animate-spin mx-auto text-[#dac0a3]" size={40} />
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Sinkronisasi Spreadsheet...</p>
+                </div>
+              ) : (
+                <div className="space-y-4 max-h-[420px] overflow-y-auto pr-2 custom-scrollbar">
+                  {!Array.isArray(leaderboard) || leaderboard.length === 0 ? (
+                    <div className="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+                      <p className="text-slate-400 text-sm font-medium">Belum ada data di Spreadsheet.</p>
+                    </div>
+                  ) : (
+                    leaderboard
+                      .filter(item => item && typeof item === 'object')
+                      .sort((a, b) => (Number(b.skor) || 0) - (Number(a.skor) || 0))
+                      .map((item, i) => (
+                      <div key={i} className={`flex items-center justify-between p-5 rounded-2xl border-2 transition-all ${String(item.nama) === String(user.name) ? 'border-[#0f2c59] bg-[#0f2c59] text-white' : 'border-slate-50 bg-white hover:border-slate-200'}`}>
+                        <div className="flex items-center gap-4">
+                          <span className={`text-sm font-black w-6 ${String(item.nama) === String(user.name) ? 'text-[#dac0a3]' : i < 3 ? 'text-[#0f2c59]' : 'text-slate-300'}`}>
+                            {i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}`}
+                          </span>
+                          <div>
+                            <p className={`text-sm font-bold leading-none ${String(item.nama) === String(user.name) ? 'text-white' : 'text-slate-800'}`}>
+                              {String(item.nama || "Tanpa Nama")}
+                            </p>
+                            <p className={`text-[9px] font-black uppercase mt-1 tracking-wider ${String(item.nama) === String(user.name) ? 'text-[#dac0a3]' : 'text-slate-400'}`}>
+                              {String(item.dept || "Umum")}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <span className={`text-xl font-black ${String(item.nama) === String(user.name) ? 'text-white' : 'text-[#0f2c59]'}`}>
+                            {String(item.skor || 0)}
+                          </span>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+              
+              <div className="mt-8 p-4 bg-[#dac0a3]/10 rounded-2xl border border-[#dac0a3]/20">
+                <p className="text-[10px] text-center text-[#0f2c59] font-bold leading-relaxed">
+                  Data ini ditarik langsung dari Google Sheets sebagai database utama Worldwhite Enterprise.
+                </p>
+              </div>
+            </div>
+          )}
+
+        </div>
+      </div>
+      
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 20px; }
+        input[type=range]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          height: 24px;
+          width: 24px;
+          border-radius: 50%;
+          background: #0f2c59;
+          cursor: pointer;
+          border: 4px solid white;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+      `}</style>
+    </div>
+  );
+}
