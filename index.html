@@ -4,423 +4,595 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>7 Habits Effectiveness Profile - Worldwhite Enterprise</title>
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- React & Babel CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-        
+        :root {
+            /* Worldwhite Enterprise Theme Colors */
+            --primary: #0f2c59; /* Deep Navy Blue */
+            --secondary: #dac0a3; /* Soft Gold/Beige */
+            --accent: #3498db;
+            --success: #27ae60;
+            --bg: #f0f2f5;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --border: #e1e4e8;
+        }
+
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 20px; }
-
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            background: #0f2c59;
-            cursor: pointer;
-            border: 4px solid white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        /* Header */
+        header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 15px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .animate-fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
+        .logo-container {
+            max-width: 200px;
+            margin: 0 auto;
+        }
+
+        .logo-container img {
+            max-height: 60px;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        /* Pages (Sections) */
+        .page-section {
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .page-section.active {
+            display: block;
         }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-    </style>
-</head>
-<body class="bg-[#f0f2f5]">
-    <div id="root"></div>
 
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-
-        // --- Ikon SVG Internal (Menggantikan Lucide untuk stabilitas) ---
-        const Icon = ({ children, size = 20, className = "" }) => (
-            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-                {children}
-            </svg>
-        );
-
-        const Icons = {
-            ChevronRight: (props) => <Icon {...props}><path d="m9 18 6-6-6-6"/></Icon>,
-            ChevronLeft: (props) => <Icon {...props}><path d="m15 18-6-6 6-6"/></Icon>,
-            Trophy: (props) => <Icon {...props}><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></Icon>,
-            User: (props) => <Icon {...props}><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></Icon>,
-            RefreshCw: (props) => <Icon {...props}><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></Icon>,
-            CheckCircle2: (props) => <Icon {...props}><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/><path d="m9 12 2 2 4-4"/></Icon>,
-            Star: (props) => <Icon {...props}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></Icon>,
-            BarChart3: (props) => <Icon {...props}><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></Icon>,
-            Mail: (props) => <Icon {...props}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></Icon>
-        };
-
-        // --- CONFIGURATION ---
-        const SCRIPT_URL = ""; 
-
-        const QUESTIONS = [
-            { id: 1, text: "Saya bekerja untuk menyelesaikan masalah daripada menghindarinya.", habit: "Habit 1: Be Proactive" },
-            { id: 2, text: "Saya bertanggung jawab atas tindakan saya daripada mencari alasan.", habit: "Habit 1: Be Proactive" },
-            { id: 3, text: "Saya memiliki tujuan jangka panjang dalam hidup.", habit: "Habit 2: Begin with the End in Mind" },
-            { id: 4, text: "Saya menentukan hasil yang diinginkan sebelum memulai percakapan penting.", habit: "Habit 2: Begin with the End in Mind" },
-            { id: 5, text: "Saya bekerja menuju solusi jangka panjang, bukan hanya solusi cepat.", habit: "Habit 3: Put First Things First" },
-            { id: 6, text: "Saya mengakui dan meminta maaf atas kesalahan.", habit: "Emotional Bank Account" },
-            { id: 7, text: "Saya melakukan yang terbaik untuk kelompok, bukan hanya diri sendiri.", habit: "Habit 4: Think Win-Win" },
-            { id: 8, text: "Saya berusaha memahami masalah sebelum mencoba menyelesaikannya.", habit: "Habit 5: Seek First to Understand" },
-            { id: 9, text: "Saya secara rutin mencari orang dengan sudut pandang berbeda.", habit: "Habit 6: Synergize" },
-            { id: 10, text: "Saya mengambil langkah untuk meningkatkan bakat saya.", habit: "Habit 7: Sharpen the Saw" }
-        ];
-
-        function App() {
-            const [step, setStep] = useState('start');
-            const [user, setUser] = useState({ name: '', email: '', dept: 'Sales' });
-            const [currentQ, setCurrentQ] = useState(0);
-            const [answers, setAnswers] = useState(new Array(QUESTIONS.length).fill(50));
-            const [loading, setLoading] = useState(false);
-            const [emailStatus, setEmailStatus] = useState('none');
-            const [leaderboard, setLeaderboard] = useState([]);
-
-            const fetchLeaderboard = async () => {
-                if (!SCRIPT_URL) return;
-                setLoading(true);
-                try {
-                    const response = await fetch(SCRIPT_URL);
-                    const data = await response.json();
-                    setLeaderboard(Array.isArray(data) ? data : []);
-                } catch (error) {
-                    console.error("Gagal mengambil data:", error);
-                    setLeaderboard([]);
-                } finally {
-                    setLoading(false);
-                }
-            };
-
-            const goToLeaderboard = () => {
-                setStep('leaderboard');
-                fetchLeaderboard();
-            };
-
-            const startQuiz = () => {
-                if (!user.name || !user.email) {
-                    alert("Mohon lengkapi Nama dan Email!");
-                    return;
-                }
-                setStep('quiz');
-            };
-
-            const handleSliderChange = (val) => {
-                const newAnswers = [...answers];
-                newAnswers[currentQ] = parseInt(val);
-                setAnswers(newAnswers);
-            };
-
-            const nextQuestion = () => {
-                if (currentQ < QUESTIONS.length - 1) {
-                    setCurrentQ(currentQ + 1);
-                } else {
-                    submitQuiz();
-                }
-            };
-
-            const prevQuestion = () => {
-                if (currentQ > 0) setCurrentQ(currentQ - 1);
-            };
-
-            const calculateTotalScore = () => {
-                const sum = answers.reduce((a, b) => a + b, 0);
-                return Math.round(sum / QUESTIONS.length);
-            };
-
-            const submitQuiz = async () => {
-                const finalScore = calculateTotalScore();
-                setStep('result');
-                setEmailStatus('sending');
-                
-                if (!SCRIPT_URL) {
-                    setEmailStatus('error');
-                    return;
-                }
-
-                try {
-                    await fetch(SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            nama: user.name,
-                            email: user.email,
-                            dept: user.dept,
-                            skor: finalScore,
-                            tanggal: new Date().toLocaleString('id-ID')
-                        })
-                    });
-                    setEmailStatus('sent');
-                } catch (error) {
-                    console.error("Gagal mengirim data:", error);
-                    setEmailStatus('error');
-                }
-            };
-
-            return (
-                <div className="min-h-screen flex items-center justify-center p-4">
-                    <div className="max-w-lg w-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-[#e1e4e8]">
-                        
-                        <div className="bg-[#0f2c59] p-8 text-white text-center relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#dac0a3] opacity-10 rounded-full -mr-16 -mt-16"></div>
-                            <h1 className="text-2xl font-black tracking-widest">WORLDWHITE</h1>
-                            <p className="text-[#dac0a3] text-xs font-bold uppercase tracking-[0.3em] mt-1">Enterprise</p>
-                            <div className="mt-4 h-1 w-12 bg-[#dac0a3] mx-auto rounded-full"></div>
-                        </div>
-
-                        <div className="p-8">
-                            
-                            {step === 'start' && (
-                                <div className="space-y-6 animate-fade-in">
-                                    <div className="text-center">
-                                        <h2 className="text-2xl font-bold text-[#0f2c59]">7 Habits Profile</h2>
-                                        <p className="text-slate-500 mt-2 text-sm leading-relaxed">
-                                            Ukur tingkat efektivitas diri Anda berdasarkan indikator utama The 7 Habits.
-                                        </p>
-                                    </div>
-
-                                    <div className="space-y-4">
-                                        <div>
-                                            <label className="text-[10px] font-bold uppercase text-slate-400 mb-1 block">Nama Lengkap</label>
-                                            <div className="relative">
-                                                <div className="absolute left-4 top-3.5 text-slate-300">
-                                                    <Icons.User size={18} />
-                                                </div>
-                                                <input 
-                                                    className="w-full pl-11 pr-4 py-3.5 rounded-2xl border-2 border-slate-100 focus:border-[#0f2c59] outline-none transition-all bg-slate-50"
-                                                    placeholder="Masukkan nama Anda..."
-                                                    value={user.name}
-                                                    onChange={(e) => setUser({...user, name: e.target.value})}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label className="text-[10px] font-bold uppercase text-slate-400 mb-1 block">Departemen</label>
-                                                <select 
-                                                    className="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-100 focus:border-[#0f2c59] outline-none transition-all bg-slate-50 font-medium appearance-none"
-                                                    value={user.dept}
-                                                    onChange={(e) => setUser({...user, dept: e.target.value})}
-                                                >
-                                                    <option value="Sales">Sales</option>
-                                                    <option value="Marketing">Marketing</option>
-                                                    <option value="Operation">Operation</option>
-                                                    <option value="Finance">Finance</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label className="text-[10px] font-bold uppercase text-slate-400 mb-1 block">Email</label>
-                                                <input 
-                                                    className="w-full px-4 py-3.5 rounded-2xl border-2 border-slate-100 focus:border-[#0f2c59] outline-none transition-all bg-slate-50"
-                                                    placeholder="nama@worldwhite.com"
-                                                    value={user.email}
-                                                    onChange={(e) => setUser({...user, email: e.target.value})}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <button 
-                                        onClick={startQuiz}
-                                        className="w-full bg-[#0f2c59] hover:bg-[#1a4a8d] text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-all transform active:scale-95 shadow-xl"
-                                    >
-                                        Mulai Evaluasi <Icons.ChevronRight size={20} />
-                                    </button>
-                                </div>
-                            )}
-
-                            {step === 'quiz' && (
-                                <div className="animate-fade-in">
-                                    <div className="flex justify-between items-center mb-6">
-                                        <span className="px-3 py-1 bg-[#dac0a3] text-[#0f2c59] rounded-full text-[10px] font-black uppercase tracking-wider">
-                                            {QUESTIONS[currentQ].habit}
-                                        </span>
-                                        <span className="text-xs font-bold text-slate-400">
-                                            {currentQ + 1} / {QUESTIONS.length}
-                                        </span>
-                                    </div>
-
-                                    <h2 className="text-xl font-bold text-[#0f2c59] leading-tight mb-12 min-h-[64px]">
-                                        {QUESTIONS[currentQ].text}
-                                    </h2>
-
-                                    <div className="space-y-10 mb-12">
-                                        <div className="relative">
-                                            <div className="flex justify-between text-[10px] font-black uppercase text-slate-400 mb-4 px-2">
-                                                <span className="text-red-400">Sangat Jarang</span>
-                                                <span className="text-green-500">Sangat Sering</span>
-                                            </div>
-                                            <input
-                                                type="range"
-                                                min="0"
-                                                max="100"
-                                                step="25"
-                                                value={answers[currentQ]}
-                                                onChange={(e) => handleSliderChange(e.target.value)}
-                                                className="w-full h-3 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#0f2c59]"
-                                            />
-                                            <div className="flex justify-between mt-4 px-1">
-                                                {[0, 25, 50, 75, 100].map(val => (
-                                                    <div key={val} className="flex flex-col items-center">
-                                                        <div className={`w-1.5 h-1.5 rounded-full mb-2 ${answers[currentQ] === val ? 'bg-[#0f2c59] scale-150' : 'bg-slate-200'}`}></div>
-                                                        <span className={`text-[10px] font-bold ${answers[currentQ] === val ? 'text-[#0f2c59]' : 'text-slate-300'}`}>{val}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex gap-3">
-                                        <button 
-                                            onClick={prevQuestion}
-                                            disabled={currentQ === 0}
-                                            className={`flex-1 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all ${currentQ === 0 ? 'bg-slate-50 text-slate-300 cursor-not-allowed' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
-                                        >
-                                            <Icons.ChevronLeft size={20} />
-                                        </button>
-                                        <button 
-                                            onClick={nextQuestion}
-                                            className="flex-[2] bg-[#0f2c59] hover:bg-[#1a4a8d] text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg"
-                                        >
-                                            {currentQ === QUESTIONS.length - 1 ? 'Selesai & Kirim' : 'Lanjut'} <Icons.ChevronRight size={20} />
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-
-                            {step === 'result' && (
-                                <div className="text-center animate-fade-in">
-                                    <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                                        <Icons.CheckCircle2 className="text-green-600" size={40} />
-                                    </div>
-                                    <h2 className="text-2xl font-bold text-[#0f2c59]">Evaluasi Selesai</h2>
-                                    <p className="text-slate-500 mt-2 text-sm">Kerja bagus, {user.name}!</p>
-                                    
-                                    <div className="my-10 bg-[#0f2c59] rounded-[40px] p-10 text-white shadow-2xl relative overflow-hidden">
-                                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dac0a3] mb-2">Skor Efektivitas</p>
-                                        <div className="text-8xl font-black">{calculateTotalScore()}</div>
-                                        <div className="mt-4 inline-block px-4 py-1 bg-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest">
-                                            Level: {calculateTotalScore() > 80 ? 'Excellent' : 'Good'}
-                                        </div>
-                                    </div>
-
-                                    <div className="mb-8 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-wider px-6 py-2 bg-slate-50 rounded-full text-slate-400">
-                                        {emailStatus === 'sending' ? (
-                                            <><Icons.RefreshCw className="animate-spin" size={12} /> Mengirim email...</>
-                                        ) : emailStatus === 'sent' ? (
-                                            <><Icons.Mail className="text-green-500" size={12} /> Laporan dikirim ke {user.email}</>
-                                        ) : emailStatus === 'error' ? (
-                                            <><Icons.Mail className="text-red-400" size={12} /> Gagal mengirim email</>
-                                        ) : null}
-                                    </div>
-
-                                    <div className="flex flex-col gap-3">
-                                        <button 
-                                            onClick={goToLeaderboard}
-                                            className="w-full bg-[#dac0a3] hover:bg-[#cbb092] text-[#0f2c59] font-black py-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md"
-                                        >
-                                            <Icons.Trophy size={20} /> LIHAT PERINGKAT
-                                        </button>
-                                        <button 
-                                            onClick={() => window.location.reload()}
-                                            className="w-full text-slate-400 hover:text-slate-600 text-xs font-bold py-2"
-                                        >
-                                            ULANGI TES
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-
-                            {step === 'leaderboard' && (
-                                <div className="animate-fade-in">
-                                    <div className="flex items-center justify-between mb-8">
-                                        <h2 className="text-xl font-bold text-[#0f2c59] flex items-center gap-2">
-                                            <Icons.BarChart3 className="text-[#dac0a3]" size={24} /> Papan Skor
-                                        </h2>
-                                        <button 
-                                            onClick={() => setStep('result')} 
-                                            className="bg-slate-100 hover:bg-slate-200 p-2 rounded-xl text-slate-500 transition-all"
-                                        >
-                                            <Icons.ChevronLeft size={20} />
-                                        </button>
-                                    </div>
-
-                                    {loading ? (
-                                        <div className="py-24 text-center space-y-4">
-                                            <Icons.RefreshCw className="animate-spin mx-auto text-[#dac0a3]" size={40} />
-                                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Sinkronisasi Data...</p>
-                                        </div>
-                                    ) : (
-                                        <div className="space-y-4 max-h-[420px] overflow-y-auto pr-2 custom-scrollbar text-center">
-                                            {!Array.isArray(leaderboard) || leaderboard.length === 0 ? (
-                                                <div className="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
-                                                    <p className="text-slate-400 text-sm font-medium">Belum ada data di Spreadsheet.</p>
-                                                </div>
-                                            ) : (
-                                                leaderboard
-                                                    .filter(item => item && typeof item === 'object')
-                                                    .sort((a, b) => (Number(b.skor) || 0) - (Number(a.skor) || 0))
-                                                    .map((item, i) => (
-                                                    <div key={i} className={`flex items-center justify-between p-5 rounded-2xl border-2 transition-all ${String(item.nama) === String(user.name) ? 'border-[#0f2c59] bg-[#0f2c59] text-white' : 'border-slate-50 bg-white hover:border-slate-200'}`}>
-                                                        <div className="flex items-center gap-4 text-left">
-                                                            <span className={`text-sm font-black w-6 ${String(item.nama) === String(user.name) ? 'text-[#dac0a3]' : i < 3 ? 'text-[#0f2c59]' : 'text-slate-300'}`}>
-                                                                {i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}`}
-                                                            </span>
-                                                            <div>
-                                                                <p className={`text-sm font-bold leading-none ${String(item.nama) === String(user.name) ? 'text-white' : 'text-slate-800'}`}>
-                                                                    {String(item.nama || "User")}
-                                                                </p>
-                                                                <p className={`text-[9px] font-black uppercase mt-1 tracking-wider ${String(item.nama) === String(user.name) ? 'text-[#dac0a3]' : 'text-slate-400'}`}>
-                                                                    {String(item.dept || "Umum")}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div className="text-right">
-                                                            <span className={`text-xl font-black ${String(item.nama) === String(user.name) ? 'text-white' : 'text-[#0f2c59]'}`}>
-                                                                {String(item.skor || 0)}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                ))
-                                            )}
-                                        </div>
-                                    )}
-                                    
-                                    <div className="mt-8 p-4 bg-[#dac0a3]/10 rounded-2xl border border-[#dac0a3]/20">
-                                        <p className="text-[10px] text-center text-[#0f2c59] font-bold leading-relaxed italic">
-                                            Sistem Database Worldwhite Enterprise
-                                        </p>
-                                    </div>
-                                </div>
-                            )}
-
-                        </div>
-                    </div>
-                </div>
-            );
+        /* Card Styling */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 40px;
+            margin-bottom: 20px;
         }
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        h1, h2 { color: var(--primary); margin-top: 0; }
+        h1 { text-align: center; margin-bottom: 10px; font-size: 1.8rem; }
+        p.subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+
+        /* Form Inputs */
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        .form-group input:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        /* Buttons */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 20px;
+        }
+        .btn:hover { background-color: #1a4a8d; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: white; }
+
+        /* Question List */
+        .section-header {
+            background: var(--secondary);
+            color: var(--primary);
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 40px 0 20px 0;
+            display: flex;
+            align-items: center;
+        }
+        .section-header::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 24px;
+            background: var(--primary);
+            margin-right: 15px;
+            border-radius: 4px;
+        }
+
+        .question-item {
+            background: #fff;
+            padding: 25px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: box-shadow 0.3s;
+        }
+        .question-item:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+        .scale-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            position: relative;
+            padding: 0 10px;
+        }
+        
+        /* Custom Radio Buttons Logic */
+        .scale-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .scale-option input {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .scale-track {
+            position: absolute;
+            top: 12px;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background: #ddd;
+            z-index: 1;
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #888;
+        }
+
+        /* Result Report */
+        .report-header {
+            text-align: center;
+            border-bottom: 2px dashed #ccc;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .user-profile {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .result-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 10px;
+        }
+        .result-label { flex: 0 0 40%; font-weight: 600; padding-right: 15px; font-size: 0.95rem; }
+        .result-bar-area { flex: 1; }
+        .result-bar-bg { height: 10px; background: #eee; border-radius: 5px; overflow: hidden; }
+        .result-bar-fill { height: 100%; transition: width 1s ease; }
+        .result-score { flex: 0 0 50px; text-align: right; font-weight: bold; font-size: 1.1rem; color: var(--primary); }
+        
+        .final-score-box {
+            background: linear-gradient(135deg, var(--primary), #1a4a8d);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 10px 20px rgba(15, 44, 89, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .scale-option input { width: 20px; height: 20px; }
+            .result-row { flex-direction: column; align-items: stretch; }
+            .result-label { margin-bottom: 5px; }
+            .result-score { text-align: right; margin-top: -25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <!-- Ganti src dengan URL logo yang valid atau simpan gambar dengan nama logo.png -->
+            <!-- Jika gambar tidak ada, teks alt akan muncul sebagai gantinya -->
+            <img src="Logo_WE.jpg" alt="Worldwhite Enterprise Logo" onerror="this.style.display='none'; document.querySelector('.logo-text').style.display='block'">
+            <div class="logo-text" style="display:none;">Worldwhite Enterprise</div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- PAGE 1: WELCOME & DATA DIRI -->
+        <div id="introPage" class="page-section active">
+            <div class="card">
+                <h1>7 Habits Effectiveness Profile</h1>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
+                
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="userName" placeholder="Isi nama lengkap Anda...">
+                </div>
+                <div class="form-group">
+                    <label>Email Perusahaan</label>
+                    <input type="email" id="userEmail" placeholder="nama@worldwhite.com">
+                </div>
+                <div class="form-group">
+                    <label>Nomor Handphone</label>
+                    <input type="tel" id="userPhone" placeholder="08...">
+                </div>
+
+                <button class="btn" onclick="startSurvey()">Mulai Survey</button>
+            </div>
+        </div>
+
+        <!-- PAGE 2: QUESTIONS -->
+        <div id="surveyPage" class="page-section">
+            <div id="questionsContainer"></div>
+            
+            <div class="card">
+                <button class="btn" onclick="calculateScores()">Lihat Hasil Penilaian</button>
+                <p id="errorMsg" style="color:red; text-align:center; display:none; margin-top:10px;">Mohon lengkapi semua pertanyaan!</p>
+            </div>
+        </div>
+
+        <!-- PAGE 3: REPORT -->
+        <div id="resultPage" class="page-section">
+            <div class="card">
+                <div class="report-header">
+                    <h2>HASIL EVALUASI EFEKTIVITAS</h2>
+                </div>
+
+                <div class="user-profile">
+                    <h3 id="resName" style="margin:0; color:var(--primary);">Nama User</h3>
+                    <p id="resEmail" style="margin:5px 0 0 0; color:#666;">email@example.com</p>
+                </div>
+
+                <div id="scoreDetails">
+                    <!-- Results injected here -->
+                </div>
+
+                <div class="final-score-box">
+                    <div style="font-size: 1rem; opacity: 0.9; text-transform: uppercase;">Skor Keseluruhan</div>
+                    <div id="finalScoreDisplay" style="font-size: 3.5rem; font-weight: bold; line-height: 1.2;">0</div>
+                </div>
+
+                <button class="btn btn-outline" style="margin-top: 30px;" onclick="window.print()">Cetak / Simpan PDF</button>
+                <button class="btn btn-outline" style="margin-top: 10px; border:none; color:#666;" onclick="location.reload()">Isi Ulang</button>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Worldwhite Enterprise. All Rights Reserved.
+    </footer>
+
+    <script>
+        // --- DATA SURVEY ---
+        const surveyData = [
+            {
+                title: "Habit 1: Be Proactive",
+                desc: "Mengambil inisiatif dan tanggung jawab",
+                questions: [
+                    { id: 1, text: "Saya bekerja untuk menyelesaikan masalah daripada menghindarinya.", reversed: false },
+                    { id: 2, text: "Saya sulit mengendalikan diri, terutama dalam situasi sulit.", reversed: true },
+                    { id: 3, text: "Saya bertanggung jawab atas tindakan saya daripada mencari alasan.", reversed: false },
+                    { id: 4, text: "Saya sering merasa cemas tentang hal-hal yang tidak dapat saya kendalikan.", reversed: true },
+                    { id: 5, text: "Saya tidak membiarkan keadaan luar mendikte sikap saya.", reversed: false },
+                    { id: 6, text: "Saya merasa hidup saya di luar kendali saya.", reversed: true },
+                    { id: 7, text: "Saya biasanya tetap tenang saat kejadian yang menekan.", reversed: false },
+                    { id: 8, text: "Saya sulit untuk tidak menyalahkan orang lain saat terjadi kesalahan.", reversed: true }
+                ]
+            },
+            {
+                title: "Habit 2: Begin with the End in Mind",
+                desc: "Memiliki visi dan tujuan yang jelas",
+                questions: [
+                    { id: 9, text: "Saya terorganisir saat memimpin rapat.", reversed: false },
+                    { id: 10, text: "Saya jarang memulai proyek dengan pemahaman jelas tentang hasil akhir.", reversed: true },
+                    { id: 11, text: "Saya menetapkan ekspektasi jelas saat memberikan tugas.", reversed: false },
+                    { id: 12, text: "Saya berharap memiliki arah hidup yang lebih jelas.", reversed: true },
+                    { id: 13, text: "Saya tidak tahu kontribusi apa yang ingin saya buat.", reversed: true },
+                    { id: 14, text: "Saya memiliki tujuan jangka panjang dalam hidup.", reversed: false },
+                    { id: 15, text: "Saya menentukan hasil yang diinginkan sebelum memulai percakapan penting.", reversed: false },
+                    { id: 16, text: "Saya tidak jelas tentang apa yang paling penting bagi saya.", reversed: true }
+                ]
+            },
+            {
+                title: "Habit 3: Put First Things First",
+                desc: "Memprioritaskan hal penting, bukan hanya mendesak",
+                questions: [
+                    { id: 17, text: "Saya merasa sebagian besar waktu saya habis untuk 'memadamkan kebakaran'.", reversed: true },
+                    { id: 18, text: "Saya bekerja menuju solusi jangka panjang, bukan hanya solusi cepat.", reversed: false },
+                    { id: 19, text: "Urgensi orang lain biasanya mendominasi hari saya.", reversed: true },
+                    { id: 20, text: "Saya menghargai waktu orang lain.", reversed: false },
+                    { id: 21, text: "Saya sulit berkata tidak pada permintaan orang lain.", reversed: true },
+                    { id: 22, text: "Aktivitas online tidak mengganggu tanggung jawab saya.", reversed: false },
+                    { id: 23, text: "Saya jarang merencanakan hari ke depan.", reversed: true },
+                    { id: 24, text: "Saya biasanya tepat waktu.", reversed: false },
+                    { id: 25, text: "Saya sering menunda-nunda.", reversed: true }
+                ]
+            },
+            {
+                title: "Emotional Bank Account",
+                desc: "Membangun kepercayaan dalam hubungan",
+                questions: [
+                    { id: 26, text: "Saya mengakui dan meminta maaf atas kesalahan.", reversed: false },
+                    { id: 27, text: "Saya menunjukkan apresiasi atas kinerja positif.", reversed: false },
+                    { id: 28, text: "Saya jarang membicarakan orang di belakang mereka.", reversed: false },
+                    { id: 29, text: "Saya menggunakan medsos untuk membangun orang lain.", reversed: false },
+                    { id: 30, text: "Saya sulit memaafkan orang lain.", reversed: true },
+                    { id: 31, text: "Saya mudah mencari kesalahan orang lain.", reversed: true },
+                    { id: 32, text: "Saya sulit mengucapkan maaf.", reversed: true },
+                    { id: 33, text: "Saya sulit menjaga rahasia.", reversed: true }
+                ]
+            },
+            {
+                title: "Habit 4: Think Win-Win",
+                desc: "Mencari solusi saling menguntungkan",
+                questions: [
+                    { id: 34, text: "Saya sulit berbagi penghargaan atas kesuksesan.", reversed: true },
+                    { id: 35, text: "Saya cenderung memiliki 'anak emas' (pilih kasih).", reversed: true },
+                    { id: 36, text: "Saya sering tidak peka terhadap perasaan orang lain.", reversed: true },
+                    { id: 37, text: "Saya mengantisipasi dampak keputusan saya pada orang lain.", reversed: false },
+                    { id: 38, text: "Saya melakukan yang terbaik untuk kelompok, bukan hanya diri sendiri.", reversed: false },
+                    { id: 39, text: "Saya sulit mencapai solusi yang disepakati bersama.", reversed: true },
+                    { id: 40, text: "Saya menetapkan ekspektasi jelas saat bekerja dengan orang lain.", reversed: false },
+                    { id: 41, text: "Saya melihat diri saya setara dengan orang di sekitar saya.", reversed: false }
+                ]
+            },
+            {
+                title: "Habit 5: Seek First to Understand",
+                desc: "Mendengarkan dengan empati",
+                questions: [
+                    { id: 42, text: "Saya mudah didekati saat ada masalah.", reversed: false },
+                    { id: 43, text: "Saya cenderung mendominasi diskusi.", reversed: true },
+                    { id: 44, text: "Saya mendengarkan tanpa memotong pembicaraan.", reversed: false },
+                    { id: 45, text: "Saya defensif saat menerima umpan balik negatif.", reversed: true },
+                    { id: 46, text: "Saya jarang tertarik memahami sudut pandang orang lain.", reversed: true },
+                    { id: 47, text: "Saya berusaha memahami masalah sebelum mencoba menyelesaikannya.", reversed: false },
+                    { id: 48, text: "Saya berkomunikasi dengan jelas dan hormat.", reversed: false },
+                    { id: 49, text: "Saya sulit meminta apa yang benar-benar saya inginkan.", reversed: true }
+                ]
+            },
+            {
+                title: "Habit 6: Synergize",
+                desc: "Kerjasama kreatif",
+                questions: [
+                    { id: 50, text: "Saya mencari kekuatan orang lain untuk menyelesaikan tugas.", reversed: false },
+                    { id: 51, text: "Saya tidak nyaman bekerja dengan orang yang berbeda.", reversed: true },
+                    { id: 52, text: "Saya membangun hubungan di luar kelompok kerja saya.", reversed: false },
+                    { id: 53, text: "Saya tidak nyaman mencoba ide-ide baru.", reversed: true },
+                    { id: 54, text: "Saya mendorong kreativitas dan inovasi.", reversed: false },
+                    { id: 55, text: "Saya sering berselisih paham dengan orang lain.", reversed: true },
+                    { id: 56, text: "Saya secara rutin mencari orang dengan sudut pandang berbeda.", reversed: false },
+                    { id: 57, text: "Ego saya menghalangi saat saya merasa terancam.", reversed: true }
+                ]
+            },
+            {
+                title: "Habit 7: Sharpen the Saw",
+                desc: "Pembaruan diri yang seimbang",
+                questions: [
+                    { id: 58, text: "Saya kompeten di bidang pekerjaan saya.", reversed: false },
+                    { id: 59, text: "Saya peduli pada orang lain dan membangun persahabatan.", reversed: false },
+                    { id: 60, text: "Saya kurang peduli pada kesehatan fisik saya.", reversed: true },
+                    { id: 61, text: "Saya jarang mencari umpan balik untuk perbaikan.", reversed: true },
+                    { id: 62, text: "Saya mengambil langkah untuk meningkatkan bakat saya.", reversed: false },
+                    { id: 63, text: "Saya meluangkan waktu untuk menikmati hidup.", reversed: false },
+                    { id: 64, text: "Saya berjuang untuk hidup seimbang.", reversed: true },
+                    { id: 65, text: "Saya merasa keterampilan saya tertinggal.", reversed: true }
+                ]
+            }
+        ];
+
+        // --- NAVIGATION LOGIC ---
+
+        function startSurvey() {
+            const name = document.getElementById('userName').value;
+            if(!name.trim()) {
+                alert("Mohon isi Nama Lengkap Anda terlebih dahulu.");
+                return;
+            }
+            
+            // Switch Page
+            document.getElementById('introPage').classList.remove('active');
+            document.getElementById('surveyPage').classList.add('active');
+            
+            // Render Questions if not already done
+            if(document.getElementById('questionsContainer').innerHTML === "") {
+                renderQuestions();
+            }
+            
+            window.scrollTo(0,0);
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            let html = "";
+
+            surveyData.forEach((section, sIdx) => {
+                html += `<div class="section-header">${section.title}</div>`;
+                
+                section.questions.forEach(q => {
+                    html += `
+                    <div class="question-item">
+                        <div class="question-text">${q.id}. ${q.text}</div>
+                        <div class="scale-labels">
+                            <span style="color:#e74c3c">Strongly Disagree</span>
+                            <span style="color:#27ae60">Strongly Agree</span>
+                        </div>
+                        <div class="scale-options">
+                            <div class="scale-track"></div>
+                            
+                            <label class="scale-option">
+                                <input type="radio" name="q${q.id}" value="0">
+                            </label>
+                            <label class="scale-option">
+                                <input type="radio" name="q${q.id}" value="25">
+                            </label>
+                            <label class="scale-option">
+                                <input type="radio" name="q${q.id}" value="50">
+                            </label>
+                            <label class="scale-option">
+                                <input type="radio" name="q${q.id}" value="75">
+                            </label>
+                            <label class="scale-option">
+                                <input type="radio" name="q${q.id}" value="100">
+                            </label>
+                        </div>
+                    </div>`;
+                });
+            });
+            container.innerHTML = html;
+        }
+
+        function calculateScores() {
+            // Check completeness
+            let allAnswered = true;
+            for(let i=1; i<=65; i++) {
+                if(!document.querySelector(`input[name="q${i}"]:checked`)) {
+                    allAnswered = false;
+                    break;
+                }
+            }
+
+            if(!allAnswered) {
+                document.getElementById('errorMsg').style.display = 'block';
+                return;
+            }
+
+            // Calculate
+            let totalSum = 0;
+            let sectionCount = 0;
+            let detailsHtml = "";
+
+            surveyData.forEach(section => {
+                let sectionSum = 0;
+                section.questions.forEach(q => {
+                    let val = parseInt(document.querySelector(`input[name="q${q.id}"]:checked`).value);
+                    if(q.reversed) val = 100 - val;
+                    sectionSum += val;
+                });
+
+                const avg = Math.round(sectionSum / section.questions.length);
+                totalSum += avg;
+                sectionCount++;
+
+                let color = "#3498db";
+                if(avg >= 80) color = "#27ae60";
+                if(avg < 60) color = "#e74c3c";
+
+                detailsHtml += `
+                <div class="result-row">
+                    <div class="result-label">
+                        ${section.title}
+                    </div>
+                    <div class="result-bar-area">
+                        <div class="result-bar-bg">
+                            <div class="result-bar-fill" style="width: ${avg}%; background-color: ${color}"></div>
+                        </div>
+                    </div>
+                    <div class="result-score" style="color:${color}">${avg}</div>
+                </div>`;
+            });
+
+            const finalScore = Math.round(totalSum / sectionCount);
+
+            // Populate Report
+            document.getElementById('resName').innerText = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value;
+            document.getElementById('resEmail').innerText = email ? email : "-";
+            document.getElementById('scoreDetails').innerHTML = detailsHtml;
+            document.getElementById('finalScoreDisplay').innerText = finalScore;
+
+            // Switch to Result Page
+            document.getElementById('surveyPage').classList.remove('active');
+            document.getElementById('resultPage').classList.add('active');
+            window.scrollTo(0,0);
+        }
     </script>
 </body>
 </html>
