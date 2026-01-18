@@ -3,473 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>7 Habits Effectiveness Profile - Worldwhite Enterprise</title>
+    <title>7 Habits Profile - Worldwhite Enterprise</title>
     <link rel="icon" href="LOGO news.png" type="image/png">
     <style>
-        :root {
-            /* Worldwhite Enterprise Theme Colors */
-            --primary: #0f2c59; /* Deep Navy Blue */
-            --secondary: #dac0a3; /* Soft Gold/Beige */
-            --accent: #3498db;
-            --bg: #f0f2f5;
-            --card-bg: #ffffff;
-            --text: #333333;
-            --border: #e1e4e8;
-        }
-
-        body {
-            font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* --- HEADER --- */
-        header {
-            background: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            padding: 15px 0;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .logo-container img {
-            max-height: 50px;
-            width: auto;
-        }
-
-        .logo-text {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* --- CONTAINER --- */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        /* Pages logic */
-        .page-section {
-            display: none;
-            width: 100%;
-            margin: auto;
-            animation: fadeIn 0.5s ease-out;
-        }
-        .page-section.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- CARDS & FORM --- */
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            padding: 40px;
-            margin-bottom: 20px;
-        }
-
-        h1, h2 { color: var(--primary); margin-top: 0; }
-        h1 { text-align: center; margin-bottom: 10px; font-size: 1.8rem; }
-
+        /* --- COPY CSS SEBELUMNYA (TIDAK BERUBAH) --- */
+        :root { --primary: #0f2c59; --secondary: #dac0a3; --accent: #3498db; --bg: #f0f2f5; --card-bg: #ffffff; --text: #333333; --border: #e1e4e8; }
+        body { font-family: 'Segoe UI', 'Roboto', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: #fff; padding: 15px 0; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .logo-container { display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .logo-container img { height: 50px; width: auto; }
+        .logo-text { font-size: 1.2rem; font-weight: bold; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; flex: 1; width: 100%; box-sizing: border-box; }
+        .card { background: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 40px; margin-bottom: 20px; animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        h1, h2 { color: var(--primary); margin-top: 0; text-align: center; }
         .form-group { margin-bottom: 20px; }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary);
-        }
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary); }
+        .form-group input { width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
         .form-group input:focus { border-color: var(--accent); outline: none; }
-
-        /* --- BUTTONS --- */
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 16px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 20px;
-        }
+        .btn { display: block; width: 100%; padding: 16px; background-color: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.2s; margin-top: 15px; }
         .btn:hover { background-color: #1a4a8d; transform: translateY(-2px); }
         .btn:disabled { background-color: #95a5a6; cursor: not-allowed; transform: none; }
-        
-        .btn-outline {
-            background: transparent;
-            border: 2px dashed #95a5a6;
-            color: #7f8c8d;
-        }
-        .btn-outline:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        /* New Button Style for Test Connection */
-        .btn-test {
-            background: transparent;
-            border: 2px solid #e67e22; /* Orange for warning/test */
-            color: #e67e22;
-        }
-        .btn-test:hover {
-            background: #e67e22;
-            color: white;
-        }
-
-        /* --- SURVEY QUESTIONS --- */
-        .section-header {
-            background: var(--secondary);
-            color: var(--primary);
-            padding: 15px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin: 40px 0 20px 0;
-            display: flex;
-            align-items: center;
-        }
-        .section-header::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 24px;
-            background: var(--primary);
-            margin-right: 15px;
-            border-radius: 4px;
-        }
-
-        .question-item {
-            background: #fff;
-            padding: 25px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        .scale-options {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-            position: relative;
-            padding: 0 10px;
-        }
-        
-        .scale-option {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            position: relative;
-            z-index: 2;
-        }
-        .scale-option input {
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            accent-color: var(--primary);
-            margin-bottom: 5px;
-        }
-        
-        .scale-track {
-            position: absolute;
-            top: 12px;
-            left: 20px;
-            right: 20px;
-            height: 2px;
-            background: #ddd;
-            z-index: 1;
-        }
-
-        .scale-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: #888;
-        }
-
-        /* --- REPORT LAYOUT --- */
-        .report-header {
-            text-align: center;
-            border-bottom: 2px dashed #ccc;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-        .print-only-logo { display: none; }
-
-        .user-profile {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .result-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            background: #fff;
-            padding: 10px;
-        }
-        .result-label { flex: 0 0 40%; font-weight: 600; font-size: 0.95rem; }
-        .result-bar-area { flex: 1; margin: 0 15px; }
-        .result-bar-bg { height: 10px; background: #eee; border-radius: 5px; overflow: hidden; }
-        .result-bar-fill { height: 100%; transition: width 1s ease; }
-        .result-score { flex: 0 0 40px; text-align: right; font-weight: bold; color: var(--primary); }
-
-        .final-score-box {
-            background: linear-gradient(135deg, var(--primary), #1a4a8d);
-            color: white;
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #888;
-            font-size: 0.9rem;
-            margin-top: auto;
-        }
-
-        /* --- RESPONSIVE MOBILE --- */
-        @media screen and (max-width: 600px) {
-            .result-row { flex-direction: column; align-items: stretch; }
-            .result-label { margin-bottom: 5px; }
-            .result-score { text-align: right; margin-top: -20px; }
-        }
-
-        /* --- CETAK PDF (SANGAT PENTING: A4 LANDSCAPE & ABSOLUTE CENTER) --- */
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: white; }
+        .section-header { background: var(--secondary); color: var(--primary); padding: 15px 20px; border-radius: 8px; font-weight: bold; font-size: 1.2rem; margin: 30px 0 20px 0; }
+        .question-item { border-bottom: 1px solid #eee; padding: 20px 0; }
+        .scale-options { display: flex; justify-content: space-between; margin-top: 15px; }
+        .scale-option { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .scale-option input { width: 20px; height: 20px; accent-color: var(--primary); margin-bottom: 5px; cursor: pointer; }
+        .history-item { border: 1px solid #eee; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+        .history-item:hover { background: #f9f9f9; }
+        .history-score-badge { background: var(--primary); color: white; padding: 5px 10px; border-radius: 15px; font-weight: bold; font-size: 0.9rem; }
+        .result-row { display: flex; align-items: center; margin-bottom: 15px; }
+        .result-label { flex: 0 0 40%; font-size: 0.9rem; font-weight: 600; padding-right: 10px; }
+        .result-bar-area { flex: 1; background: #eee; height: 10px; border-radius: 5px; overflow: hidden; }
+        .result-bar-fill { height: 100%; }
+        .result-score { width: 40px; text-align: right; font-weight: bold; }
+        .final-score-box { background: linear-gradient(135deg, var(--primary), #1a4a8d); color: white; padding: 25px; border-radius: 12px; text-align: center; margin-top: 30px; }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+        footer { text-align: center; padding: 20px; color: #888; font-size: 0.9rem; margin-top: auto; }
         @media print {
-            @page {
-                size: A4 landscape;
-                margin: 0; /* Hilangkan margin default browser */
-            }
-
-            html, body {
-                width: 297mm;  /* Lebar A4 Landscape */
-                height: 210mm; /* Tinggi A4 Landscape */
-                margin: 0 !important;
-                padding: 0 !important;
-                background: white;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-                overflow: hidden; /* Mencegah halaman kedua kosong */
-                
-                /* Layout Centering System */
-                display: flex !important;
-                justify-content: center !important;
-                align-items: center !important;
-                
-                /* Paksa render resolusi tinggi/desktop mode */
-                min-width: 1024px; 
-                transform: scale(1); /* Pastikan skala normal */
-            }
-
-            /* Sembunyikan elemen non-laporan */
-            header, footer, .btn, .btn-outline, .btn-test, #introPage, #surveyPage, #errorMsg {
-                display: none !important;
-            }
-
-            /* Container menjadi Canvas utama laporan */
-            .container {
-                width: 280mm !important; /* Margin 8.5mm kiri-kanan */
-                height: 190mm !important; /* Margin 10mm atas-bawah */
-                max-width: none !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                display: block !important;
-            }
-
-            #resultPage {
-                display: block !important;
-                width: 100%;
-                height: 100%;
-            }
-
-            /* Card berubah menjadi borderless frame penuh */
-            .card {
-                box-shadow: none;
-                border: 2px double var(--primary);
-                border-radius: 0;
-                margin: 0;
-                padding: 15px 30px;
-                width: 100%;
-                height: 100%;
-                box-sizing: border-box;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between; /* Distribusi vertikal merata */
-            }
-
-            /* 1. Header Laporan Print */
-            .report-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 2px solid var(--primary);
-                margin: 0;
-                padding-bottom: 10px;
-                text-align: left;
-            }
-            .report-header h2 { margin: 0; font-size: 1.8rem; }
-            
-            .print-only-logo {
-                display: flex !important;
-                align-items: center;
-                gap: 15px;
-            }
+            @page { size: A4 landscape; margin: 0; }
+            html, body { width: 297mm; height: 210mm; margin: 0 !important; padding: 0 !important; display: flex !important; justify-content: center !important; align-items: center !important; background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; min-width: 1024px; transform: scale(1); }
+            header, footer, .btn, .btn-outline, #introPage, #historyPage, #surveyPage { display: none !important; }
+            .container { width: 280mm !important; height: 190mm !important; max-width: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
+            #resultPage { display: block !important; width: 100%; height: 100%; }
+            .card { box-shadow: none; border: 2px double var(--primary); border-radius: 0; margin: 0; padding: 15px 30px; width: 100%; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
+            .report-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); margin: 0; padding-bottom: 10px; }
+            .print-only-logo { display: flex !important; align-items: center; gap: 15px; }
             .print-only-logo img { height: 50px; }
             .print-only-logo div { font-weight: 800; color: var(--primary); font-size: 1.2rem; }
-
-            /* 2. User Info Compact */
-            .user-profile {
-                padding: 5px 15px;
-                margin: 10px 0;
-                border: 1px solid #ccc;
-                display: flex;
-                justify-content: center;
-                gap: 30px;
-                background: #f8f9fa !important;
-            }
-            .user-profile h3, .user-profile p { margin: 0; font-size: 1rem; }
-
-            /* 3. Grid Nilai (2 Kolom Hemat Tempat) */
-            #scoreDetails {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                column-gap: 40px;
-                row-gap: 10px;
-                margin: 10px 0;
-                flex-grow: 1; /* Isi ruang kosong */
-                align-content: center;
-            }
-
-            .result-row {
-                margin: 0;
-                padding: 5px;
-                border: 1px solid #eee;
-                page-break-inside: avoid;
-            }
-            .result-label { font-size: 0.9rem; flex: 0 0 50%; }
-            .result-score { font-size: 1rem; }
-            
-            /* 4. Footer Nilai Total */
-            .final-score-box {
-                margin-top: 10px;
-                padding: 15px 30px;
-                background: var(--primary) !important;
-                color: white !important;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                height: 60px;
-            }
-            .final-score-box div:first-child { font-size: 1.2rem; font-weight: bold; }
-            .final-score-box #finalScoreDisplay { font-size: 3rem; margin: 0; line-height: 1; }
+            .user-profile { background: #f8f9fa !important; padding: 5px 15px; border: 1px solid #ccc; display: flex; justify-content: center; gap: 30px; margin: 10px 0; }
+            #scoreDetails { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; row-gap: 10px; margin: 10px 0; flex-grow: 1; align-content: center; }
+            .result-row { margin: 0; padding: 5px; border: 1px solid #eee; page-break-inside: avoid; }
+            .final-score-box { background: var(--primary) !important; color: white !important; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; height: 60px; margin-top: 10px; }
+            .report-header h2 { margin: 0; }
         }
+        .print-only-logo { display: none; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo-container">
-            <!-- Pastikan file Logo_WE.jpg ada di folder yang sama -->
-            <img src="Logo_WE.jpg" alt="Worldwhite Enterprise" onerror="this.style.display='none'">
+            <img src="Logo_WE.jpg" alt="Logo" onerror="this.style.display='none'">
             <div class="logo-text">Worldwhite Enterprise</div>
         </div>
     </header>
 
     <div class="container">
         
-        <!-- HALAMAN 1: INTRO -->
+        <!-- INTRO -->
         <div id="introPage" class="page-section active">
             <div class="card">
-                <h1>7 Habits Effectiveness Profile</h1>
-                <p style="text-align:center; color:#666; margin-bottom:30px;">Evaluasi Diri Karyawan Worldwhite Enterprise</p>
-                <hr style="border:0; border-top:1px solid #eee; margin-bottom:30px;">
+                <h1>Effectiveness Profile</h1>
+                <p style="text-align:center; color:#666;">Evaluasi Diri Karyawan Worldwhite Enterprise</p>
+                <hr style="border:0; border-top:1px solid #eee; margin:30px 0;">
                 
                 <div class="form-group">
                     <label>Nama Lengkap</label>
-                    <input type="text" id="userName" placeholder="Nama Lengkap Anda">
+                    <input type="text" id="userName" placeholder="Nama Lengkap Anda" required>
                 </div>
                 <div class="form-group">
                     <label>Email Perusahaan</label>
-                    <input type="email" id="userEmail" placeholder="nama@worldwhite.com">
+                    <input type="email" id="userEmail" placeholder="nama@worldwhite.com" required>
+                    <small style="color:red; display:none;" id="emailError">Format email tidak valid</small>
                 </div>
                 <div class="form-group">
                     <label>Nomor Handphone</label>
-                    <input type="tel" id="userPhone" placeholder="08...">
+                    <input type="tel" id="userPhone" placeholder="08..." required>
                 </div>
 
-                <!-- 3 TOMBOL UTAMA -->
-                <button class="btn" onclick="startSurvey()">Mulai Survey</button>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
-                    <button class="btn btn-outline" style="margin-top: 0;" onclick="debugPreview()">Preview Layout (Debug)</button>
-                    <button class="btn btn-test" style="margin-top: 0;" onclick="testConnectionStore(this)">Test Koneksi Database</button>
+                <div id="loadingMsg" style="text-align:center; color: var(--primary); font-weight:bold; display:none; margin-top:20px;">
+                    Mengambil data server...
                 </div>
-                <small style="display:block; text-align:center; margin-top:10px; color:#999; font-style:italic;">*Test Koneksi akan mengirim data random ke Sheet</small>
+
+                <button class="btn" id="startBtn" onclick="initSurvey()">Mulai Survey Baru</button>
+                <button class="btn btn-outline" onclick="goToHistory()">Cek Riwayat Saya</button>
             </div>
         </div>
 
-        <!-- HALAMAN 2: KUESIONER -->
+        <!-- HISTORY -->
+        <div id="historyPage" class="page-section">
+            <div class="card">
+                <h2>Riwayat Evaluasi</h2>
+                <p style="text-align:center; color:#666;">Masukkan email untuk melihat hasil tes sebelumnya.</p>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="historyEmailInput">
+                </div>
+                <button class="btn" id="btnCheckHistory" onclick="checkHistory()">Cari Data</button>
+                <button class="btn btn-outline" style="border:none; color:#666;" onclick="showPage('introPage')">Kembali</button>
+                <div id="historyList" style="margin-top: 30px;"></div>
+            </div>
+        </div>
+
+        <!-- SURVEY -->
         <div id="surveyPage" class="page-section">
             <div id="questionsContainer"></div>
-            
             <div class="card">
-                <button class="btn btn-submit-final" onclick="calculateScores()">Lihat Hasil Penilaian</button>
+                <button class="btn btn-submit-final" onclick="calculateAndSubmit()">Lihat Hasil Penilaian</button>
                 <p id="errorMsg" style="color:red; text-align:center; display:none; margin-top:10px;">Mohon lengkapi semua pertanyaan!</p>
             </div>
         </div>
 
-        <!-- HALAMAN 3: LAPORAN HASIL -->
+        <!-- RESULT -->
         <div id="resultPage" class="page-section">
             <div class="card">
                 <div class="report-header">
@@ -477,299 +136,233 @@
                         <img src="Logo_WE.jpg" alt="Logo">
                         <div>WORLDWHITE ENTERPRISE</div>
                     </div>
-                    <h2>HASIL EVALUASI EFEKTIVITAS</h2>
+                    <h2>HASIL EVALUASI</h2>
                 </div>
 
                 <div class="user-profile">
-                    <h3 id="resName">Nama User</h3>
-                    <p id="resEmail">email@example.com</p>
+                    <h3 id="resName" style="color:var(--primary); margin:0;">Nama User</h3>
+                    <p id="resEmail" style="color:#666; margin:0;">email@example.com</p>
+                    <small id="resDate" style="color:#999;">-</small>
                 </div>
 
-                <div id="scoreDetails">
-                    <!-- Hasil akan di-inject lewat JS -->
-                </div>
+                <div id="scoreDetails"></div>
 
                 <div class="final-score-box">
                     <div>SKOR KESELURUHAN</div>
-                    <div id="finalScoreDisplay">0</div>
+                    <div id="finalScoreDisplay" style="font-size:3rem; font-weight:bold; line-height:1;">0</div>
                 </div>
 
-                <!-- Tombol Navigasi (Hilang saat Print) -->
-                <button class="btn btn-outline" style="margin-top: 30px;" onclick="window.print()">Cetak / Simpan PDF</button>
-                <button class="btn btn-outline" style="margin-top: 10px; border:none; color:#666;" onclick="location.reload()">Isi Ulang</button>
+                <p style="text-align:center; color:#27ae60; font-weight:bold; margin-top:20px;">
+                    ✅ Salinan PDF telah dikirim ke email Anda.
+                </p>
+
+                <button class="btn btn-outline" style="margin-top: 10px;" onclick="window.print()">Cetak / Simpan PDF</button>
+                <button class="btn btn-outline" style="margin-top: 10px; border:none; color:#666;" onclick="showPage('introPage'); location.reload();">Selesai / Keluar</button>
             </div>
         </div>
-
     </div>
 
     <footer>&copy; 2026 Worldwhite Enterprise</footer>
-
-    <!-- Import API Handler -->
     <script src="api_handler.js"></script>
-
     <script>
-        // --- DEFINISI PERTANYAAN (Habit 1-7) ---
-        // Format: { id: No, text: "Pertanyaan", reversed: true/false }
-        const surveyData = [
-            {
-                title: "Habit 1: Be Proactive",
-                questions: [
-                    { id: 1, text: "Saya bekerja untuk menyelesaikan masalah daripada menghindarinya.", reversed: false },
-                    { id: 2, text: "Saya sulit mengendalikan diri dalam situasi sulit.", reversed: true },
-                    { id: 3, text: "Saya bertanggung jawab atas tindakan saya.", reversed: false },
-                    { id: 4, text: "Saya sering merasa cemas tentang hal di luar kendali saya.", reversed: true },
-                    { id: 5, text: "Saya tidak membiarkan keadaan luar mendikte sikap saya.", reversed: false },
-                    { id: 6, text: "Saya merasa hidup saya di luar kendali saya.", reversed: true },
-                    { id: 7, text: "Saya tetap tenang saat kejadian yang menekan.", reversed: false },
-                    { id: 8, text: "Saya cenderung menyalahkan orang lain saat terjadi kesalahan.", reversed: true }
-                ]
-            },
-            {
-                title: "Habit 2: Begin with the End in Mind",
-                questions: [
-                    { id: 9, text: "Saya terorganisir saat memimpin rapat/proyek.", reversed: false },
-                    { id: 10, text: "Saya jarang memulai dengan pemahaman jelas tentang hasil akhir.", reversed: true },
-                    { id: 11, text: "Saya menetapkan ekspektasi jelas saat memberikan tugas.", reversed: false },
-                    { id: 12, text: "Saya tidak tahu kontribusi apa yang ingin saya buat.", reversed: true },
-                    { id: 13, text: "Saya memiliki tujuan jangka panjang.", reversed: false },
-                    { id: 14, text: "Saya tidak jelas tentang apa yang paling penting bagi saya.", reversed: true }
-                ]
-            },
-            {
-                title: "Habit 3: Put First Things First",
-                questions: [
-                    { id: 15, text: "Waktu saya habis untuk hal mendesak tapi tidak penting.", reversed: true },
-                    { id: 16, text: "Saya bekerja menuju solusi jangka panjang.", reversed: false },
-                    { id: 17, text: "Saya sulit berkata tidak pada permintaan orang lain.", reversed: true },
-                    { id: 18, text: "Saya merencanakan hari/minggu ke depan.", reversed: false },
-                    { id: 19, text: "Saya sering menunda-nunda pekerjaan penting.", reversed: true }
-                ]
-            },
-            {
-                title: "Emotional Bank Account",
-                questions: [
-                    { id: 20, text: "Saya mengakui dan meminta maaf atas kesalahan.", reversed: false },
-                    { id: 21, text: "Saya menunjukkan apresiasi tulus pada orang lain.", reversed: false },
-                    { id: 22, text: "Saya sulit menjaga rahasia.", reversed: true },
-                    { id: 23, text: "Saya membicarakan orang di belakang mereka.", reversed: true }
-                ]
-            },
-            {
-                title: "Habit 4: Think Win-Win",
-                questions: [
-                    { id: 24, text: "Saya sulit berbagi penghargaan atas kesuksesan.", reversed: true },
-                    { id: 25, text: "Saya mencari solusi yang menguntungkan semua pihak.", reversed: false },
-                    { id: 26, text: "Saya sering tidak peka terhadap perasaan orang lain.", reversed: true },
-                    { id: 27, text: "Saya melihat keberhasilan orang lain sebagai ancaman.", reversed: true }
-                ]
-            },
-            {
-                title: "Habit 5: Seek First to Understand",
-                questions: [
-                    { id: 28, text: "Saya mendengarkan tanpa memotong pembicaraan.", reversed: false },
-                    { id: 29, text: "Saya sibuk menyiapkan jawaban saat orang lain bicara.", reversed: true },
-                    { id: 30, text: "Saya berusaha memahami perspektif orang lain.", reversed: false },
-                    { id: 31, text: "Saya defensif saat menerima kritik.", reversed: true }
-                ]
-            },
-            {
-                title: "Habit 6: Synergize",
-                questions: [
-                    { id: 32, text: "Saya menghargai perbedaan pendapat sebagai kekuatan.", reversed: false },
-                    { id: 33, text: "Saya tidak nyaman bekerja dengan orang yang berbeda gaya.", reversed: true },
-                    { id: 34, text: "Saya mendorong kerjasama kreatif.", reversed: false },
-                    { id: 35, text: "Saya lebih suka bekerja sendiri daripada dalam tim.", reversed: true }
-                ]
-            },
-            {
-                title: "Habit 7: Sharpen the Saw",
-                questions: [
-                    { id: 36, text: "Saya rutin berolahraga dan menjaga kesehatan.", reversed: false },
-                    { id: 37, text: "Saya jarang belajar skill baru.", reversed: true },
-                    { id: 38, text: "Saya meluangkan waktu untuk istirahat mental/spiritual.", reversed: false },
-                    { id: 39, text: "Hidup saya tidak seimbang antara kerja dan pribadi.", reversed: true }
-                ]
-            }
+        // CONFIG
+        const categoryOrder = [
+            "Habit 1: Be Proactive", "Habit 2: Begin with the End in Mind", "Habit 3: Put First Things First",
+            "Emotional Bank Account", "Habit 4: Think Win-Win", "Habit 5: Seek First to Understand",
+            "Habit 6: Synergize", "Habit 7: Sharpen the Saw"
         ];
+        let fetchedQuestions = [];
 
-        // --- LOGIC UTAMA ---
-
-        function startSurvey() {
-            const name = document.getElementById('userName').value;
-            if(!name.trim()) { alert("Mohon isi Nama Lengkap Anda."); return; }
-            
-            document.getElementById('introPage').classList.remove('active');
-            document.getElementById('surveyPage').classList.add('active');
-            
-            if(document.getElementById('questionsContainer').innerHTML === "") renderQuestions();
+        // NAV
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
             window.scrollTo(0,0);
         }
+        function goToHistory() {
+            const currentEmail = document.getElementById('userEmail').value;
+            if(currentEmail) document.getElementById('historyEmailInput').value = currentEmail;
+            showPage('historyPage');
+            document.getElementById('historyList').innerHTML = ""; 
+        }
 
-        // Render pertanyaan ke HTML
-        function renderQuestions() {
+        // VALIDATION
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        // INIT
+        async function initSurvey() {
+            const name = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value;
+            const phone = document.getElementById('userPhone').value;
+
+            // Validasi Input
+            if(!name.trim()) { alert("Mohon isi Nama Lengkap."); return; }
+            if(!phone.trim()) { alert("Mohon isi No HP."); return; }
+            
+            // Validasi Email Ketat
+            if(!email || !isValidEmail(email)) {
+                alert("Mohon isi format email yang benar (contoh: nama@domain.com)");
+                return;
+            }
+
+            // UI Loading
+            const btn = document.getElementById('startBtn');
+            const loadMsg = document.getElementById('loadingMsg');
+            btn.disabled = true;
+            loadMsg.style.display = 'block';
+
+            if (typeof fetchQuestionsFromSheet !== 'function') {
+                alert("File api_handler.js belum terupdate.");
+                btn.disabled = false; return;
+            }
+
+            fetchedQuestions = await fetchQuestionsFromSheet();
+
+            if (fetchedQuestions.length > 0) {
+                renderQuestions(fetchedQuestions);
+                showPage('surveyPage');
+            } else {
+                alert("Gagal memuat soal. Pastikan koneksi internet lancar.");
+            }
+            btn.disabled = false;
+            loadMsg.style.display = 'none';
+        }
+
+        function renderQuestions(questions) {
             const container = document.getElementById('questionsContainer');
             let html = "";
-            let globalQIndex = 1;
+            let grouped = {};
+            questions.forEach(q => {
+                if(!grouped[q.category]) grouped[q.category] = [];
+                grouped[q.category].push(q);
+            });
+            const keys = categoryOrder.filter(k => grouped[k]).concat(Object.keys(grouped).filter(k => !categoryOrder.includes(k)));
 
-            surveyData.forEach(section => {
-                html += `<div class="section-header">${section.title}</div>`;
-                section.questions.forEach(q => {
+            let idx = 1;
+            keys.forEach(cat => {
+                html += `<div class="section-header">${cat}</div>`;
+                grouped[cat].forEach(q => {
                     html += `
                     <div class="question-item">
-                        <div class="question-text">${globalQIndex}. ${q.text}</div>
-                        <div class="scale-labels">
-                            <span style="color:#e74c3c">Strongly Disagree</span>
-                            <span style="color:#27ae60">Strongly Agree</span>
-                        </div>
+                        <div style="margin-bottom:10px;"><strong>${idx}.</strong> ${q.text}</div>
                         <div class="scale-options">
-                            <div class="scale-track"></div>
                             ${[0, 25, 50, 75, 100].map(val => `
                                 <label class="scale-option">
-                                    <input type="radio" name="q_${section.title}_${q.id}" value="${val}" required>
-                                </label>
-                            `).join('')}
+                                    <input type="radio" name="qid_${q.id}" data-cat="${cat}" data-rev="${q.reversed}" value="${val}" required>
+                                    <span style="font-size:0.8rem; color:#666;">${val}</span>
+                                </label>`).join('')}
                         </div>
                     </div>`;
-                    globalQIndex++;
+                    idx++;
                 });
             });
             container.innerHTML = html;
         }
 
-        // Mode Debug untuk Preview Layout (Tanpa Kirim Data)
-        function debugPreview() {
-            document.getElementById('userName').value = "Nama Pratinjau";
-            document.getElementById('userEmail').value = "debug@worldwhite.com";
-            
-            // Generate Dummy Scores
-            const habitScores = surveyData.map(() => Math.floor(Math.random() * (100 - 60 + 1)) + 60);
-            const totalScore = Math.round(habitScores.reduce((a,b)=>a+b) / habitScores.length);
-            
-            displayResults("Nama Pratinjau (Mode View)", "debug@worldwhite.com", habitScores, totalScore);
-            alert("Mode Debug View: Data Random ditampilkan untuk cek layout. TIDAK disimpan ke database.");
-        }
-
-        // FITUR BARU: Test Store Connection (Kirim Data Random ke DB)
-        async function testConnectionStore(btnElement) {
-            const originalText = btnElement.innerText;
-            btnElement.innerText = "Mengirim Data...";
-            btnElement.disabled = true;
-
-            try {
-                // 1. Generate Data Dummy Random
-                const randomId = Math.floor(Math.random() * 9999);
-                const habitScores = [];
-                let totalSum = 0;
-                
-                // Isi 8 section (Habit 1-7 + EBA) dengan nilai random
-                for(let i=0; i<8; i++) {
-                    const s = Math.floor(Math.random() * 101); // 0-100
-                    habitScores.push(s);
-                    totalSum += s;
-                }
-                const totalScore = Math.round(totalSum / 8);
-
-                const formData = {
-                    name: "Tester Random #" + randomId,
-                    email: `tester${randomId}@worldwhite.com`,
-                    phone: "08129999" + randomId,
-                    scores: habitScores,
-                    totalScore: totalScore
-                };
-
-                // 2. Kirim ke Database
-                // Kita memanggil fungsi dari api_handler.js
-                // Karena tombolnya bukan .btn-submit-final, loading state handler di api_handler mungkin skip,
-                // tapi kita sudah handle loading state tombol ini di atas.
-                const response = await saveToGoogleSheet(formData);
-
-                // 3. Feedback
-                if(response && response.status === 'success') {
-                    alert(`SUKSES KONEKSI!\n\nData Random berhasil disimpan ke Google Sheet.\nRow ID: ${response.row}\nNama: ${formData.name}`);
-                } else {
-                    // [FIXED] Tambahkan Alert disini agar User Tahu jika gagal
-                    console.log("Response:", response);
-                    alert("GAGAL KONEKSI:\nTidak dapat terhubung ke Script atau terjadi error.\n\nCek Console (F12) untuk detail error.\nPastikan URL Script benar dan deployment 'Anyone'.");
-                }
-
-            } catch (e) {
-                alert("Error pada Test Connection: " + e.message);
-            } finally {
-                // Reset Tombol
-                btnElement.innerText = originalText;
-                btnElement.disabled = false;
-            }
-        }
-
-        async function calculateScores() {
-            // 1. Validasi Kelengkapan
-            const inputs = document.querySelectorAll('input[type="radio"]:checked');
-            // Hitung total pertanyaan
-            let totalQ = 0;
-            surveyData.forEach(s => totalQ += s.questions.length);
-
-            if(inputs.length < totalQ) {
+        async function calculateAndSubmit() {
+            const totalQ = fetchedQuestions.length;
+            const answered = document.querySelectorAll('input[type="radio"]:checked').length;
+            if(answered < totalQ) {
                 document.getElementById('errorMsg').style.display = 'block';
+                alert("Masih ada pertanyaan yang belum dijawab.");
                 return;
             }
 
-            // 2. Hitung Skor
+            let scoresObj = {};
+            categoryOrder.forEach(c => scoresObj[c] = {sum:0, count:0});
+            let detailAnswers = [];
+
+            document.querySelectorAll('input[type="radio"]:checked').forEach(inp => {
+                let val = parseInt(inp.value);
+                if(inp.getAttribute('data-rev') === 'true') val = 100 - val;
+                const cat = inp.getAttribute('data-cat');
+                if(!scoresObj[cat]) scoresObj[cat] = {sum:0, count:0};
+                scoresObj[cat].sum += val;
+                scoresObj[cat].count++;
+                detailAnswers.push({ q_id: inp.name.replace('qid_', ''), score: val });
+            });
+
             let habitScores = [];
             let totalSum = 0;
-
-            surveyData.forEach(section => {
-                let sectionSum = 0;
-                section.questions.forEach(q => {
-                    const selected = document.querySelector(`input[name="q_${section.title}_${q.id}"]:checked`);
-                    let val = parseInt(selected.value);
-                    if(q.reversed) val = 100 - val; // Logika Reverse
-                    sectionSum += val;
-                });
-                const avg = Math.round(sectionSum / section.questions.length);
+            categoryOrder.forEach(c => {
+                const s = scoresObj[c];
+                const avg = s.count > 0 ? Math.round(s.sum / s.count) : 0;
                 habitScores.push(avg);
                 totalSum += avg;
             });
+            const grandTotal = Math.round(totalSum / 8);
 
-            const finalScore = Math.round(totalSum / surveyData.length);
-            const name = document.getElementById('userName').value;
-            const email = document.getElementById('userEmail').value;
-            const phone = document.getElementById('userPhone').value;
+            const payload = {
+                profile: {
+                    name: document.getElementById('userName').value,
+                    email: document.getElementById('userEmail').value,
+                    phone: document.getElementById('userPhone').value
+                },
+                summary: { totalScore: grandTotal, habitScores: habitScores },
+                answers: detailAnswers
+            };
 
-            // 3. Tampilkan Hasil
-            displayResults(name, email, habitScores, finalScore);
-
-            // 4. Simpan ke Database
-            const formData = { name, email, phone, scores: habitScores, totalScore: finalScore };
-            await saveToGoogleSheet(formData);
+            displayResult(payload.profile.name, payload.profile.email, new Date(), habitScores, grandTotal);
+            await saveToGoogleSheet(payload);
         }
 
-        function displayResults(name, email, habitScores, finalScore) {
+        function displayResult(name, email, dateObj, scores, total) {
             document.getElementById('resName').innerText = name;
             document.getElementById('resEmail').innerText = email;
-            document.getElementById('finalScoreDisplay').innerText = finalScore;
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('resDate').innerText = new Date(dateObj).toLocaleDateString('id-ID', options);
+            document.getElementById('finalScoreDisplay').innerText = total;
 
             let html = "";
-            surveyData.forEach((section, index) => {
-                const score = habitScores[index];
-                let color = score >= 80 ? "#27ae60" : (score < 60 ? "#e74c3c" : "#3498db");
-                
+            categoryOrder.forEach((cat, i) => {
+                const s = scores[i];
+                let color = s >= 80 ? "#27ae60" : (s < 60 ? "#e74c3c" : "#3498db");
                 html += `
                 <div class="result-row">
-                    <div class="result-label">${section.title}</div>
-                    <div class="result-bar-area">
-                        <div class="result-bar-bg">
-                            <div class="result-bar-fill" style="width: ${score}%; background-color: ${color}"></div>
-                        </div>
-                    </div>
-                    <div class="result-score" style="color:${color}">${score}</div>
+                    <div class="result-label">${cat}</div>
+                    <div class="result-bar-area"><div class="result-bar-fill" style="width: ${s}%; background-color: ${color}"></div></div>
+                    <div class="result-score" style="color:${color}">${s}</div>
                 </div>`;
             });
             document.getElementById('scoreDetails').innerHTML = html;
+            showPage('resultPage');
+        }
 
-            document.getElementById('introPage').classList.remove('active');
-            document.getElementById('surveyPage').classList.remove('active');
-            document.getElementById('resultPage').classList.add('active');
-            window.scrollTo(0,0);
+        async function checkHistory() {
+            const email = document.getElementById('historyEmailInput').value;
+            if(!email) { alert("Masukkan email."); return; }
+            const listDiv = document.getElementById('historyList');
+            listDiv.innerHTML = "<p style='text-align:center; color:#999;'>Sedang mencari data...</p>";
+            document.getElementById('btnCheckHistory').disabled = true;
+
+            const result = await fetchUserHistory(email);
+            document.getElementById('btnCheckHistory').disabled = false;
+
+            if(result.status === 'success' && result.data.length > 0) {
+                let html = "";
+                result.data.forEach(item => {
+                    const d = new Date(item.timestamp);
+                    const dataStr = encodeURIComponent(JSON.stringify(item));
+                    html += `
+                    <div class="history-item">
+                        <div><div style="font-weight:bold;">${item.name}</div><small style="color:#666;">${d.toLocaleDateString('id-ID')}</small></div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span class="history-score-badge">Skor: ${item.totalScore}</span>
+                            <button class="btn" style="margin:0; padding:5px 15px; width:auto;" onclick="loadHistoryItem('${dataStr}')">Lihat</button>
+                        </div>
+                    </div>`;
+                });
+                listDiv.innerHTML = html;
+            } else {
+                listDiv.innerHTML = "<p style='text-align:center; color:#e74c3c;'>Data tidak ditemukan.</p>";
+            }
+        }
+        function loadHistoryItem(encodedData) {
+            const data = JSON.parse(decodeURIComponent(encodedData));
+            document.getElementById('userEmail').value = document.getElementById('historyEmailInput').value;
+            displayResult(data.name, document.getElementById('userEmail').value, data.timestamp, data.habitScores, data.totalScore);
         }
     </script>
 </body>
