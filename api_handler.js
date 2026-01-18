@@ -1,3 +1,5 @@
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDT1JtB9ec3y2qGXOL6q9Xxq8gbkmBj4spzVxPB8RSRy8DZxzZaUigMPqEEXIWDJN55g/exec'; 
+
 async function saveToGoogleSheet(formData) {
     // --- DIAGNOSA VERSI FILE ---
     // Cek Console browser (F12). Jika tidak muncul tulisan ini, berarti browser masih pakai file lama.
