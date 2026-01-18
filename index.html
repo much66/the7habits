@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>7 Habits Effectiveness Profile - Worldwhite Enterprise</title>
-    <link rel="icon" href="LOGO news.png" type="image/png">
+    <!-- Ganti favicon jika ada -->
+    <link rel="icon" href="LOGO news.png" type="image/png"> 
     <style>
         :root {
             /* Worldwhite Enterprise Theme Colors */
@@ -237,7 +238,7 @@
             flex-direction: column;
             align-items: center;
         }
-        /* Logo khusus di dalam report card, default hidden */
+        
         .print-only-logo {
             display: none;
             margin-bottom: 15px;
@@ -293,137 +294,155 @@
             .result-score { text-align: right; margin-top: -25px; }
         }
 
-        /* --- PRINT STYLING (THE MAGIC HAPPENS HERE) --- */
+        /* --- PRINT STYLING (PERBAIKAN FIT 1 HALAMAN A4 LANDSCAPE) --- */
         @media print {
             @page {
-                size: landscape; /* Orientasi Landscape */
-                margin: 0; /* Margin nol agar CSS mengatur padding */
+                size: A4 landscape;
+                margin: 0;
             }
 
             body {
+                margin: 0;
+                padding: 0;
                 background: white;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
-                padding: 10mm; /* Padding kertas */
-                height: 100vh;
-                box-sizing: border-box;
+                width: 297mm; /* Lebar A4 Landscape */
+                height: 210mm; /* Tinggi A4 Landscape */
+                overflow: hidden; /* Mencegah halaman kedua muncul */
+                font-size: 10pt; /* Default font lebih kecil */
             }
 
-            /* Sembunyikan elemen yang tidak perlu */
+            /* Sembunyikan elemen non-print */
             header, footer, .btn, #introPage, #surveyPage, #errorMsg {
                 display: none !important;
             }
 
-            /* Container menjadi full width tanpa margin auto */
             .container {
-                max-width: 100%;
+                width: 100%;
+                height: 100%;
+                max-width: none;
                 margin: 0;
-                padding: 0;
+                padding: 5mm; /* Margin tipis dari kertas */
+                box-sizing: border-box;
                 display: block;
             }
 
-            /* Pastikan halaman hasil muncul */
             #resultPage {
                 display: block !important;
-                margin: 0;
+                height: 100%;
+                width: 100%;
             }
 
-            /* Styling Kartu Laporan untuk Print */
             .card {
                 box-shadow: none;
-                border: 4px double var(--primary); /* Bingkai Elegan */
-                padding: 20px 40px;
+                border: 2px double var(--primary);
                 border-radius: 0;
                 margin: 0;
-                height: calc(100vh - 20mm); /* Full height minus padding */
+                padding: 10px 25px; /* Padding card lebih kecil */
+                width: 100%;
+                height: 100%; /* Full height */
+                box-sizing: border-box;
                 display: flex;
                 flex-direction: column;
-                justify-content: space-between; /* Spread content vertikal */
             }
 
-            /* Tampilkan Logo di dalam Laporan */
-            .print-only-logo {
-                display: block !important;
-                text-align: center;
-            }
-
-            /* Header Laporan lebih ringkas */
+            /* Header Laporan Compact */
             .report-header {
+                margin-bottom: 5px;
+                padding-bottom: 5px;
                 border-bottom: 2px solid var(--primary);
-                padding-bottom: 10px;
-                margin-bottom: 15px;
-                flex-direction: row; /* Logo kiri, Teks kanan */
+                flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
             }
+            .print-only-logo {
+                display: block !important;
+                margin-bottom: 0;
+                text-align: left;
+            }
+            .print-only-logo img {
+                height: 35px; /* Logo lebih kecil */
+            }
             .report-header h2 {
                 margin: 0;
-                font-size: 1.8rem;
+                font-size: 1.4rem;
                 text-align: right;
             }
 
-            /* Profil User Horizontal */
+            /* Profil User Satu Baris */
             .user-profile {
                 background: transparent;
                 padding: 0;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 5px;
                 text-align: left;
                 display: flex;
-                justify-content: space-between;
-                border-bottom: 1px solid #eee;
-                padding-bottom: 10px;
+                align-items: center;
+                gap: 10px;
             }
             .user-profile h3, .user-profile p {
                 margin: 0;
-                display: inline-block;
+                font-size: 0.9rem;
             }
             .user-profile h3::after {
                 content: " | ";
-                margin: 0 10px;
                 color: #ccc;
+                margin-left: 10px;
             }
 
-            /* Layout Grid 2 Kolom untuk Skor */
+            /* Grid Layout 2 Kolom yang Rapat */
             #scoreDetails {
                 display: grid;
-                grid-template-columns: 1fr 1fr; /* 2 Kolom */
-                column-gap: 40px;
-                row-gap: 10px;
-                margin-bottom: 10px;
+                grid-template-columns: 1fr 1fr;
+                column-gap: 20px;
+                row-gap: 5px; /* Jarak antar baris sangat rapat */
                 flex-grow: 1;
+                align-content: start;
             }
 
             .result-row {
                 margin-bottom: 0;
-                padding: 5px 10px;
+                padding: 3px 8px; /* Padding baris sangat tipis */
                 border: 1px solid #ddd;
                 border-radius: 4px;
                 background-color: #fcfcfc;
                 break-inside: avoid;
+                min-height: 30px;
             }
             
             .result-label {
+                font-size: 0.8rem;
+                line-height: 1.1;
+                flex: 0 0 50%; /* Lebar label */
+            }
+            
+            .result-bar-bg {
+                height: 6px; /* Bar lebih tipis */
+            }
+            
+            .result-score {
                 font-size: 0.9rem;
             }
 
-            /* Final Score Box Compact & di Pojok */
+            /* Final Score Box di Bawah */
             .final-score-box {
-                margin-top: 10px;
-                padding: 10px 30px;
+                margin-top: auto; /* Dorong ke paling bawah */
+                padding: 8px 20px;
+                height: 50px;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 justify-content: space-between;
                 width: 100%;
-                box-sizing: border-box;
-                background: var(--primary);
             }
             .final-score-box div:first-child {
-                font-size: 1.2rem;
+                font-size: 1rem;
                 text-align: left;
             }
             .final-score-box #finalScoreDisplay {
-                font-size: 2.5rem;
+                font-size: 2rem;
                 margin: 0;
             }
         }
@@ -433,6 +452,7 @@
 
     <header>
         <div class="logo-container">
+            <!-- Ganti src dengan URL logo yang valid atau simpan gambar dengan nama logo.png -->
             <img src="Logo_WE.jpg" alt="Worldwhite Enterprise Logo" onerror="this.style.display='none'">
             <div class="logo-text">Worldwhite Enterprise</div>
         </div>
@@ -468,6 +488,7 @@
             <div id="questionsContainer"></div>
             
             <div class="card">
+                <!-- Tambahkan class btn-submit-final untuk targeting di JS -->
                 <button class="btn btn-submit-final" onclick="calculateScores()">Lihat Hasil Penilaian</button>
                 <p id="errorMsg" style="color:red; text-align:center; display:none; margin-top:10px;">Mohon lengkapi semua pertanyaan!</p>
             </div>
@@ -480,7 +501,7 @@
                     <!-- Logo khusus print, muncul otomatis saat diprint -->
                     <div class="print-only-logo">
                         <img src="Logo_WE.jpg" alt="Logo">
-                        <div style="font-size:0.9rem; font-weight:bold; color:var(--primary); margin-top:5px;">WORLDWHITE ENTERPRISE</div>
+                        <div style="font-size:0.8rem; font-weight:bold; color:var(--primary); margin-top:2px;">WORLDWHITE ENTERPRISE</div>
                     </div>
                     <h2>HASIL EVALUASI EFEKTIVITAS</h2>
                 </div>
