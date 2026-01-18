@@ -27,22 +27,18 @@
         .logo-container img { height: 40px; width: auto; }
         .logo-text { font-size: 1.1rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* LAYOUT CONTAINER (CENTERING FIX) */
+        /* LAYOUT CONTAINER */
         .container { 
             max-width: 800px; margin: 0 auto; padding: 20px; 
             flex: 1; width: 100%; box-sizing: border-box; 
-            
-            /* Flexbox untuk centering vertikal sempurna */
-            display: flex; 
-            flex-direction: column;
-            justify-content: center; /* Konten di tengah vertikal */
+            display: flex; flex-direction: column; justify-content: center; 
         }
         
         .card { 
             background: var(--card-bg); border-radius: 12px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 40px; 
             margin-bottom: 20px; animation: fadeIn 0.5s ease-out; 
-            width: 100%; box-sizing: border-box; /* Pastikan card tidak melebihi container */
+            width: 100%; box-sizing: border-box; 
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -92,7 +88,7 @@
         .scale-option input:checked { background-color: var(--primary); border-color: var(--primary); box-shadow: inset 0 0 0 4px #fff; }
         .scale-option input:hover { transform: scale(1.1); border-color: var(--primary); }
         
-        /* PROFILE BOX */
+        /* USER PROFILE */
         .user-profile {
             background: #f8f9fa; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; border: 1px solid #e1e4e8;
             display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
@@ -124,14 +120,9 @@
 
         #pdfNotification { text-align: center; color: #27ae60; font-weight: bold; margin-top: 20px; padding: 10px; border-radius: 5px; background-color: rgba(39, 174, 96, 0.1); transition: opacity 1s ease-out; font-size: 0.9rem; }
 
-        /* PAGES LOGIC - FIX FOR CENTERING */
+        /* PAGES LOGIC */
         .page-section { display: none; }
-        .page-section.active { 
-            display: block; 
-            width: 100%;
-            /* Pastikan elemen ini tidak punya margin aneh yang mengganggu centering flex parent */
-        }
-        
+        .page-section.active { display: block; width: 100%; margin-top: auto; margin-bottom: auto; }
         footer { text-align: center; padding: 25px; color: #888; font-size: 0.85rem; margin-top: auto; }
 
         /* RESPONSIVE */
@@ -139,21 +130,17 @@
             .container { padding: 15px; } 
             .card { padding: 25px 20px; border-radius: 10px; }
             h1 { font-size: 1.5rem; } h2 { font-size: 1.3rem; }
-            
             .user-profile { padding: 12px 15px; }
             .profile-left h3 { font-size: 1rem; } .profile-left p { font-size: 0.85rem; }
             .date-badge { font-size: 0.75rem; padding: 4px 8px; }
-            
             .btn { font-size: 1rem; padding: 14px; }
             .question-item { padding: 20px 15px; }
             .question-text { font-size: 1rem; margin-bottom: 15px; }
             .scale-labels-header { font-size: 0.7rem; }
-            
             .result-row { flex-wrap: wrap; padding: 15px; gap: 5px; }
             .result-label { flex: 0 0 100%; width: 100%; margin-bottom: 8px; font-size: 0.95rem; padding-right: 0; text-align: left; }
             .result-bar-area { flex: 1; height: 12px; margin-bottom: 0; background: #e0e0e0; min-width: 0; }
             .result-score { flex: 0 0 auto; width: auto; min-width: 35px; text-align: right; font-size: 1rem; margin-top: 0; margin-left: 10px; }
-            
             .section-header { flex-direction: column; align-items: flex-start; gap: 5px; padding: 15px; font-size: 1rem; }
             .header-score-badge { align-self: flex-start; margin-top: 5px; }
             .history-item { flex-direction: column; align-items: flex-start; gap: 10px; }
@@ -208,18 +195,9 @@
                 <p style="text-align:center; color:#666;">The 7 Habits of Highly Effective People</p>
                 <hr style="border:0; border-top:1px solid #eee; margin:30px 0;">
                 
-                <div class="form-group">
-                    <label>Nama Lengkap</label>
-                    <input type="text" id="userName" required placeholder="Isi nama lengkap">
-                </div>
-                <div class="form-group">
-                    <label>Email Perusahaan</label>
-                    <input type="email" id="userEmail" required placeholder="ex: example@gmail.com">
-                </div>
-                <div class="form-group">
-                    <label>Nomor Handphone</label>
-                    <input type="tel" id="userPhone" required placeholder="ex: 085xxxxxxxxx">
-                </div>
+                <div class="form-group"><label>Nama Lengkap</label><input type="text" id="userName" required placeholder="Isi nama lengkap"></div>
+                <div class="form-group"><label>Email Perusahaan</label><input type="email" id="userEmail" required placeholder="ex: example@gmail.com"></div>
+                <div class="form-group"><label>Nomor Handphone</label><input type="tel" id="userPhone" required placeholder="ex: 085xxxxxxxxx"></div>
 
                 <div id="loadingMsg" style="text-align:center; color: var(--primary); display:none; margin-top:20px;">Mengambil data...</div>
 
@@ -268,6 +246,10 @@
                 </div>
                 
                 <button class="btn btn-outline" style="margin-top: 20px;" onclick="window.print()">Cetak / Simpan PDF</button>
+                
+                <!-- TOMBOL KIRIM EMAIL (FITUR BARU) -->
+                <button class="btn btn-outline" id="btnResendEmail" style="margin-top: 10px;" onclick="triggerResendEmail()">Kirim Hasil ke Email</button>
+                
                 <div class="summary-link-box" onclick="backToHistoryList()">&larr; Kembali ke Daftar Riwayat</div>
             </div>
         </div>
@@ -327,6 +309,7 @@
             "Habit 6: Synergize", "Habit 7: Sharpen the Saw"
         ];
         let fetchedQuestions = [];
+        let activeSubmissionId = null; // Menyimpan ID data yang sedang dilihat
 
         function showPage(pageId) {
             document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
@@ -444,10 +427,35 @@
             btn.innerText = "Lihat Detail"; btn.disabled = false;
 
             if(detailRes.status === 'success') {
+                activeSubmissionId = submissionId; // Simpan ID aktif
                 renderDetailView(historyItem, detailRes.data);
             } else {
                 alert("Gagal mengambil detail jawaban.");
             }
+        }
+
+        // FUNGSI BARU UNTUK TRIGGER RESEND EMAIL
+        async function triggerResendEmail() {
+            if (!activeSubmissionId) return;
+            const btn = document.getElementById('btnResendEmail');
+            btn.disabled = true;
+            btn.innerText = "Mengirim...";
+
+            if (typeof requestResendEmail !== 'function') {
+                alert("Fungsi kirim email belum tersedia di api_handler.js. Silakan update script.");
+                btn.disabled = false;
+                btn.innerText = "Kirim Hasil ke Email";
+                return;
+            }
+
+            const res = await requestResendEmail(activeSubmissionId);
+            if (res.status === 'success') {
+                alert("Email berhasil dikirim!");
+            } else {
+                alert("Gagal mengirim email: " + (res.message || "Kesalahan jaringan"));
+            }
+            btn.disabled = false;
+            btn.innerText = "Kirim Hasil ke Email";
         }
 
         function renderDetailView(summary, details) {
