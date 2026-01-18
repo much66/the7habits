@@ -286,9 +286,7 @@
             margin-top: auto;
         }
 
-        /* --- PERBAIKAN RESPONSIVE (HANYA LAYAR) --- 
-           Penting: Menggunakan @media screen agar tidak mengganggu layout print
-        */
+        /* --- PERBAIKAN RESPONSIVE (HANYA LAYAR) --- */
         @media screen and (max-width: 600px) {
             .scale-option input { width: 20px; height: 20px; }
             .result-row { flex-direction: column; align-items: stretch; }
@@ -296,31 +294,32 @@
             .result-score { text-align: right; margin-top: -25px; }
         }
 
-        /* --- PRINT STYLING (PERBAIKAN MOBILE PRINT) --- */
+        /* --- PRINT STYLING (FIX: HP CENTER & 1 PAGE) --- */
         @media print {
             @page {
-                size: A4 landscape; /* Memaksa orientasi kertas */
+                size: A4 landscape;
                 margin: 0;
             }
 
-            html, body {
-                /* Memaksa lebar konten agar tidak menyempit mengikuti layar HP */
-                min-width: 1024px !important; 
-                width: 297mm !important; /* Lebar A4 Landscape */
-                height: 210mm !important; /* Tinggi A4 Landscape */
-                margin: 0 !important;
-                padding: 0 !important;
+            body {
+                margin: 0;
+                padding: 0;
                 background: white;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
-                overflow: hidden;
-                font-size: 11pt;
-            }
-            
-            /* Trik khusus untuk scale down di HP agar muat di kertas */
-            body {
-                transform-origin: top left;
-                zoom: 95%; /* Kecilkan sedikit untuk safety margin */
+                
+                /* FIX 1: Trik agar dianggap Desktop Mode oleh HP */
+                min-width: 1024px !important;
+                width: 100% !important;
+                height: 100vh !important; /* Full viewport height */
+                
+                /* FIX 2: Centering Vertikal & Horizontal Mutlak */
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                
+                /* FIX 3: Zoom Out lebih agresif agar muat 1 halaman di HP */
+                zoom: 80%; 
             }
 
             /* Sembunyikan elemen non-print */
@@ -329,145 +328,143 @@
             }
 
             .container {
-                width: 100% !important;
-                height: 100% !important;
+                /* Container menjadi "kertas" kita */
+                width: 285mm !important; /* Sedikit kurang dari 297mm (A4) untuk margin aman */
                 max-width: none !important;
-                margin: 0 !important;
-                padding: 10mm !important; /* Safety margin kertas */
+                margin: 0 auto !important; /* Center Horizontal */
+                padding: 0 !important;
                 box-sizing: border-box;
                 display: block;
+                border: none !important;
             }
 
             #resultPage {
                 display: block !important;
-                height: 100%;
                 width: 100%;
             }
 
             .card {
                 box-shadow: none;
-                border: 3px double var(--primary);
+                border: 2px double var(--primary); /* Border lebih tipis */
                 border-radius: 0;
                 margin: 0;
-                padding: 15px 30px;
+                padding: 15px 25px; /* Padding card lebih ringkas */
                 width: 100%;
-                height: 100%;
                 box-sizing: border-box;
+                
+                /* Agar elemen tersebar rapi dari atas ke bawah */
                 display: flex;
                 flex-direction: column;
-                justify-content: space-evenly;
+                justify-content: space-between;
+                height: auto; /* Biarkan tinggi menyesuaikan konten */
+                min-height: 95vh; /* Hampir setinggi kertas */
             }
 
-            /* Memaksa layout baris (row) meskipun print dari HP */
-            .result-row {
-                flex-direction: row !important; /* Paksa horizontal */
-                align-items: center !important;
-            }
-            .result-label { margin-bottom: 0 !important; }
-            .result-score { margin-top: 0 !important; text-align: right !important; }
-
-            /* Header Laporan */
+            /* Header Laporan Compact */
             .report-header {
                 margin: 0;
-                padding-bottom: 10px;
+                padding-bottom: 5px;
                 border-bottom: 2px solid var(--primary);
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
-                gap: 20px;
+                gap: 15px;
             }
 
             .print-only-logo {
                 display: flex !important;
                 align-items: center;
-                gap: 15px;
+                gap: 10px;
                 text-align: left;
             }
             .print-only-logo img {
-                height: 45px;
+                height: 40px; /* Logo sedikit diperkecil */
                 width: auto;
             }
             .print-only-logo div {
-                font-size: 1.1rem;
+                font-size: 1rem;
                 font-weight: 800;
                 color: var(--primary);
-                line-height: 1.2;
+                line-height: 1.1;
                 margin: 0;
             }
 
             .report-header h2 {
                 margin: 0;
-                font-size: 1.6rem;
+                font-size: 1.4rem;
                 text-align: right;
                 flex-shrink: 0;
             }
 
-            /* Profil User */
+            /* Profil User Compact */
             .user-profile {
                 background: #f8f9fa;
-                padding: 8px 15px;
-                margin: 0;
-                border-radius: 6px;
+                padding: 5px 10px; /* Padding sangat tipis */
+                margin: 10px 0; /* Margin dikurangi */
+                border-radius: 4px;
                 border: 1px solid #eee;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                gap: 20px;
+                gap: 15px;
             }
             .user-profile h3, .user-profile p {
                 margin: 0;
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
             .user-profile h3::after {
                 content: " | ";
                 color: #ccc;
-                margin-left: 15px;
+                margin-left: 10px;
             }
 
             /* Grid Layout Skor */
             #scoreDetails {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                column-gap: 30px;
-                row-gap: 10px;
+                column-gap: 25px;
+                row-gap: 8px; /* Jarak baris sangat rapat */
                 flex-grow: 1;
                 align-content: center;
-                margin: 10px 0;
+                margin: 5px 0;
             }
 
             .result-row {
                 margin-bottom: 0;
-                padding: 6px 12px;
+                padding: 4px 10px; /* Item list tipis */
                 border: 1px solid #ddd;
-                border-radius: 6px;
+                border-radius: 4px;
                 background-color: #fff;
                 break-inside: avoid;
                 display: flex;
                 align-items: center;
-                min-height: 35px;
+                flex-direction: row !important; /* Paksa row di mobile */
             }
             
             .result-label {
-                font-size: 0.95rem;
-                line-height: 1.2;
-                flex: 0 0 45%;
+                font-size: 0.85rem;
+                line-height: 1.1;
+                flex: 0 0 50%;
+                margin-bottom: 0 !important;
             }
             
             .result-bar-bg {
-                height: 10px;
+                height: 8px;
                 background: #eee !important;
             }
             
             .result-score {
-                font-size: 1.1rem;
+                font-size: 1rem;
+                margin-top: 0 !important;
+                text-align: right !important;
             }
 
-            /* Final Score Box */
+            /* Final Score Box Compact */
             .final-score-box {
-                margin-top: 0;
-                padding: 15px 30px;
-                height: auto;
+                margin-top: 5px;
+                padding: 8px 20px; /* Box lebih pendek */
+                height: 45px;
                 background: var(--primary) !important;
                 color: white !important;
                 -webkit-print-color-adjust: exact;
@@ -475,16 +472,16 @@
                 flex-direction: row;
                 align-items: center;
                 justify-content: space-between;
-                border-radius: 8px;
+                border-radius: 6px;
             }
             .final-score-box div:first-child {
-                font-size: 1.2rem;
+                font-size: 1rem;
                 font-weight: bold;
                 text-transform: uppercase;
                 letter-spacing: 1px;
             }
             .final-score-box #finalScoreDisplay {
-                font-size: 2.8rem;
+                font-size: 2.2rem; /* Font angka diperkecil */
                 margin: 0;
                 line-height: 1;
             }
