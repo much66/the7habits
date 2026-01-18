@@ -687,8 +687,9 @@
                 if(response && response.status === 'success') {
                     alert(`SUKSES KONEKSI!\n\nData Random berhasil disimpan ke Google Sheet.\nRow ID: ${response.row}\nNama: ${formData.name}`);
                 } else {
-                    // Jika error, saveToGoogleSheet biasanya sudah alert, tapi kita tambah info
+                    // [FIXED] Tambahkan Alert disini agar User Tahu jika gagal
                     console.log("Response:", response);
+                    alert("GAGAL KONEKSI:\nTidak dapat terhubung ke Script atau terjadi error.\n\nCek Console (F12) untuk detail error.\nPastikan URL Script benar dan deployment 'Anyone'.");
                 }
 
             } catch (e) {
