@@ -3,74 +3,83 @@
  * Menghubungkan Form HTML dengan Google Apps Script
  */
 
-// PENTING: Ganti URL di bawah ini dengan URL Web App dari Google Apps Script Deployment Anda
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDT1JtB9ec3y2qGXOL6q9Xxq8gbkmBj4spzVxPB8RSRy8DZxzZaUigMPqEEXIWDJN55g/exec';
+// ============================================================================
+// PENTING: GANTI URL DI BAWAH INI DENGAN URL WEB APP ANDA
+// URL harus berakhiran '/exec'
+// ============================================================================
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDT1JtB9ec3y2qGXOL6q9Xxq8gbkmBj4spzVxPB8RSRy8DZxzZaUigMPqEEXIWDJN55g/exec'; 
+
 
 /**
  * Mengirim data survey ke Google Sheet
  * @param {Object} formData - Object berisi nama, email, hp, scores, dan total
  */
 async function saveToGoogleSheet(formData) {
-    if (SCRIPT_URL === 'PASTE_YOUR_WEB_APP_URL_HERE' || SCRIPT_URL === '') {
-        console.warn("URL Script belum disetting. Data hanya diproses lokal.");
-        alert("Mode Demo: Data tidak disimpan ke database karena URL API belum disetting.");
-        return { result: "demo" };
+    // 1. Validasi URL
+    if (SCRIPT_URL.includes('PASTE_YOUR_WEB_APP_URL') || SCRIPT_URL === '') {
+        alert("GAGAL MENYIMPAN: URL Web App belum disetting di file api_handler.js.\n\nSilakan buka file api_handler.js dan paste URL dari Google Apps Script.");
+        return { result: "error", message: "URL not set" };
     }
 
     try {
-        // Tampilkan loading state (opsional, bisa dihandle di UI utama)
-        const submitBtn = document.querySelector('.btn-submit-final'); // Kita akan tambah class ini di HTML
+        // Tampilkan loading state
+        const submitBtn = document.querySelector('.btn-submit-final'); 
         const originalText = submitBtn ? submitBtn.innerText : 'Loading...';
+        
         if (submitBtn) {
-            submitBtn.innerText = "Menyimpan Data...";
+            submitBtn.innerText = "Sedang Menyimpan...";
             submitBtn.disabled = true;
+            submitBtn.style.backgroundColor = "#7f8c8d";
         }
 
+        // 2. Kirim Data
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
             body: JSON.stringify(formData),
-            // 'no-cors' mode dibutuhkan untuk request ke Google Apps Script dari client side
-            // namun ini berarti kita tidak bisa membaca response status secara detail
-            // tapi request tetap terkirim.
-            // Untuk deployment production yang proper, biasanya menggunakan 'text/plain' 
-            // agar tidak memicu preflight check CORS yang rumit.
-             headers: {
+            headers: {
                 "Content-Type": "text/plain;charset=utf-8",
             },
         });
 
         const result = await response.json();
         
+        // Kembalikan tombol ke status semula
         if (submitBtn) {
             submitBtn.innerText = originalText;
             submitBtn.disabled = false;
+            submitBtn.style.backgroundColor = ""; // Reset warna
+        }
+
+        // 3. Cek Hasil dari Google Script
+        if (result.result === 'success') {
+            console.log("Sukses tersimpan di baris:", result.row);
+            // Opsional: Tampilkan pesan sukses kecil jika perlu
+            // alert("Data berhasil disimpan ke database!"); 
+        } else {
+            console.error("Script Error:", result);
+            alert("PERINGATAN: Terjadi kesalahan saat menyimpan data ke Spreadsheet.\nError: " + JSON.stringify(result));
         }
 
         return result;
 
     } catch (error) {
-        console.error("Error saving data:", error);
-        // Fallback: Jika gagal fetch (biasanya karena CORS di localhost), 
-        // kita tetap anggap sukses di UI agar user tidak bingung, tapi log error.
-        // Di production (hosting https), ini akan berjalan lebih mulus.
+        // 4. Error Handling Jaringan/CORS
+        console.error("Network/CORS Error:", error);
+        
         if (document.querySelector('.btn-submit-final')) {
-            document.querySelector('.btn-submit-final').disabled = false;
-            document.querySelector('.btn-submit-final').innerText = "Lihat Hasil Penilaian";
+            const btn = document.querySelector('.btn-submit-final');
+            btn.disabled = false;
+            btn.innerText = "Lihat Hasil Penilaian";
+            btn.style.backgroundColor = "";
         }
-        return { result: "error", message: error.toString() };
-    }
-}
 
-/**
- * Contoh fungsi Read Data (Untuk pengembangan selanjutnya)
- */
-async function getSurveyData() {
-    try {
-        const response = await fetch(SCRIPT_URL);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error("Error reading data:", error);
-        return [];
+        // Pesan khusus jika membuka file langsung (file://)
+        if (window.location.protocol === 'file:') {
+            alert("GAGAL MENYIMPAN (Protocol Error):\n\nAnda membuka file ini langsung dari folder (file://). Beberapa browser memblokir koneksi ke Google Script dari file lokal demi keamanan.\n\nSolusi:\n1. Upload file ke GitHub Pages (Recommended)\n2. Atau gunakan Local Server (Live Server VS Code).");
+        } else {
+            alert("GAGAL MENYIMPAN (Network Error):\n\nKemungkinan penyebab:\n1. Koneksi internet terputus.\n2. URL Script salah.\n3. Deployment script belum diset ke 'Anyone'.");
+        }
+        
+        return { result: "error", message: error.toString() };
     }
 }
