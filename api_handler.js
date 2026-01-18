@@ -1,4 +1,4 @@
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDT1JtB9ec3y2qGXOL6q9Xxq8gbkmBj4spzVxPB8RSRy8DZxzZaUigMPqEEXIWDJN55g/exec'; 
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw2Mgic4rjgvdTnPE9MP0NXEbrdGDlSxx7DzTJuB9sNXBeYRw4lbcl_QRQhe_C4drEiow/exec'; 
 
 async function saveToGoogleSheet(formData) {
     // --- DIAGNOSA VERSI FILE ---
