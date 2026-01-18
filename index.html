@@ -27,7 +27,7 @@
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary); }
         .form-group input { width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
         
-        /* Survey Styling - REFINED BOX LOOK */
+        /* Survey Styling */
         .section-header { 
             background: var(--secondary); color: var(--primary); padding: 15px 20px; border-radius: 8px; 
             font-weight: bold; font-size: 1.2rem; margin: 30px 0 20px 0; 
@@ -37,147 +37,180 @@
             background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;
         }
         
-        /* New Unified Box Style for Questions */
+        /* Box Style for Questions */
         .question-item { 
-            background: #f8f9fa; /* Warna box disamakan dengan style sebelumnya */
-            border: 1px solid #e1e4e8;
-            border-radius: 12px;
-            padding: 25px; 
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
+            background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 12px; padding: 25px; margin-bottom: 20px; transition: all 0.3s ease;
         }
-        .question-item:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        .question-text {
-            font-weight: 600; 
-            color: #2c3e50; 
-            margin-bottom: 20px; 
-            font-size: 1.05rem;
-        }
-        
-        .scale-labels-header {
-            display: flex; justify-content: space-between; margin-bottom: 10px;
-            font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-            padding: 0 5px;
-        }
-        .scale-options { 
-            display: flex; justify-content: space-between; position: relative; 
-            padding: 0 10px; align-items: center; height: 30px;
-        }
-        .scale-track { 
-            position: absolute; top: 50%; left: 10px; right: 10px; height: 3px; 
-            background: #d1d5db; z-index: 1; transform: translateY(-50%); border-radius: 2px;
-        }
-        .scale-option { 
-            display: flex; flex-direction: column; align-items: center; cursor: pointer; 
-            position: relative; z-index: 2; margin: 0;
-        }
-        .scale-option input { 
-            width: 24px; height: 24px; accent-color: var(--primary); margin: 0; 
-            cursor: pointer; background-color: #fff; transition: transform 0.2s;
-        }
+        .question-text { font-weight: 600; color: #2c3e50; margin-bottom: 20px; font-size: 1.05rem; }
+        .scale-labels-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 5px; }
+        .scale-options { display: flex; justify-content: space-between; position: relative; padding: 0 10px; align-items: center; height: 30px; }
+        .scale-track { position: absolute; top: 50%; left: 10px; right: 10px; height: 3px; background: #d1d5db; z-index: 1; transform: translateY(-50%); border-radius: 2px; }
+        .scale-option { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; z-index: 2; margin: 0; }
+        .scale-option input { width: 24px; height: 24px; accent-color: var(--primary); margin: 0; cursor: pointer; background-color: #fff; transition: transform 0.2s; }
         .scale-option input:hover { transform: scale(1.2); }
         
-        /* History & Detail Styling */
+        /* History & Detail */
         .history-item { border: 1px solid #eee; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
         .history-item:hover { background: #f9f9f9; }
-        
-        .detail-item { 
-            padding: 15px; border-bottom: 1px dashed #eee; 
-            display: flex; justify-content: space-between; align-items: flex-start; gap: 15px;
-        }
+        .detail-item { padding: 15px; border-bottom: 1px dashed #eee; display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; }
         .detail-q { flex: 1; font-weight: 500; }
-        .detail-a { 
-            font-weight: bold; color: var(--primary); background: #f0f2f5; 
-            padding: 5px 10px; border-radius: 6px; white-space: nowrap;
-        }
+        .detail-a { font-weight: bold; color: var(--primary); background: #f0f2f5; padding: 5px 10px; border-radius: 6px; white-space: nowrap; }
 
-        /* Result & Chart Styling (MODIFIKASI UTAMA DISINI) */
+        /* Result & Chart */
         .result-row { 
-            display: flex; 
-            align-items: center; 
-            margin-bottom: 15px;
-            /* Style Box Baru agar rapi */
-            background: #f8f9fa; 
-            border: 1px solid #e1e4e8;
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.2s ease;
+            display: flex; align-items: center; margin-bottom: 15px;
+            background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 12px; padding: 20px; transition: all 0.2s ease;
         }
-        .result-row:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
         .result-label { flex: 0 0 40%; font-size: 0.95rem; font-weight: 600; padding-right: 15px; color: #2c3e50; }
         .result-bar-area { flex: 1; background: #e0e0e0; height: 12px; border-radius: 6px; overflow: hidden; }
         .result-bar-fill { height: 100%; border-radius: 6px; }
         .result-score { width: 50px; text-align: right; font-weight: bold; font-size: 1.1rem; }
-
         .final-score-box { background: linear-gradient(135deg, var(--primary), #1a4a8d); color: white; padding: 25px; border-radius: 12px; text-align: center; margin-top: 30px; }
         
-        /* Navigasi Link */
-        .summary-link-box { 
-            background: white; border: 2px solid var(--primary); color: var(--primary); 
-            padding: 20px; border-radius: 12px; text-align: center; margin-top: 15px; 
-            cursor: pointer; font-weight: bold; transition: all 0.2s;
-        }
+        .summary-link-box { background: white; border: 2px solid var(--primary); color: var(--primary); padding: 20px; border-radius: 12px; text-align: center; margin-top: 15px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
         .summary-link-box:hover { background: var(--primary); color: white; }
-
-        /* Notifikasi PDF */
-        #pdfNotification {
-            text-align: center; color: #27ae60; font-weight: bold; margin-top: 20px;
-            padding: 10px; border-radius: 5px; background-color: rgba(39, 174, 96, 0.1);
-            transition: opacity 1s ease-out;
-        }
+        #pdfNotification { text-align: center; color: #27ae60; font-weight: bold; margin-top: 20px; padding: 10px; border-radius: 5px; background-color: rgba(39, 174, 96, 0.1); transition: opacity 1s ease-out; }
 
         .page-section { display: none; }
         .page-section.active { display: block; }
         footer { text-align: center; padding: 20px; color: #888; font-size: 0.9rem; margin-top: auto; }
         
-        /* Print Styles */
+        /* --- PRINT STYLES (A4 LANDSCAPE PERFECT FIT) --- */
         @media print {
-            @page { size: A4 landscape; margin: 0; }
-            html, body { width: 297mm; height: 210mm; margin: 0 !important; padding: 0 !important; display: flex !important; justify-content: center !important; align-items: center !important; background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; min-width: 1024px; transform: scale(1); }
-            header, footer, .btn, .btn-outline, #introPage, #historyPage, #surveyPage { display: none !important; }
-            
-            /* Sembunyikan Navigasi Balik & Notifikasi PDF saat Print */
-            .summary-link-box, #pdfNotification { display: none !important; }
-            
-            /* Pastikan halaman detail & result bisa diprint */
-            #historyDetailPage, #resultPage { display: block !important; width: 100%; height: 100%; } 
-            
-            .container { width: 280mm !important; height: 190mm !important; max-width: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
-            .card { box-shadow: none; border: 2px double var(--primary); border-radius: 0; margin: 0; padding: 15px 30px; width: 100%; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
-            .report-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); margin: 0; padding-bottom: 10px; }
-            .print-only-logo { display: flex !important; align-items: center; gap: 15px; }
+            @page {
+                size: A4 landscape;
+                margin: 0; /* Margin diatur lewat padding body agar presisi */
+            }
+
+            html, body {
+                width: 297mm;
+                height: 210mm;
+                margin: 0 !important;
+                padding: 10mm !important; /* PADDING RAPIH TIAP SISI */
+                background: white;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                box-sizing: border-box;
+                overflow: hidden; /* Mencegah halaman kedua */
+                
+                /* Centering Content */
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+            }
+
+            /* Hapus elemen tidak penting */
+            header, footer, .btn, .btn-outline, #introPage, #historyPage, #surveyPage, .summary-link-box, #pdfNotification {
+                display: none !important;
+            }
+
+            /* Pastikan Result Page tampil penuh */
+            #historyDetailPage, #resultPage {
+                display: block !important;
+                width: 100% !important;
+                height: 100% !important;
+            }
+
+            .container {
+                width: 100% !important;
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                max-width: none !important;
+                display: block !important;
+            }
+
+            /* Style Kartu Laporan Full Page */
+            .card {
+                box-shadow: none;
+                border: 2px double var(--primary); /* Bingkai Dokumen */
+                border-radius: 0;
+                margin: 0;
+                padding: 20px 40px; /* Padding dalam konten */
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
+                
+                /* Flex Column untuk distribusi vertikal yang rapi */
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between; 
+            }
+
+            /* Header Laporan */
+            .report-header {
+                border-bottom: 2px solid var(--primary);
+                padding-bottom: 10px;
+                margin-bottom: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .report-header h2 { margin: 0; font-size: 1.8rem; }
+
+            .print-only-logo {
+                display: flex !important;
+                align-items: center;
+                gap: 15px;
+            }
             .print-only-logo img { height: 50px; }
             .print-only-logo div { font-weight: 800; color: var(--primary); font-size: 1.2rem; }
-            .user-profile { background: #f8f9fa !important; padding: 5px 15px; border: 1px solid #ccc; display: flex; justify-content: center; gap: 30px; margin: 10px 0; }
-            
-            /* Grid Layout untuk Score agar muat */
-            #scoreDetails, #detailChartArea { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; row-gap: 10px; margin: 10px 0; flex-grow: 1; align-content: center; }
-            
-            /* Print style override agar box tidak terlalu gelap/tebal saat print */
-            .result-row { 
-                margin: 0; padding: 5px 15px; 
-                border: 1px solid #eee; 
-                border-radius: 8px;
-                background-color: #fff !important; /* Gunakan putih saat print */
-                page-break-inside: avoid; 
+
+            /* Profil User */
+            .user-profile {
+                background: #f8f9fa !important;
+                padding: 8px 20px;
+                border: 1px solid #ccc;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                margin: 10px 0;
             }
-            
-            /* Sembunyikan detail pertanyaan panjang saat print Summary agar rapi, atau biarkan jika ingin detail */
-            /* Untuk permintaan 'Print PDF', biasanya yang diharapkan adalah Summary Chart */
-            #detailContainer { display: none; } /* Opsional: Jika ingin print detail pertanyaan, hapus ini */
-            
-            .final-score-box { background: var(--primary) !important; color: white !important; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; height: 60px; margin-top: 10px; }
-            .report-header h2 { margin: 0; }
+            .user-profile h3, .user-profile p { margin: 0; font-size: 1.1rem; }
+
+            /* Grid Skor yang Rapi */
+            #scoreDetails, #detailChartArea {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                column-gap: 40px;
+                row-gap: 10px;
+                flex-grow: 1; /* Isi ruang tengah */
+                align-content: center;
+                margin: 10px 0;
+            }
+
+            /* Baris Skor versi Print */
+            .result-row {
+                margin: 0;
+                padding: 5px 15px;
+                background: #fff !important; /* Putih agar bersih saat print */
+                border: 1px solid #ddd;
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+            .result-label { font-size: 0.9rem; }
+            .result-score { font-size: 1rem; }
+
+            /* Sembunyikan detail pertanyaan panjang di mode print summary */
+            #detailContainer { display: none; }
+
+            /* Footer Nilai */
+            .final-score-box {
+                background: var(--primary) !important;
+                color: white !important;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 15px 40px;
+                height: 60px;
+                margin-top: 10px;
+                border-radius: 8px;
+            }
+            .final-score-box div:first-child { font-size: 1.2rem; text-transform: uppercase; }
+            .final-score-box #finalScoreDisplay, 
+            .final-score-box #detTotalScore { font-size: 3rem; margin: 0; line-height: 1; }
         }
-        .print-only-logo { display: none; }
     </style>
 </head>
 <body>
@@ -239,24 +272,16 @@
                     <p id="detDate" style="color:#666; margin:0;">Date</p>
                 </div>
                 
-                <!-- Area Grafik Batang di Detail -->
                 <div id="detailChartArea" style="margin-bottom: 30px; border-bottom: 2px dashed #ccc; padding-bottom: 20px;"></div>
-
-                <!-- Area Rincian Pertanyaan -->
                 <div id="detailContainer"></div>
 
-                <!-- Footer Box -->
                 <div class="final-score-box">
                     <div>SKOR KESELURUHAN</div>
                     <div id="detTotalScore" style="font-size:3rem; font-weight:bold;">0</div>
                 </div>
                 
-                <!-- Tombol Print PDF di Detail -->
                 <button class="btn btn-outline" style="margin-top: 20px;" onclick="window.print()">Cetak / Simpan PDF</button>
-                
-                <div class="summary-link-box" onclick="backToHistoryList()">
-                    &larr; Kembali ke Daftar Riwayat
-                </div>
+                <div class="summary-link-box" onclick="backToHistoryList()">&larr; Kembali ke Daftar Riwayat</div>
             </div>
         </div>
 
@@ -293,9 +318,7 @@
                     <div id="finalScoreDisplay" style="font-size:3rem; font-weight:bold;">0</div>
                 </div>
 
-                <p id="pdfNotification" style="display:none;">
-                    ✅ Salinan PDF telah dikirim ke email Anda.
-                </p>
+                <p id="pdfNotification" style="display:none;">✅ Salinan PDF telah dikirim ke email Anda.</p>
 
                 <button class="btn btn-outline" style="margin-top: 10px;" onclick="window.print()">Cetak / Simpan PDF</button>
                 <button class="btn btn-outline" style="margin-top: 10px; border:none; color:#666;" onclick="showPage('introPage'); location.reload();">Selesai / Keluar</button>
@@ -331,7 +354,6 @@
             showPage('historyPage');
         }
 
-        // --- FETCH DATA ---
         async function ensureQuestionsLoaded() {
             if(fetchedQuestions.length === 0) {
                 fetchedQuestions = await fetchQuestionsFromSheet();
@@ -367,7 +389,6 @@
                         html += `
                         <div class="question-item">
                             <div class="question-text">${idx}. ${q.text}</div>
-                            
                             <div class="scale-labels-header">
                                 <span style="color:#e74c3c">Strongly Disagree</span>
                                 <span style="color:#27ae60">Strongly Agree</span>
@@ -376,11 +397,7 @@
                                 <div class="scale-track"></div>
                                 ${[0, 25, 50, 75, 100].map(v => `
                                     <label class="scale-option">
-                                        <input type="radio" name="qid_${q.id}" 
-                                            data-cat="${cat}" 
-                                            data-rev="${q.reversed}" 
-                                            value="${v}" required
-                                            title="Score: ${v}">
+                                        <input type="radio" name="qid_${q.id}" data-cat="${cat}" data-rev="${q.reversed}" value="${v}" required title="Score: ${v}">
                                     </label>`).join('')}
                             </div>
                         </div>`;
@@ -391,7 +408,6 @@
             container.innerHTML = html;
         }
 
-        // --- HISTORY LOGIC ---
         async function checkHistory() {
             const email = document.getElementById('historyEmailInput').value;
             if(!email) { alert("Email wajib diisi."); return; }
@@ -420,7 +436,6 @@
             }
         }
 
-        // --- LOAD DETAIL PAGE ---
         async function loadDetail(submissionId, itemStr) {
             const historyItem = JSON.parse(decodeURIComponent(itemStr));
             const btn = event.target;
@@ -439,11 +454,11 @@
         }
 
         function renderDetailView(summary, details) {
-            // 1. Render Summary Chart (Grafik Batang)
+            // Summary Chart
             let chartHtml = "";
             categoryOrder.forEach((cat, i) => {
                 const s = summary.habitScores[i];
-                let color = s >= 80 ? "#27ae60" : (s >= 60 ? "#f39c12" : "#e74c3c"); // Hijau, Kuning, Merah
+                let color = s >= 80 ? "#27ae60" : (s >= 60 ? "#f39c12" : "#e74c3c");
                 chartHtml += `
                 <div class="result-row">
                     <div class="result-label">${cat}</div>
@@ -453,7 +468,7 @@
             });
             document.getElementById('detailChartArea').innerHTML = chartHtml;
 
-            // 2. Render Detail Pertanyaan
+            // Details
             const qMap = {}; fetchedQuestions.forEach(q => qMap[q.id] = q);
             const ansMap = {}; details.forEach(d => ansMap[d.q_id] = d.score);
             let grouped = groupQuestions(fetchedQuestions);
@@ -463,19 +478,13 @@
             categoryOrder.forEach((cat, i) => {
                 if(grouped[cat]) {
                     const habitScore = summary.habitScores[i];
-                    html += `
-                    <div class="section-header">
-                        <span>${cat}</span>
-                        <span class="header-score-badge">Skor: ${habitScore}</span>
-                    </div>`;
+                    html += `<div class="section-header"><span>${cat}</span><span class="header-score-badge">Skor: ${habitScore}</span></div>`;
                     
                     grouped[cat].forEach(q => {
                         const userScore = ansMap[q.id] !== undefined ? ansMap[q.id] : null;
-                        
                         html += `
                         <div class="question-item" style="background-color: #fcfcfc;">
                             <div class="question-text">${idx}. ${q.text}</div>
-                            
                             <div class="scale-labels-header">
                                 <span style="color:#e74c3c">Strongly Disagree</span>
                                 <span style="color:#27ae60">Strongly Agree</span>
@@ -483,24 +492,11 @@
                             <div class="scale-options">
                                 <div class="scale-track"></div>
                                 ${[0, 25, 50, 75, 100].map(v => {
-                                    // Logika: Jika pertanyaan reversed, skor di database (userScore) adalah hasil olahan.
-                                    // Kita harus balikkan lagi untuk menampilkan tombol mana yang diklik user.
-                                    // Contoh: userScore = 100 (Bagus). Jika reversed, berarti user klik 0.
-                                    // rawValue = 100 - userScore.
-                                    
                                     let rawValue = userScore;
-                                    if(userScore !== null && q.reversed === true) {
-                                        rawValue = 100 - userScore;
-                                    }
-                                    
+                                    if(userScore !== null && q.reversed === true) rawValue = 100 - userScore;
                                     const isChecked = (rawValue === v) ? 'checked' : '';
-                                    const opacity = isChecked ? '1' : '0.4'; // Redupkan yang tidak dipilih
-                                    
-                                    return `
-                                    <label class="scale-option" style="cursor: default;">
-                                        <input type="radio" disabled ${isChecked} 
-                                            style="cursor: default; opacity: ${opacity}; accent-color: var(--primary);">
-                                    </label>`;
+                                    const opacity = isChecked ? '1' : '0.4';
+                                    return `<label class="scale-option" style="cursor: default;"><input type="radio" disabled ${isChecked} style="cursor: default; opacity: ${opacity}; accent-color: var(--primary);"></label>`;
                                 }).join('')}
                             </div>
                         </div>`;
@@ -513,11 +509,9 @@
             document.getElementById('detName').innerText = summary.name;
             document.getElementById('detDate').innerText = new Date(summary.timestamp).toLocaleString();
             document.getElementById('detTotalScore').innerText = summary.totalScore;
-
             showPage('historyDetailPage');
         }
 
-        // --- HELPERS ---
         function groupQuestions(qs) {
             let g = {};
             qs.forEach(q => {
@@ -527,7 +521,6 @@
             return g;
         }
 
-        // --- SUBMIT ---
         async function calculateAndSubmit() {
             const inputs = document.querySelectorAll('input[type="radio"]:checked');
             if(inputs.length < fetchedQuestions.length) { 
@@ -561,9 +554,7 @@
                 answers: detailAnswers
             };
 
-            // Tampilkan Hasil dulu (Optimistic UI)
             displayResult(payload.profile.name, payload.profile.email, new Date(), habitScores, grandTotal, true);
-            
             await saveToGoogleSheet(payload);
         }
 
@@ -576,7 +567,6 @@
             let html = "";
             categoryOrder.forEach((cat, i) => {
                 const s = scores[i];
-                // Logic Warna: <60 Merah, 60-79 Kuning, >=80 Hijau
                 let color = s >= 80 ? "#27ae60" : (s >= 60 ? "#f39c12" : "#e74c3c");
                 html += `
                 <div class="result-row">
@@ -587,7 +577,6 @@
             });
             document.getElementById('scoreDetails').innerHTML = html;
             
-            // Logic PDF Notification
             const pdfMsg = document.getElementById('pdfNotification');
             if(showPdfMsg) {
                 pdfMsg.style.display = 'block';
