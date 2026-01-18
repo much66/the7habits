@@ -27,7 +27,7 @@
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary); }
         .form-group input { width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
         
-        /* Survey Styling - UPDATED */
+        /* Survey Styling - REFINED BOX LOOK */
         .section-header { 
             background: var(--secondary); color: var(--primary); padding: 15px 20px; border-radius: 8px; 
             font-weight: bold; font-size: 1.2rem; margin: 30px 0 20px 0; 
@@ -36,66 +36,48 @@
         .header-score-badge {
             background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;
         }
-        .question-item { border-bottom: 1px dashed #eee; padding: 30px 0; }
         
-        /* Kotak Pilihan Ganda Baru */
-        .scale-box {
-            background: #f8f9fa; /* Latar abu sangat muda */
+        /* New Unified Box Style for Questions */
+        .question-item { 
+            background: #f8f9fa; /* Warna box disamakan dengan style sebelumnya */
             border: 1px solid #e1e4e8;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 15px;
+            border-radius: 12px;
+            padding: 25px; 
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .question-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
+        .question-text {
+            font-weight: 600; 
+            color: #2c3e50; 
+            margin-bottom: 20px; 
+            font-size: 1.05rem;
+        }
+        
         .scale-labels-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            display: flex; justify-content: space-between; margin-bottom: 10px;
+            font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+            padding: 0 5px;
         }
-
         .scale-options { 
-            display: flex; 
-            justify-content: space-between; 
-            position: relative; 
-            padding: 0 10px; 
-            align-items: center;
-            height: 30px;
+            display: flex; justify-content: space-between; position: relative; 
+            padding: 0 10px; align-items: center; height: 30px;
         }
-        
         .scale-track { 
-            position: absolute; 
-            top: 50%; 
-            left: 10px; 
-            right: 10px; 
-            height: 3px; 
-            background: #d1d5db; 
-            z-index: 1; 
-            transform: translateY(-50%);
-            border-radius: 2px;
+            position: absolute; top: 50%; left: 10px; right: 10px; height: 3px; 
+            background: #d1d5db; z-index: 1; transform: translateY(-50%); border-radius: 2px;
         }
-        
         .scale-option { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            cursor: pointer; 
-            position: relative; 
-            z-index: 2; 
-            margin: 0;
+            display: flex; flex-direction: column; align-items: center; cursor: pointer; 
+            position: relative; z-index: 2; margin: 0;
         }
-        
         .scale-option input { 
-            width: 24px; 
-            height: 24px; 
-            accent-color: var(--primary); 
-            margin: 0; 
-            cursor: pointer; 
-            background-color: #fff;
-            transition: transform 0.2s;
+            width: 24px; height: 24px; accent-color: var(--primary); margin: 0; 
+            cursor: pointer; background-color: #fff; transition: transform 0.2s;
         }
         .scale-option input:hover { transform: scale(1.2); }
         
@@ -113,8 +95,16 @@
             padding: 5px 10px; border-radius: 6px; white-space: nowrap;
         }
 
-        /* Result Boxes */
+        /* Result & Chart Styling (Dipakai di Result & History Detail) */
+        .result-row { display: flex; align-items: center; margin-bottom: 15px; }
+        .result-label { flex: 0 0 40%; font-size: 0.9rem; font-weight: 600; padding-right: 10px; }
+        .result-bar-area { flex: 1; background: #eee; height: 10px; border-radius: 5px; overflow: hidden; }
+        .result-bar-fill { height: 100%; }
+        .result-score { width: 40px; text-align: right; font-weight: bold; }
+
         .final-score-box { background: linear-gradient(135deg, var(--primary), #1a4a8d); color: white; padding: 25px; border-radius: 12px; text-align: center; margin-top: 30px; }
+        
+        /* Navigasi Link */
         .summary-link-box { 
             background: white; border: 2px solid var(--primary); color: var(--primary); 
             padding: 20px; border-radius: 12px; text-align: center; margin-top: 15px; 
@@ -122,15 +112,49 @@
         }
         .summary-link-box:hover { background: var(--primary); color: white; }
 
+        /* Notifikasi PDF */
+        #pdfNotification {
+            text-align: center; color: #27ae60; font-weight: bold; margin-top: 20px;
+            padding: 10px; border-radius: 5px; background-color: rgba(39, 174, 96, 0.1);
+            transition: opacity 1s ease-out;
+        }
+
         .page-section { display: none; }
         .page-section.active { display: block; }
         footer { text-align: center; padding: 20px; color: #888; font-size: 0.9rem; margin-top: auto; }
         
-        /* Print */
+        /* Print Styles */
         @media print {
+            @page { size: A4 landscape; margin: 0; }
+            html, body { width: 297mm; height: 210mm; margin: 0 !important; padding: 0 !important; display: flex !important; justify-content: center !important; align-items: center !important; background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; min-width: 1024px; transform: scale(1); }
             header, footer, .btn, .btn-outline, #introPage, #historyPage, #surveyPage { display: none !important; }
-            #historyDetailPage, #resultPage { display: block !important; } 
+            
+            /* Sembunyikan Navigasi Balik & Notifikasi PDF saat Print */
+            .summary-link-box, #pdfNotification { display: none !important; }
+            
+            /* Pastikan halaman detail & result bisa diprint */
+            #historyDetailPage, #resultPage { display: block !important; width: 100%; height: 100%; } 
+            
+            .container { width: 280mm !important; height: 190mm !important; max-width: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
+            .card { box-shadow: none; border: 2px double var(--primary); border-radius: 0; margin: 0; padding: 15px 30px; width: 100%; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
+            .report-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary); margin: 0; padding-bottom: 10px; }
+            .print-only-logo { display: flex !important; align-items: center; gap: 15px; }
+            .print-only-logo img { height: 50px; }
+            .print-only-logo div { font-weight: 800; color: var(--primary); font-size: 1.2rem; }
+            .user-profile { background: #f8f9fa !important; padding: 5px 15px; border: 1px solid #ccc; display: flex; justify-content: center; gap: 30px; margin: 10px 0; }
+            
+            /* Grid Layout untuk Score agar muat */
+            #scoreDetails, #detailChartArea { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; row-gap: 10px; margin: 10px 0; flex-grow: 1; align-content: center; }
+            .result-row { margin: 0; padding: 5px; border: 1px solid #eee; page-break-inside: avoid; }
+            
+            /* Sembunyikan detail pertanyaan panjang saat print Summary agar rapi, atau biarkan jika ingin detail */
+            /* Untuk permintaan 'Print PDF', biasanya yang diharapkan adalah Summary Chart */
+            #detailContainer { display: none; } /* Opsional: Jika ingin print detail pertanyaan, hapus ini */
+            
+            .final-score-box { background: var(--primary) !important; color: white !important; display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; height: 60px; margin-top: 10px; }
+            .report-header h2 { margin: 0; }
         }
+        .print-only-logo { display: none; }
     </style>
 </head>
 <body>
@@ -176,24 +200,39 @@
             </div>
         </div>
 
-        <!-- 3. DETAIL RIWAYAT (NEW VIEW) -->
+        <!-- 3. DETAIL RIWAYAT (GRAFIK + DETAIL) -->
         <div id="historyDetailPage" class="page-section">
             <div class="card">
-                <h2>Detail Jawaban</h2>
-                <div style="text-align:center; margin-bottom:20px; color:#666;">
-                    <span id="detName">User</span> | <span id="detDate">Date</span>
+                <div class="report-header">
+                    <div class="print-only-logo">
+                        <img src="Logo_WE.jpg" alt="Logo">
+                        <div>WORLDWHITE ENTERPRISE</div>
+                    </div>
+                    <h2>DETAIL RIWAYAT</h2>
+                </div>
+
+                <div class="user-profile">
+                    <h3 id="detName" style="color:var(--primary); margin:0;">User</h3>
+                    <p id="detDate" style="color:#666; margin:0;">Date</p>
                 </div>
                 
+                <!-- Area Grafik Batang di Detail -->
+                <div id="detailChartArea" style="margin-bottom: 30px; border-bottom: 2px dashed #ccc; padding-bottom: 20px;"></div>
+
+                <!-- Area Rincian Pertanyaan -->
                 <div id="detailContainer"></div>
 
-                <!-- 2 BOX BAWAH -->
+                <!-- Footer Box -->
                 <div class="final-score-box">
                     <div>SKOR KESELURUHAN</div>
                     <div id="detTotalScore" style="font-size:3rem; font-weight:bold;">0</div>
                 </div>
                 
+                <!-- Tombol Print PDF di Detail -->
+                <button class="btn btn-outline" style="margin-top: 20px;" onclick="window.print()">Cetak / Simpan PDF</button>
+                
                 <div class="summary-link-box" onclick="backToHistoryList()">
-                    &larr; Kembali ke Summary History
+                    &larr; Kembali ke Daftar Riwayat
                 </div>
             </div>
         </div>
@@ -203,19 +242,40 @@
             <div id="questionsContainer"></div>
             <div class="card">
                 <button class="btn btn-submit-final" onclick="calculateAndSubmit()">Lihat Hasil Penilaian</button>
+                <p id="errorMsg" style="color:red; text-align:center; display:none; margin-top:10px;">Mohon lengkapi semua pertanyaan!</p>
             </div>
         </div>
 
         <!-- 5. RESULT REPORT -->
         <div id="resultPage" class="page-section">
             <div class="card">
-                <h2>HASIL EVALUASI</h2>
+                <div class="report-header">
+                    <div class="print-only-logo">
+                        <img src="Logo_WE.jpg" alt="Logo">
+                        <div>WORLDWHITE ENTERPRISE</div>
+                    </div>
+                    <h2>HASIL EVALUASI</h2>
+                </div>
+
+                <div class="user-profile">
+                    <h3 id="resName" style="color:var(--primary); margin:0;">Nama User</h3>
+                    <p id="resEmail" style="color:#666; margin:0;">email@example.com</p>
+                    <small id="resDate" style="color:#999;">-</small>
+                </div>
+
                 <div id="scoreDetails"></div>
+
                 <div class="final-score-box">
                     <div>SKOR KESELURUHAN</div>
                     <div id="finalScoreDisplay" style="font-size:3rem; font-weight:bold;">0</div>
                 </div>
-                <button class="btn btn-outline" onclick="showPage('introPage'); location.reload();">Selesai / Keluar</button>
+
+                <p id="pdfNotification" style="display:none;">
+                    ✅ Salinan PDF telah dikirim ke email Anda.
+                </p>
+
+                <button class="btn btn-outline" style="margin-top: 10px;" onclick="window.print()">Cetak / Simpan PDF</button>
+                <button class="btn btn-outline" style="margin-top: 10px; border:none; color:#666;" onclick="showPage('introPage'); location.reload();">Selesai / Keluar</button>
             </div>
         </div>
 
@@ -283,25 +343,22 @@
                     grouped[cat].forEach(q => {
                         html += `
                         <div class="question-item">
-                            <div style="margin-bottom:10px; font-weight:600; color:#2c3e50;">${idx}. ${q.text}</div>
+                            <div class="question-text">${idx}. ${q.text}</div>
                             
-                            <!-- Box Pilihan Ganda -->
-                            <div class="scale-box">
-                                <div class="scale-labels-header">
-                                    <span style="color:#e74c3c">Strongly Disagree</span>
-                                    <span style="color:#27ae60">Strongly Agree</span>
-                                </div>
-                                <div class="scale-options">
-                                    <div class="scale-track"></div>
-                                    ${[0, 25, 50, 75, 100].map(v => `
-                                        <label class="scale-option">
-                                            <input type="radio" name="qid_${q.id}" 
-                                                data-cat="${cat}" 
-                                                data-rev="${q.reversed}" 
-                                                value="${v}" required
-                                                title="Score: ${v}">
-                                        </label>`).join('')}
-                                </div>
+                            <div class="scale-labels-header">
+                                <span style="color:#e74c3c">Strongly Disagree</span>
+                                <span style="color:#27ae60">Strongly Agree</span>
+                            </div>
+                            <div class="scale-options">
+                                <div class="scale-track"></div>
+                                ${[0, 25, 50, 75, 100].map(v => `
+                                    <label class="scale-option">
+                                        <input type="radio" name="qid_${q.id}" 
+                                            data-cat="${cat}" 
+                                            data-rev="${q.reversed}" 
+                                            value="${v}" required
+                                            title="Score: ${v}">
+                                    </label>`).join('')}
                             </div>
                         </div>`;
                         idx++;
@@ -324,7 +381,6 @@
                 let html = "";
                 result.data.forEach(item => {
                     const d = new Date(item.timestamp).toLocaleDateString();
-                    // Simpan data item sebagai string untuk dipassing
                     const itemStr = encodeURIComponent(JSON.stringify(item));
                     html += `
                     <div class="history-item">
@@ -347,8 +403,8 @@
             const btn = event.target;
             btn.innerText = "Loading..."; btn.disabled = true;
 
-            await ensureQuestionsLoaded(); // Pastikan teks soal ada
-            const detailRes = await fetchSubmissionDetails(submissionId); // Ambil jawaban dari Responses tab
+            await ensureQuestionsLoaded(); 
+            const detailRes = await fetchSubmissionDetails(submissionId);
             
             btn.innerText = "Lihat Detail"; btn.disabled = false;
 
@@ -360,28 +416,30 @@
         }
 
         function renderDetailView(summary, details) {
-            // Mapping Q_ID ke Text & Category
-            // details = [{q_id: 1, score: 50}, ...]
-            const qMap = {};
-            fetchedQuestions.forEach(q => qMap[q.id] = q);
+            // 1. Render Summary Chart (Grafik Batang)
+            let chartHtml = "";
+            categoryOrder.forEach((cat, i) => {
+                const s = summary.habitScores[i];
+                let color = s >= 80 ? "#27ae60" : (s >= 60 ? "#f39c12" : "#e74c3c"); // Hijau, Kuning, Merah
+                chartHtml += `
+                <div class="result-row">
+                    <div class="result-label">${cat}</div>
+                    <div class="result-bar-area"><div class="result-bar-fill" style="width: ${s}%; background-color: ${color}"></div></div>
+                    <div class="result-score" style="color:${color}">${s}</div>
+                </div>`;
+            });
+            document.getElementById('detailChartArea').innerHTML = chartHtml;
 
-            // Mapping Answer per Q_ID
-            const ansMap = {};
-            details.forEach(d => ansMap[d.q_id] = d.score);
-
-            // Grouping untuk display
+            // 2. Render Detail Pertanyaan
+            const qMap = {}; fetchedQuestions.forEach(q => qMap[q.id] = q);
+            const ansMap = {}; details.forEach(d => ansMap[d.q_id] = d.score);
             let grouped = groupQuestions(fetchedQuestions);
             let html = "";
             let idx = 1;
             
-            // Skor per habit diambil dari summary.habitScores (urutan sesuai categoryOrder)
-            // summary.habitScores = [scoreH1, scoreH2, ...]
-            
             categoryOrder.forEach((cat, i) => {
                 if(grouped[cat]) {
-                    const habitScore = summary.habitScores[i]; // Nilai habit ini
-                    
-                    // HEADER dengan Skor di Kanan
+                    const habitScore = summary.habitScores[i];
                     html += `
                     <div class="section-header">
                         <span>${cat}</span>
@@ -418,14 +476,14 @@
             return g;
         }
 
-        // --- SUBMIT (SAMA SEPERTI SEBELUMNYA) ---
+        // --- SUBMIT ---
         async function calculateAndSubmit() {
-            // ... (Kode submit sama, kirim payload ke saveToGoogleSheet) ...
-            // Untuk mempersingkat jawaban, saya asumsikan fungsi ini sudah ada di kode Anda sebelumnya
-            // Jika butuh lengkap, beritahu saya.
-            // (Logika: ambil input checked -> hitung skor -> displayResult -> saveToGoogleSheet)
             const inputs = document.querySelectorAll('input[type="radio"]:checked');
-            if(inputs.length < fetchedQuestions.length) { alert("Belum lengkap."); return; }
+            if(inputs.length < fetchedQuestions.length) { 
+                document.getElementById('errorMsg').style.display = 'block';
+                return; 
+            }
+            document.getElementById('errorMsg').style.display = 'none';
             
             let scoresObj = {}; categoryOrder.forEach(c => scoresObj[c] = {sum:0, count:0});
             let detailAnswers = [];
@@ -452,15 +510,47 @@
                 answers: detailAnswers
             };
 
-            await saveToGoogleSheet(payload);
+            // Tampilkan Hasil dulu (Optimistic UI)
+            displayResult(payload.profile.name, payload.profile.email, new Date(), habitScores, grandTotal, true);
             
-            // Render Result Page Simple
-            let resHtml = "";
-            categoryOrder.forEach((c, i) => {
-                 resHtml += `<div class="section-header" style="margin:10px 0; padding:10px;"><span>${c}</span><span>${habitScores[i]}</span></div>`;
+            await saveToGoogleSheet(payload);
+        }
+
+        function displayResult(name, email, dateObj, scores, total, showPdfMsg = false) {
+            document.getElementById('resName').innerText = name;
+            document.getElementById('resEmail').innerText = email;
+            document.getElementById('resDate').innerText = new Date(dateObj).toLocaleDateString('id-ID');
+            document.getElementById('finalScoreDisplay').innerText = total;
+
+            let html = "";
+            categoryOrder.forEach((cat, i) => {
+                const s = scores[i];
+                // Logic Warna: <60 Merah, 60-79 Kuning, >=80 Hijau
+                let color = s >= 80 ? "#27ae60" : (s >= 60 ? "#f39c12" : "#e74c3c");
+                html += `
+                <div class="result-row">
+                    <div class="result-label">${cat}</div>
+                    <div class="result-bar-area"><div class="result-bar-fill" style="width: ${s}%; background-color: ${color}"></div></div>
+                    <div class="result-score" style="color:${color}">${s}</div>
+                </div>`;
             });
-            document.getElementById('scoreDetails').innerHTML = resHtml;
-            document.getElementById('finalScoreDisplay').innerText = grandTotal;
+            document.getElementById('scoreDetails').innerHTML = html;
+            
+            // Logic PDF Notification
+            const pdfMsg = document.getElementById('pdfNotification');
+            if(showPdfMsg) {
+                pdfMsg.style.display = 'block';
+                setTimeout(() => {
+                    pdfMsg.style.opacity = '0';
+                    setTimeout(() => { 
+                        pdfMsg.style.display = 'none'; 
+                        pdfMsg.style.opacity = '1';
+                    }, 1000); 
+                }, 5000);
+            } else {
+                pdfMsg.style.display = 'none';
+            }
+
             showPage('resultPage');
         }
     </script>
