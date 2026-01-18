@@ -221,29 +221,36 @@
             .scale-labels-header { font-size: 0.7rem; }
             
             /* --- FIX: MOBILE BAR CHART --- */
+            /* Label di atas, Grafik & Nilai sejajar di bawahnya */
             .result-row { 
-                flex-direction: column; /* Stack vertikal */
-                align-items: stretch;   /* Paksa lebar penuh */
+                flex-wrap: wrap; /* Izinkan elemen turun ke bawah */
+                align-items: center;
                 padding: 15px; 
+                gap: 5px; /* Jarak vertikal */
             }
             .result-label { 
-                margin-bottom: 8px; 
-                font-size: 0.9rem; 
+                flex: 0 0 100%; /* Lebar 100% memaksa turun baris */
+                width: 100%;
+                margin-bottom: 8px; /* Jarak ke grafik */
+                font-size: 0.95rem; 
                 padding-right: 0; 
-                width: 100%; /* Lebar penuh */
+                text-align: left;
             }
             .result-bar-area { 
-                height: 10px; 
-                width: 100%; /* Pastikan lebar 100% dari container */
-                margin-bottom: 8px; 
-                background: #e0e0e0; /* Pastikan background terlihat */
-                flex: none; /* Matikan flex grow agar menuruti width */
+                flex: 1; /* Mengisi ruang sisa di baris kedua */
+                height: 12px; 
+                margin-bottom: 0; 
+                background: #e0e0e0; 
+                min-width: 0; /* Mencegah overflow flex item */
             }
             .result-score { 
+                flex: 0 0 auto; /* Ukuran sesuai konten */
+                width: auto;
+                min-width: 35px;
                 text-align: right; 
-                width: 100%; 
                 font-size: 1rem; 
                 margin-top: 0;
+                margin-left: 10px; /* Jarak dari grafik */
             }
             
             /* Section Header */
@@ -542,7 +549,7 @@
             if(result.status === 'success' && result.data.length > 0) {
                 let html = "";
                 result.data.forEach(item => {
-                    const d = new Date(item.timestamp).toLocaleDateString();
+                    const d = new Date(item.timestamp).toLocaleString('id-ID'); // Full timestamp
                     const itemStr = encodeURIComponent(JSON.stringify(item));
                     html += `
                     <div class="history-item">
@@ -640,7 +647,7 @@
             // Di detail history, biasanya email tidak di-pass di summary object, 
             // kita bisa ambil dari input email search jika sama
             document.getElementById('detEmail').innerText = document.getElementById('historyEmailInput').value || "-";
-            document.getElementById('detDate').innerText = new Date(summary.timestamp).toLocaleDateString('id-ID');
+            document.getElementById('detDate').innerText = new Date(summary.timestamp).toLocaleString('id-ID'); // Full timestamp
             document.getElementById('detTotalScore').innerText = summary.totalScore;
             showPage('historyDetailPage');
         }
@@ -694,7 +701,17 @@
         function displayResult(name, email, dateObj, scores, total, showPdfMsg = false) {
             document.getElementById('resName').innerText = name;
             document.getElementById('resEmail').innerText = email;
-            document.getElementById('resDate').innerText = new Date(dateObj).toLocaleDateString('id-ID');
+            // Update: Full timestamp with time
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            document.getElementById('resDate').innerText = new Date(dateObj).toLocaleDateString('id-ID', options);
             document.getElementById('finalScoreDisplay').innerText = total;
 
             let html = "";
