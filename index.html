@@ -147,6 +147,7 @@
             margin-top: 20px;
         }
         .btn:hover { background-color: #1a4a8d; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .btn:disabled { background-color: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
         .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
         .btn-outline:hover { background: var(--primary); color: white; }
 
@@ -322,7 +323,8 @@
             <div id="questionsContainer"></div>
             
             <div class="card">
-                <button class="btn" onclick="calculateScores()">Lihat Hasil Penilaian</button>
+                <!-- Tambahkan class btn-submit-final untuk targeting di JS -->
+                <button class="btn btn-submit-final" onclick="calculateScores()">Lihat Hasil Penilaian</button>
                 <p id="errorMsg" style="color:red; text-align:center; display:none; margin-top:10px;">Mohon lengkapi semua pertanyaan!</p>
             </div>
         </div>
@@ -358,6 +360,9 @@
     <footer>
         &copy; 2026 Worldwhite Enterprise. All Rights Reserved.
     </footer>
+
+    <!-- Import API Handler -->
+    <script src="api_handler.js"></script>
 
     <script>
         // --- DATA SURVEY ---
@@ -538,7 +543,7 @@
             container.innerHTML = html;
         }
 
-        function calculateScores() {
+        async function calculateScores() {
             // Check completeness
             let allAnswered = true;
             for(let i=1; i<=65; i++) {
@@ -552,11 +557,13 @@
                 document.getElementById('errorMsg').style.display = 'block';
                 return;
             }
+            document.getElementById('errorMsg').style.display = 'none';
 
             // Calculate
             let totalSum = 0;
             let sectionCount = 0;
             let detailsHtml = "";
+            let habitScores = []; // Array untuk menyimpan skor tiap habit agar bisa dikirim ke Sheet
 
             surveyData.forEach(section => {
                 let sectionSum = 0;
@@ -567,6 +574,8 @@
                 });
 
                 const avg = Math.round(sectionSum / section.questions.length);
+                habitScores.push(avg); // Simpan skor per habit
+
                 totalSum += avg;
                 sectionCount++;
 
@@ -590,12 +599,25 @@
 
             const finalScore = Math.round(totalSum / sectionCount);
 
-            // Populate Report
+            // Populate Report UI
             document.getElementById('resName').innerText = document.getElementById('userName').value;
             const email = document.getElementById('userEmail').value;
             document.getElementById('resEmail').innerText = email ? email : "-";
             document.getElementById('scoreDetails').innerHTML = detailsHtml;
             document.getElementById('finalScoreDisplay').innerText = finalScore;
+
+            // --- SAVE TO DATABASE (Google Sheet) ---
+            const formData = {
+                name: document.getElementById('userName').value,
+                email: email,
+                phone: document.getElementById('userPhone').value,
+                scores: habitScores, // [h1, h2, h3, eba, h4, h5, h6, h7]
+                totalScore: finalScore
+            };
+
+            // Panggil fungsi dari api_handler.js
+            // Kita gunakan await, jadi tombol akan loading sampai selesai
+            await saveToGoogleSheet(formData);
 
             // Switch to Result Page
             document.getElementById('surveyPage').classList.remove('active');
