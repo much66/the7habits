@@ -154,25 +154,111 @@
             h1 { font-size: 1.3rem; }
         }
         
-        /* PRINT */
+        /* --- PRINT STYLES (CERTIFICATE LOOK) --- */
         @media print {
             @page { size: A4 landscape; margin: 0; }
-            html, body { width: 297mm; height: 210mm; margin: 0 !important; padding: 10mm !important; background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; overflow: hidden; min-width: 1024px; display: flex !important; justify-content: center !important; align-items: center !important; }
+            html, body { 
+                width: 297mm; height: 210mm; 
+                margin: 0 !important; padding: 0 !important; 
+                background: white; 
+                -webkit-print-color-adjust: exact; print-color-adjust: exact; 
+                box-sizing: border-box; overflow: hidden; 
+                min-width: 1024px;
+                display: flex !important; justify-content: center !important; align-items: center !important; 
+            }
+            
+            /* Hapus elemen yang tidak perlu */
             header, footer, .btn, .btn-outline, #introPage, #historyPage, #surveyPage, .summary-link-box, #pdfNotification { display: none !important; }
+            
             #historyDetailPage, #resultPage { display: block !important; width: 100%; height: 100%; } 
-            .container { width: 100% !important; height: 100% !important; max-width: none !important; padding: 0 !important; margin: 0 !important; }
-            .card { box-shadow: none; border: 2px double var(--primary); border-radius: 0; margin: 0; padding: 20px 40px; width: 100%; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
-            .report-header { border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-            .report-header h2 { margin: 0; font-size: 1.8rem; }
-            .print-only-logo { display: flex !important; align-items: center; gap: 15px; } .print-only-logo img { height: 50px; } .print-only-logo div { font-weight: 800; color: var(--primary); font-size: 1.2rem; }
-            .user-profile { background: #f8f9fa !important; padding: 8px 20px; border: 1px solid #ccc; display: flex; justify-content: space-between; align-items: center; margin: 10px 0; border-radius: 6px; }
-            .profile-left { text-align: left; } .profile-right { text-align: right; } .date-badge { border: none; background: transparent; padding: 0; color: #666; font-size: 1rem; }
-            #scoreDetails, #detailChartArea { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; row-gap: 10px; flex-grow: 1; align-content: center; margin: 10px 0; }
-            .result-row { margin: 0; padding: 5px 15px; background: #fff !important; border: 1px solid #ddd; box-shadow: none; page-break-inside: avoid; display: flex; flex-direction: row !important; align-items: center; }
-            .result-label { font-size: 0.9rem; margin-bottom: 0 !important; width: auto; flex: 0 0 45%; } .result-bar-area { flex: 1; height: 12px; margin-bottom: 0; } .result-score { font-size: 1rem; margin-top: 0 !important; text-align: right !important; width: 50px; } .result-bar-bg { background: #eee !important; }
+            
+            /* Container sebagai Canvas Utama */
+            .container { 
+                width: 100% !important; height: 100% !important; 
+                max-width: none !important; padding: 10mm !important; margin: 0 !important; 
+                display: block !important;
+            }
+            
+            /* Card sebagai Bingkai Sertifikat */
+            .card { 
+                box-shadow: none; 
+                border: 8px solid var(--primary); /* Bingkai Luar */
+                border-radius: 0; margin: 0; 
+                padding: 20px 40px; 
+                width: 100%; height: 100%; 
+                box-sizing: border-box; 
+                display: flex; flex-direction: column; justify-content: space-between; 
+                position: relative;
+            }
+            /* Bingkai Dalam Tipis (Ornamen) */
+            .card::after {
+                content: '';
+                position: absolute;
+                top: 5px; left: 5px; right: 5px; bottom: 5px;
+                border: 2px solid #dac0a3;
+                pointer-events: none;
+            }
+
+            .report-header { 
+                border-bottom: 3px solid var(--primary); 
+                padding-bottom: 10px; margin-bottom: 10px; 
+                display: flex; justify-content: space-between; align-items: center; 
+                z-index: 1;
+            }
+            .report-header h2 { margin: 0; font-size: 2rem; font-family: serif; letter-spacing: 1px; color: var(--primary); }
+            
+            .print-only-logo { display: flex !important; align-items: center; gap: 15px; } 
+            .print-only-logo img { height: 55px; } 
+            .print-only-logo div { font-weight: 800; color: var(--primary); font-size: 1.3rem; }
+            
+            /* Profil User */
+            .user-profile { 
+                background: #fff !important; 
+                padding: 5px 0; border: none; border-bottom: 1px solid #ccc;
+                display: flex; justify-content: space-between; align-items: center; 
+                margin: 5px 0 15px 0; 
+                z-index: 1;
+            }
+            .profile-left h3 { font-size: 1.4rem; color: #000; } 
+            .profile-left p { font-size: 1rem; color: #555; }
+            .profile-right { text-align: right; } 
+            .date-badge { border: 1px solid var(--primary); background: transparent; padding: 5px 15px; color: var(--primary); font-weight: bold; font-size: 1rem; border-radius: 20px; }
+            
+            /* Grafik Batang */
+            #scoreDetails, #detailChartArea { 
+                display: grid; grid-template-columns: 1fr 1fr; 
+                column-gap: 50px; row-gap: 12px; 
+                flex-grow: 1; align-content: center; margin: 10px 0; 
+                z-index: 1;
+            }
+            
+            .result-row { 
+                margin: 0; padding: 0; 
+                background: transparent !important; 
+                border: none; border-bottom: 1px solid #eee;
+                box-shadow: none; page-break-inside: avoid; 
+                display: flex; flex-direction: row !important; align-items: center;
+            }
+            .result-label { font-size: 0.95rem; margin-bottom: 0 !important; width: auto; flex: 0 0 45%; color: #333; } 
+            .result-bar-area { flex: 1; height: 14px; margin-bottom: 0; background: #eee !important; border-radius: 0 !important;} 
+            .result-bar-fill { border-radius: 0 !important; }
+            .result-score { font-size: 1.1rem; margin-top: 0 !important; text-align: right !important; width: 50px; color: #000; font-weight: 800; } 
+            
             #detailContainer { display: none; }
-            .final-score-box { background: var(--primary) !important; color: white !important; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; height: 60px; margin-top: 10px; }
-            .final-score-box div:first-child { font-size: 1.2rem; text-transform: uppercase; } .final-score-box #finalScoreDisplay, .final-score-box #detTotalScore { font-size: 3rem; margin: 0; line-height: 1; }
+            
+            /* Final Score Box (Sesuai Request: Navy Background, White Text, Border) */
+            .final-score-box { 
+                background: var(--primary) !important; 
+                color: white !important; 
+                display: flex; justify-content: space-between; align-items: center; 
+                padding: 15px 40px; height: 70px; margin-top: 10px; 
+                border: 2px solid #000; /* Border tambahan agar tegas */
+                border-radius: 8px;
+                box-shadow: none;
+                z-index: 1;
+            }
+            .final-score-box div:first-child { font-size: 1.3rem; text-transform: uppercase; letter-spacing: 2px; } 
+            .final-score-box #finalScoreDisplay, .final-score-box #detTotalScore { font-size: 3.5rem; margin: 0; line-height: 1; }
         }
         .print-only-logo { display: none; }
     </style>
