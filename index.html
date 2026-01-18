@@ -95,12 +95,27 @@
             padding: 5px 10px; border-radius: 6px; white-space: nowrap;
         }
 
-        /* Result & Chart Styling (Dipakai di Result & History Detail) */
-        .result-row { display: flex; align-items: center; margin-bottom: 15px; }
-        .result-label { flex: 0 0 40%; font-size: 0.9rem; font-weight: 600; padding-right: 10px; }
-        .result-bar-area { flex: 1; background: #eee; height: 10px; border-radius: 5px; overflow: hidden; }
-        .result-bar-fill { height: 100%; }
-        .result-score { width: 40px; text-align: right; font-weight: bold; }
+        /* Result & Chart Styling (MODIFIKASI UTAMA DISINI) */
+        .result-row { 
+            display: flex; 
+            align-items: center; 
+            margin-bottom: 15px;
+            /* Style Box Baru agar rapi */
+            background: #f8f9fa; 
+            border: 1px solid #e1e4e8;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s ease;
+        }
+        .result-row:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .result-label { flex: 0 0 40%; font-size: 0.95rem; font-weight: 600; padding-right: 15px; color: #2c3e50; }
+        .result-bar-area { flex: 1; background: #e0e0e0; height: 12px; border-radius: 6px; overflow: hidden; }
+        .result-bar-fill { height: 100%; border-radius: 6px; }
+        .result-score { width: 50px; text-align: right; font-weight: bold; font-size: 1.1rem; }
 
         .final-score-box { background: linear-gradient(135deg, var(--primary), #1a4a8d); color: white; padding: 25px; border-radius: 12px; text-align: center; margin-top: 30px; }
         
@@ -145,7 +160,15 @@
             
             /* Grid Layout untuk Score agar muat */
             #scoreDetails, #detailChartArea { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; row-gap: 10px; margin: 10px 0; flex-grow: 1; align-content: center; }
-            .result-row { margin: 0; padding: 5px; border: 1px solid #eee; page-break-inside: avoid; }
+            
+            /* Print style override agar box tidak terlalu gelap/tebal saat print */
+            .result-row { 
+                margin: 0; padding: 5px 15px; 
+                border: 1px solid #eee; 
+                border-radius: 8px;
+                background-color: #fff !important; /* Gunakan putih saat print */
+                page-break-inside: avoid; 
+            }
             
             /* Sembunyikan detail pertanyaan panjang saat print Summary agar rapi, atau biarkan jika ingin detail */
             /* Untuk permintaan 'Print PDF', biasanya yang diharapkan adalah Summary Chart */
@@ -447,11 +470,39 @@
                     </div>`;
                     
                     grouped[cat].forEach(q => {
-                        const userScore = ansMap[q.id] !== undefined ? ansMap[q.id] : "-";
+                        const userScore = ansMap[q.id] !== undefined ? ansMap[q.id] : null;
+                        
                         html += `
-                        <div class="detail-item">
-                            <div class="detail-q"><strong>${idx}.</strong> ${q.text}</div>
-                            <div class="detail-a">Jawaban: ${userScore}</div>
+                        <div class="question-item" style="background-color: #fcfcfc;">
+                            <div class="question-text">${idx}. ${q.text}</div>
+                            
+                            <div class="scale-labels-header">
+                                <span style="color:#e74c3c">Strongly Disagree</span>
+                                <span style="color:#27ae60">Strongly Agree</span>
+                            </div>
+                            <div class="scale-options">
+                                <div class="scale-track"></div>
+                                ${[0, 25, 50, 75, 100].map(v => {
+                                    // Logika: Jika pertanyaan reversed, skor di database (userScore) adalah hasil olahan.
+                                    // Kita harus balikkan lagi untuk menampilkan tombol mana yang diklik user.
+                                    // Contoh: userScore = 100 (Bagus). Jika reversed, berarti user klik 0.
+                                    // rawValue = 100 - userScore.
+                                    
+                                    let rawValue = userScore;
+                                    if(userScore !== null && q.reversed === true) {
+                                        rawValue = 100 - userScore;
+                                    }
+                                    
+                                    const isChecked = (rawValue === v) ? 'checked' : '';
+                                    const opacity = isChecked ? '1' : '0.4'; // Redupkan yang tidak dipilih
+                                    
+                                    return `
+                                    <label class="scale-option" style="cursor: default;">
+                                        <input type="radio" disabled ${isChecked} 
+                                            style="cursor: default; opacity: ${opacity}; accent-color: var(--primary);">
+                                    </label>`;
+                                }).join('')}
+                            </div>
                         </div>`;
                         idx++;
                     });
