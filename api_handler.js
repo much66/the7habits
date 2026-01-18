@@ -8,9 +8,6 @@
 // ============================================================================
 const SCRIPT_URL = 'https://script.google.com/a/macros/worldwhiteenterprise.com/s/AKfycbzDT1JtB9ec3y2qGXOL6q9Xxq8gbkmBj4spzVxPB8RSRy8DZxzZaUigMPqEEXIWDJN55g/exec'; 
 
-/**
- * Mengirim data survey ke Google Sheet
- */
 async function saveToGoogleSheet(formData) {
     if (SCRIPT_URL.includes('PASTE_URL') || SCRIPT_URL === '') {
         alert("SETUP ERROR: URL API belum dipasang di file 'api_handler.js'. Data tidak tersimpan.");
@@ -41,10 +38,16 @@ async function saveToGoogleSheet(formData) {
             console.error("Gagal simpan:", result);
             alert("Warning: Ada kendala teknis penyimpanan data, namun hasil Anda tetap valid.");
         }
+        
+        // [FIX] Kembalikan hasil agar bisa dibaca oleh fungsi pemanggil (tombol Test)
+        return result;
 
     } catch (error) {
         console.error("Network Error:", error);
         // Jangan blokir user melihat hasil hanya karena internet lambat
+        
+        // [FIX] Kembalikan objek error agar pemanggil tahu bahwa ini gagal
+        return { status: 'error', message: error.toString() }; 
     } finally {
         if(btn) {
             btn.disabled = false;
