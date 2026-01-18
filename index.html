@@ -67,14 +67,20 @@
         /* Container */
         .container {
             max-width: 800px;
-            margin: 30px auto;
-            padding: 0 20px;
-            flex: 1;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1; /* Mengisi ruang yang tersedia antara header dan footer */
+            display: flex; /* Mengaktifkan Flexbox */
+            flex-direction: column; /* Mengatur arah anak elemen */
+            width: 100%; /* Memastikan lebar container responsif */
+            box-sizing: border-box; /* Padding tidak menambah lebar total */
         }
 
         /* Pages (Sections) */
         .page-section {
             display: none; /* Hidden by default */
+            width: 100%;
+            margin: auto; /* MAGIC: Ini yang membuat box otomatis ke tengah vertikal */
             animation: fadeIn 0.5s ease-out;
         }
         
