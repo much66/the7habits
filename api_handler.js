@@ -6,7 +6,7 @@
 // ============================================================================
 // PENTING: GANTI URL DI BAWAH INI DENGAN URL DEPLOYMENT GOOGLE SCRIPT ANDA
 // ============================================================================
-const SCRIPT_URL = 'https://script.google.com/a/macros/worldwhiteenterprise.com/s/AKfycbzDT1JtB9ec3y2qGXOL6q9Xxq8gbkmBj4spzVxPB8RSRy8DZxzZaUigMPqEEXIWDJN55g/exec'; 
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwwuVOQVokSgGiT2oVRkGKy82lp6iJ1JLvtTXQ5BaDQ/dev'; 
 
 async function saveToGoogleSheet(formData) {
     if (SCRIPT_URL.includes('PASTE_URL') || SCRIPT_URL === '') {
