@@ -27,7 +27,7 @@
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary); }
         .form-group input { width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; box-sizing: border-box; font-size: 1rem; }
         
-        /* Survey Styling */
+        /* Survey Styling - UPDATED */
         .section-header { 
             background: var(--secondary); color: var(--primary); padding: 15px 20px; border-radius: 8px; 
             font-weight: bold; font-size: 1.2rem; margin: 30px 0 20px 0; 
@@ -36,11 +36,68 @@
         .header-score-badge {
             background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;
         }
-        .question-item { border-bottom: 1px solid #eee; padding: 25px 0; }
-        .scale-options { display: flex; justify-content: space-between; margin-top: 20px; position: relative; padding: 0 10px; }
-        .scale-track { position: absolute; top: 10px; left: 25px; right: 25px; height: 2px; background: #ddd; z-index: 1; }
-        .scale-option { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; z-index: 2; background: var(--card-bg); }
-        .scale-option input { width: 20px; height: 20px; accent-color: var(--primary); margin-bottom: 5px; cursor: pointer; }
+        .question-item { border-bottom: 1px dashed #eee; padding: 30px 0; }
+        
+        /* Kotak Pilihan Ganda Baru */
+        .scale-box {
+            background: #f8f9fa; /* Latar abu sangat muda */
+            border: 1px solid #e1e4e8;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .scale-labels-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .scale-options { 
+            display: flex; 
+            justify-content: space-between; 
+            position: relative; 
+            padding: 0 10px; 
+            align-items: center;
+            height: 30px;
+        }
+        
+        .scale-track { 
+            position: absolute; 
+            top: 50%; 
+            left: 10px; 
+            right: 10px; 
+            height: 3px; 
+            background: #d1d5db; 
+            z-index: 1; 
+            transform: translateY(-50%);
+            border-radius: 2px;
+        }
+        
+        .scale-option { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            cursor: pointer; 
+            position: relative; 
+            z-index: 2; 
+            margin: 0;
+        }
+        
+        .scale-option input { 
+            width: 24px; 
+            height: 24px; 
+            accent-color: var(--primary); 
+            margin: 0; 
+            cursor: pointer; 
+            background-color: #fff;
+            transition: transform 0.2s;
+        }
+        .scale-option input:hover { transform: scale(1.2); }
         
         /* History & Detail Styling */
         .history-item { border: 1px solid #eee; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
@@ -226,10 +283,25 @@
                     grouped[cat].forEach(q => {
                         html += `
                         <div class="question-item">
-                            <div style="margin-bottom:15px;"><strong>${idx}.</strong> ${q.text}</div>
-                            <div class="scale-options">
-                                <div class="scale-track"></div>
-                                ${[0, 25, 50, 75, 100].map(v => `<label class="scale-option"><input type="radio" name="qid_${q.id}" data-cat="${cat}" data-rev="${q.reversed}" value="${v}" required><span>${v}</span></label>`).join('')}
+                            <div style="margin-bottom:10px; font-weight:600; color:#2c3e50;">${idx}. ${q.text}</div>
+                            
+                            <!-- Box Pilihan Ganda -->
+                            <div class="scale-box">
+                                <div class="scale-labels-header">
+                                    <span style="color:#e74c3c">Strongly Disagree</span>
+                                    <span style="color:#27ae60">Strongly Agree</span>
+                                </div>
+                                <div class="scale-options">
+                                    <div class="scale-track"></div>
+                                    ${[0, 25, 50, 75, 100].map(v => `
+                                        <label class="scale-option">
+                                            <input type="radio" name="qid_${q.id}" 
+                                                data-cat="${cat}" 
+                                                data-rev="${q.reversed}" 
+                                                value="${v}" required
+                                                title="Score: ${v}">
+                                        </label>`).join('')}
+                                </div>
                             </div>
                         </div>`;
                         idx++;
