@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>7 Habits Effectiveness Profile - Worldwhite Enterprise</title>
     <!-- Ganti favicon jika ada -->
-    <link rel="icon" href="LOGO news.png" type="image/png"> 
+    <link rel="icon" href="LOGO news.png" type="image/png">
     <style>
         :root {
             /* Worldwhite Enterprise Theme Colors */
@@ -294,7 +294,7 @@
             .result-score { text-align: right; margin-top: -25px; }
         }
 
-        /* --- PRINT STYLING (PERBAIKAN FIT 1 HALAMAN A4 LANDSCAPE) --- */
+        /* --- PRINT STYLING (OPTIMISASI A4 LANDSCAPE) --- */
         @media print {
             @page {
                 size: A4 landscape;
@@ -307,10 +307,10 @@
                 background: white;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
-                width: 297mm; /* Lebar A4 Landscape */
-                height: 210mm; /* Tinggi A4 Landscape */
-                overflow: hidden; /* Mencegah halaman kedua muncul */
-                font-size: 10pt; /* Default font lebih kecil */
+                width: 297mm;
+                height: 210mm;
+                overflow: hidden;
+                font-size: 11pt; /* Font sedikit dibesarkan agar mengisi ruang */
             }
 
             /* Sembunyikan elemen non-print */
@@ -323,7 +323,7 @@
                 height: 100%;
                 max-width: none;
                 margin: 0;
-                padding: 5mm; /* Margin tipis dari kertas */
+                padding: 8mm; /* Padding kertas */
                 box-sizing: border-box;
                 display: block;
             }
@@ -336,114 +336,147 @@
 
             .card {
                 box-shadow: none;
-                border: 2px double var(--primary);
+                border: 3px double var(--primary);
                 border-radius: 0;
                 margin: 0;
-                padding: 10px 25px; /* Padding card lebih kecil */
+                padding: 15px 30px; /* Padding dalam card */
                 width: 100%;
-                height: 100%; /* Full height */
+                height: 100%;
                 box-sizing: border-box;
+                
+                /* Layout Flexbox agar isi tersebar merata (minim blank space) */
                 display: flex;
                 flex-direction: column;
+                justify-content: space-evenly; /* KUNCI: Distribusi vertikal merata */
             }
 
-            /* Header Laporan Compact */
+            /* Header Laporan */
             .report-header {
-                margin-bottom: 5px;
-                padding-bottom: 5px;
+                margin: 0;
+                padding-bottom: 10px;
                 border-bottom: 2px solid var(--primary);
+                
+                display: flex;
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
+                gap: 20px;
             }
+
+            /* LOGO & TEKS HORIZONTAL (Kiri-Kanan) */
             .print-only-logo {
-                display: block !important;
-                margin-bottom: 0;
+                display: flex !important;
+                align-items: center;
+                gap: 15px; /* Jarak antara logo dan teks */
                 text-align: left;
             }
             .print-only-logo img {
-                height: 35px; /* Logo lebih kecil */
+                height: 45px;
+                width: auto;
             }
-            .report-header h2 {
+            .print-only-logo div {
+                font-size: 1.1rem;
+                font-weight: 800; /* Lebih tebal */
+                color: var(--primary);
+                line-height: 1.2;
                 margin: 0;
-                font-size: 1.4rem;
-                text-align: right;
             }
 
-            /* Profil User Satu Baris */
+            /* Judul Laporan */
+            .report-header h2 {
+                margin: 0;
+                font-size: 1.6rem;
+                text-align: right;
+                flex-shrink: 0;
+            }
+
+            /* Profil User */
             .user-profile {
-                background: transparent;
-                padding: 0;
-                margin-bottom: 10px;
-                border-bottom: 1px solid #eee;
-                padding-bottom: 5px;
-                text-align: left;
+                background: #f8f9fa; /* Beri background tipis saat print */
+                padding: 8px 15px;
+                margin: 0;
+                border-radius: 6px;
+                border: 1px solid #eee;
+                
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                justify-content: center; /* Center Horizontal */
+                gap: 20px;
             }
             .user-profile h3, .user-profile p {
                 margin: 0;
-                font-size: 0.9rem;
+                font-size: 1.1rem;
             }
             .user-profile h3::after {
                 content: " | ";
                 color: #ccc;
-                margin-left: 10px;
+                margin-left: 15px;
             }
 
-            /* Grid Layout 2 Kolom yang Rapat */
+            /* Grid Layout Skor */
             #scoreDetails {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                column-gap: 20px;
-                row-gap: 5px; /* Jarak antar baris sangat rapat */
-                flex-grow: 1;
-                align-content: start;
+                column-gap: 30px;
+                row-gap: 12px; /* Jarak antar baris diperbesar sedikit agar penuh */
+                flex-grow: 1; /* Isi ruang kosong di tengah */
+                align-content: center; /* Center Vertical dalam grid */
+                margin: 10px 0;
             }
 
             .result-row {
                 margin-bottom: 0;
-                padding: 3px 8px; /* Padding baris sangat tipis */
+                padding: 6px 12px; /* Padding item lebih lega */
                 border: 1px solid #ddd;
-                border-radius: 4px;
-                background-color: #fcfcfc;
+                border-radius: 6px;
+                background-color: #fff;
                 break-inside: avoid;
-                min-height: 30px;
+                
+                /* Vertikal center item */
+                display: flex;
+                align-items: center;
             }
             
             .result-label {
-                font-size: 0.8rem;
-                line-height: 1.1;
-                flex: 0 0 50%; /* Lebar label */
+                font-size: 0.95rem;
+                line-height: 1.2;
+                flex: 0 0 45%;
             }
             
             .result-bar-bg {
-                height: 6px; /* Bar lebih tipis */
+                height: 10px;
+                background: #eee !important; /* Force print background */
             }
             
             .result-score {
-                font-size: 0.9rem;
+                font-size: 1.1rem;
             }
 
-            /* Final Score Box di Bawah */
+            /* Final Score Box */
             .final-score-box {
-                margin-top: auto; /* Dorong ke paling bawah */
-                padding: 8px 20px;
-                height: 50px;
+                margin-top: 0;
+                padding: 15px 30px;
+                height: auto;
+                background: var(--primary) !important; /* Force background color */
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 justify-content: space-between;
-                width: 100%;
+                border-radius: 8px;
             }
             .final-score-box div:first-child {
-                font-size: 1rem;
-                text-align: left;
+                font-size: 1.2rem;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 1px;
             }
             .final-score-box #finalScoreDisplay {
-                font-size: 2rem;
+                font-size: 2.8rem;
                 margin: 0;
+                line-height: 1;
             }
         }
     </style>
@@ -480,6 +513,8 @@
                 </div>
 
                 <button class="btn" onclick="startSurvey()">Mulai Survey</button>
+                <!-- Tombol Debug Baru -->
+                <button class="btn btn-outline" style="margin-top: 15px; border: 1px dashed #ccc; color: #7f8c8d;" onclick="debugPreview()">Preview Layout (Debug Mode)</button>
             </div>
         </div>
 
@@ -501,7 +536,7 @@
                     <!-- Logo khusus print, muncul otomatis saat diprint -->
                     <div class="print-only-logo">
                         <img src="Logo_WE.jpg" alt="Logo">
-                        <div style="font-size:0.8rem; font-weight:bold; color:var(--primary); margin-top:2px;">WORLDWHITE ENTERPRISE</div>
+                        <div>WORLDWHITE ENTERPRISE</div>
                     </div>
                     <h2>HASIL EVALUASI EFEKTIVITAS</h2>
                 </div>
@@ -671,6 +706,65 @@
             }
             
             window.scrollTo(0,0);
+        }
+
+        /**
+         * FUNGSI DEBUG MODE (BARU)
+         * Mengisi otomatis dan menampilkan hasil random untuk preview print
+         */
+        function debugPreview() {
+            const nameInput = document.getElementById('userName');
+            const emailInput = document.getElementById('userEmail');
+            
+            // 1. Isi Data Dummy jika kosong
+            if(!nameInput.value) nameInput.value = "Nama Pratinjau (Debug Mode)";
+            if(!emailInput.value) emailInput.value = "debug@worldwhite.com";
+            
+            // 2. Generate Skor Random
+            let totalSum = 0;
+            let sectionCount = 0;
+            let detailsHtml = "";
+
+            surveyData.forEach(section => {
+                // Skor random antara 50 - 100 agar variatif
+                const avg = Math.floor(Math.random() * (100 - 50 + 1)) + 50;
+                
+                totalSum += avg;
+                sectionCount++;
+
+                let color = "#3498db";
+                if(avg >= 80) color = "#27ae60";
+                if(avg < 60) color = "#e74c3c";
+
+                detailsHtml += `
+                <div class="result-row">
+                    <div class="result-label">
+                        ${section.title}
+                    </div>
+                    <div class="result-bar-area">
+                        <div class="result-bar-bg">
+                            <div class="result-bar-fill" style="width: ${avg}%; background-color: ${color}"></div>
+                        </div>
+                    </div>
+                    <div class="result-score" style="color:${color}">${avg}</div>
+                </div>`;
+            });
+
+            const finalScore = Math.round(totalSum / sectionCount);
+
+            // 3. Populate Report UI
+            document.getElementById('resName').innerText = nameInput.value;
+            document.getElementById('resEmail').innerText = emailInput.value;
+            document.getElementById('scoreDetails').innerHTML = detailsHtml;
+            document.getElementById('finalScoreDisplay').innerText = finalScore;
+
+            // 4. Switch Page & Scroll
+            document.getElementById('introPage').classList.remove('active');
+            document.getElementById('resultPage').classList.add('active');
+            window.scrollTo(0,0);
+            
+            // Note: Tidak menyimpan ke database di mode ini
+            alert("Mode Debug Aktif: Data ditampilkan secara acak dan TIDAK disimpan ke database.");
         }
 
         function renderQuestions() {
