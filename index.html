@@ -8,7 +8,6 @@
     <style>
         :root { --primary: #0f2c59; --secondary: #dac0a3; --accent: #3498db; --bg: #f0f2f5; --card-bg: #ffffff; --text: #333333; --border: #e1e4e8; }
         
-        /* Reset & Base */
         body { 
             font-family: 'Segoe UI', 'Roboto', sans-serif; 
             background-color: var(--bg); 
@@ -20,7 +19,6 @@
             -webkit-font-smoothing: antialiased; 
         }
 
-        /* HEADER */
         header { 
             background: #fff; padding: 15px 0; text-align: center; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; 
@@ -29,23 +27,25 @@
         .logo-container img { height: 40px; width: auto; }
         .logo-text { font-size: 1.1rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* LAYOUT CONTAINER (UPDATED FOR VERTICAL CENTERING) */
+        /* LAYOUT CONTAINER (CENTERING FIX) */
         .container { 
             max-width: 800px; margin: 0 auto; padding: 20px; 
             flex: 1; width: 100%; box-sizing: border-box; 
-            /* Flexbox untuk centering vertikal */
+            
+            /* Flexbox untuk centering vertikal sempurna */
             display: flex; 
             flex-direction: column;
+            justify-content: center; /* Konten di tengah vertikal */
         }
         
         .card { 
             background: var(--card-bg); border-radius: 12px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 40px; 
             margin-bottom: 20px; animation: fadeIn 0.5s ease-out; 
+            width: 100%; box-sizing: border-box; /* Pastikan card tidak melebihi container */
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* UI ELEMENTS */
         h1 { color: var(--primary); margin-top: 0; text-align: center; font-size: 1.8rem; line-height: 1.3; }
         h2 { color: var(--primary); margin-top: 0; text-align: center; font-size: 1.5rem; }
         
@@ -67,6 +67,7 @@
             width: 100%; padding: 12px; border: 2px solid var(--border); 
             border-radius: 8px; box-sizing: border-box; font-size: 16px; 
         }
+        .form-group input::placeholder { color: #aaa; font-size: 0.9rem; font-style: italic; }
         .form-group input:focus { border-color: var(--accent); outline: none; }
         
         /* SURVEY STYLING */
@@ -75,102 +76,33 @@
             font-weight: bold; font-size: 1.1rem; margin: 30px 0 20px 0; 
             display: flex; justify-content: space-between; align-items: center;
         }
-        .header-score-badge {
-            background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;
-        }
+        .header-score-badge { background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; }
         
         .question-item { 
             background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 12px; 
             padding: 25px; margin-bottom: 20px; transition: all 0.3s ease;
         }
-        .question-text { 
-            font-weight: 600; color: #2c3e50; margin-bottom: 20px; font-size: 1.05rem; line-height: 1.5;
-        }
+        .question-text { font-weight: 600; color: #2c3e50; margin-bottom: 20px; font-size: 1.05rem; line-height: 1.5; }
         
-        .scale-labels-header { 
-            display: flex; justify-content: space-between; margin-bottom: 12px; 
-            font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 2px; 
-        }
-        .scale-options { 
-            display: flex; justify-content: space-between; position: relative; 
-            padding: 0 8px; align-items: center; height: 36px; 
-        }
-        .scale-track { 
-            position: absolute; top: 50%; left: 10px; right: 10px; height: 3px; 
-            background: #d1d5db; z-index: 1; transform: translateY(-50%); border-radius: 2px; 
-        }
-        .scale-option { 
-            display: flex; flex-direction: column; align-items: center; cursor: pointer; 
-            position: relative; z-index: 2; margin: 0; width: 30px; 
-        }
-        .scale-option input { 
-            width: 24px; height: 24px; accent-color: var(--primary); margin: 0; 
-            cursor: pointer; background-color: #fff; transition: transform 0.2s;
-            -webkit-appearance: none; appearance: none; 
-            border: 2px solid #ccc; border-radius: 50%;
-        }
-        .scale-option input:checked {
-            background-color: var(--primary); border-color: var(--primary);
-            box-shadow: inset 0 0 0 4px #fff; 
-        }
+        .scale-labels-header { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 2px; }
+        .scale-options { display: flex; justify-content: space-between; position: relative; padding: 0 8px; align-items: center; height: 36px; }
+        .scale-track { position: absolute; top: 50%; left: 10px; right: 10px; height: 3px; background: #d1d5db; z-index: 1; transform: translateY(-50%); border-radius: 2px; }
+        .scale-option { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; z-index: 2; margin: 0; width: 30px; }
+        .scale-option input { width: 24px; height: 24px; accent-color: var(--primary); margin: 0; cursor: pointer; background-color: #fff; transition: transform 0.2s; -webkit-appearance: none; appearance: none; border: 2px solid #ccc; border-radius: 50%; }
+        .scale-option input:checked { background-color: var(--primary); border-color: var(--primary); box-shadow: inset 0 0 0 4px #fff; }
         .scale-option input:hover { transform: scale(1.1); border-color: var(--primary); }
         
-        /* HISTORY ITEM */
-        .history-item { 
-            border: 1px solid #eee; padding: 15px; border-radius: 8px; margin-bottom: 10px; 
-            display: flex; justify-content: space-between; align-items: center; 
-            transition: background 0.2s; 
-        }
-        .history-item:hover { background: #f9f9f9; }
-        
-        /* DETAIL ITEM */
-        .detail-item { 
-            padding: 15px; border-bottom: 1px dashed #eee; 
-            display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; 
-        }
-        .detail-q { flex: 1; font-weight: 500; font-size: 0.95rem; }
-        .detail-a { 
-            font-weight: bold; color: var(--primary); background: #f0f2f5; 
-            padding: 4px 10px; border-radius: 6px; white-space: nowrap; font-size: 0.9rem;
-        }
-
-        /* --- USER PROFILE (REVISED: 1 BARIS BOX) --- */
+        /* PROFILE BOX */
         .user-profile {
-            background: #f8f9fa;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            border: 1px solid #e1e4e8;
-            /* Layout Flexbox Kiri-Kanan */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap; /* Agar aman di layar sangat kecil */
-            gap: 10px;
+            background: #f8f9fa; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; border: 1px solid #e1e4e8;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
         }
-        
-        .profile-left h3 {
-            margin: 0; color: var(--primary); font-size: 1.1rem; text-align: left;
-        }
-        .profile-left p {
-            margin: 2px 0 0 0; color: #666; font-size: 0.9rem; text-align: left;
-        }
-        
-        .profile-right {
-            text-align: right;
-        }
-        .date-badge {
-            background: #fff;
-            border: 1px solid #ccc;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            color: #555;
-            white-space: nowrap;
-            display: inline-block;
-        }
+        .profile-left h3 { margin: 0; color: var(--primary); font-size: 1.1rem; text-align: left; }
+        .profile-left p { margin: 2px 0 0 0; color: #666; font-size: 0.9rem; text-align: left; }
+        .profile-right { text-align: right; }
+        .date-badge { background: #fff; border: 1px solid #ccc; padding: 5px 10px; border-radius: 6px; font-size: 0.85rem; color: #555; white-space: nowrap; display: inline-block; }
 
-        /* --- RESULT & CHART STYLING --- */
+        /* RESULT CHART */
         .result-row { 
             display: flex; align-items: center; margin-bottom: 15px;
             background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 12px; padding: 20px; 
@@ -181,102 +113,52 @@
         .result-bar-fill { height: 100%; border-radius: 6px; }
         .result-score { width: 50px; text-align: right; font-weight: bold; font-size: 1.1rem; }
 
-        .final-score-box { 
-            background: linear-gradient(135deg, var(--primary), #1a4a8d); color: white; 
-            padding: 25px; border-radius: 12px; text-align: center; margin-top: 30px; 
-        }
+        .final-score-box { background: linear-gradient(135deg, var(--primary), #1a4a8d); color: white; padding: 25px; border-radius: 12px; text-align: center; margin-top: 30px; }
+        .summary-link-box { background: white; border: 2px solid var(--primary); color: var(--primary); padding: 15px; border-radius: 12px; text-align: center; margin-top: 15px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
         
-        .summary-link-box { 
-            background: white; border: 2px solid var(--primary); color: var(--primary); 
-            padding: 15px; border-radius: 12px; text-align: center; margin-top: 15px; 
-            cursor: pointer; font-weight: bold; transition: all 0.2s; 
-        }
-        
-        #pdfNotification { 
-            text-align: center; color: #27ae60; font-weight: bold; margin-top: 20px; 
-            padding: 10px; border-radius: 5px; background-color: rgba(39, 174, 96, 0.1); 
-            transition: opacity 1s ease-out; font-size: 0.9rem;
-        }
+        .history-item { border: 1px solid #eee; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+        .history-item:hover { background: #f9f9f9; }
+        .detail-item { padding: 15px; border-bottom: 1px dashed #eee; display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; }
+        .detail-q { flex: 1; font-weight: 500; font-size: 0.95rem; }
+        .detail-a { font-weight: bold; color: var(--primary); background: #f0f2f5; padding: 4px 10px; border-radius: 6px; white-space: nowrap; font-size: 0.9rem; }
 
-        /* PAGES LOGIC (UPDATED) */
+        #pdfNotification { text-align: center; color: #27ae60; font-weight: bold; margin-top: 20px; padding: 10px; border-radius: 5px; background-color: rgba(39, 174, 96, 0.1); transition: opacity 1s ease-out; font-size: 0.9rem; }
+
+        /* PAGES LOGIC - FIX FOR CENTERING */
         .page-section { display: none; }
         .page-section.active { 
             display: block; 
-            /* Auto margin vertical untuk centering di dalam flex container */
-            margin-top: auto; 
-            margin-bottom: auto;
             width: 100%;
+            /* Pastikan elemen ini tidak punya margin aneh yang mengganggu centering flex parent */
         }
         
         footer { text-align: center; padding: 25px; color: #888; font-size: 0.85rem; margin-top: auto; }
 
-        /* --- RESPONSIVE MEDIA QUERIES --- */
+        /* RESPONSIVE */
         @media screen and (max-width: 768px) {
             .container { padding: 15px; } 
             .card { padding: 25px 20px; border-radius: 10px; }
+            h1 { font-size: 1.5rem; } h2 { font-size: 1.3rem; }
             
-            h1 { font-size: 1.5rem; }
-            h2 { font-size: 1.3rem; }
-            
-            /* User Profile di HP: Stack jika nama sangat panjang, tapi default tetap coba 1 baris */
             .user-profile { padding: 12px 15px; }
-            .profile-left h3 { font-size: 1rem; }
-            .profile-left p { font-size: 0.85rem; }
+            .profile-left h3 { font-size: 1rem; } .profile-left p { font-size: 0.85rem; }
             .date-badge { font-size: 0.75rem; padding: 4px 8px; }
-
-            /* Buttons */
+            
             .btn { font-size: 1rem; padding: 14px; }
-
-            /* Question Box Mobile */
             .question-item { padding: 20px 15px; }
             .question-text { font-size: 1rem; margin-bottom: 15px; }
             .scale-labels-header { font-size: 0.7rem; }
             
-            /* --- FIX: MOBILE BAR CHART --- */
-            /* Label di atas, Grafik & Nilai sejajar di bawahnya */
-            .result-row { 
-                flex-wrap: wrap; /* Izinkan elemen turun ke bawah */
-                align-items: center;
-                padding: 15px; 
-                gap: 5px; /* Jarak vertikal */
-            }
-            .result-label { 
-                flex: 0 0 100%; /* Lebar 100% memaksa turun baris */
-                width: 100%;
-                margin-bottom: 8px; /* Jarak ke grafik */
-                font-size: 0.95rem; 
-                padding-right: 0; 
-                text-align: left;
-            }
-            .result-bar-area { 
-                flex: 1; /* Mengisi ruang sisa di baris kedua */
-                height: 12px; 
-                margin-bottom: 0; 
-                background: #e0e0e0; 
-                min-width: 0; /* Mencegah overflow flex item */
-            }
-            .result-score { 
-                flex: 0 0 auto; /* Ukuran sesuai konten */
-                width: auto;
-                min-width: 35px;
-                text-align: right; 
-                font-size: 1rem; 
-                margin-top: 0;
-                margin-left: 10px; /* Jarak dari grafik */
-            }
+            .result-row { flex-wrap: wrap; padding: 15px; gap: 5px; }
+            .result-label { flex: 0 0 100%; width: 100%; margin-bottom: 8px; font-size: 0.95rem; padding-right: 0; text-align: left; }
+            .result-bar-area { flex: 1; height: 12px; margin-bottom: 0; background: #e0e0e0; min-width: 0; }
+            .result-score { flex: 0 0 auto; width: auto; min-width: 35px; text-align: right; font-size: 1rem; margin-top: 0; margin-left: 10px; }
             
-            /* Section Header */
-            .section-header { 
-                flex-direction: column; align-items: flex-start; gap: 5px; 
-                padding: 15px; font-size: 1rem;
-            }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 5px; padding: 15px; font-size: 1rem; }
             .header-score-badge { align-self: flex-start; margin-top: 5px; }
-            
             .history-item { flex-direction: column; align-items: flex-start; gap: 10px; }
             .history-item button { width: 100%; margin-top: 5px; }
-            .history-item > div:last-child { 
-                width: 100%; display: flex; justify-content: space-between; align-items: center; 
-            }
+            .history-item > div:last-child { width: 100%; display: flex; justify-content: space-between; align-items: center; }
         }
 
         @media screen and (max-width: 380px) {
@@ -285,61 +167,25 @@
             h1 { font-size: 1.3rem; }
         }
         
-        /* --- PRINT STYLES --- */
+        /* PRINT */
         @media print {
             @page { size: A4 landscape; margin: 0; }
-            html, body { 
-                width: 297mm; height: 210mm; margin: 0 !important; padding: 10mm !important; 
-                background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; 
-                box-sizing: border-box; overflow: hidden; min-width: 1024px;
-                display: flex !important; justify-content: center !important; align-items: center !important; 
-            }
+            html, body { width: 297mm; height: 210mm; margin: 0 !important; padding: 10mm !important; background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; overflow: hidden; min-width: 1024px; display: flex !important; justify-content: center !important; align-items: center !important; }
             header, footer, .btn, .btn-outline, #introPage, #historyPage, #surveyPage, .summary-link-box, #pdfNotification { display: none !important; }
-            
             #historyDetailPage, #resultPage { display: block !important; width: 100%; height: 100%; } 
             .container { width: 100% !important; height: 100% !important; max-width: none !important; padding: 0 !important; margin: 0 !important; }
-            
-            .card { 
-                box-shadow: none; border: 2px double var(--primary); border-radius: 0; margin: 0; 
-                padding: 20px 40px; width: 100%; height: 100%; box-sizing: border-box; 
-                display: flex; flex-direction: column; justify-content: space-between; 
-            }
+            .card { box-shadow: none; border: 2px double var(--primary); border-radius: 0; margin: 0; padding: 20px 40px; width: 100%; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
             .report-header { border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
             .report-header h2 { margin: 0; font-size: 1.8rem; }
-            
-            .print-only-logo { display: flex !important; align-items: center; gap: 15px; }
-            .print-only-logo img { height: 50px; }
-            .print-only-logo div { font-weight: 800; color: var(--primary); font-size: 1.2rem; }
-            
-            /* Profile Print - Tetap 1 Baris Rapi */
-            .user-profile { 
-                background: #f8f9fa !important; padding: 8px 20px; border: 1px solid #ccc; 
-                display: flex; justify-content: space-between; align-items: center; 
-                margin: 10px 0; border-radius: 6px;
-            }
-            .profile-left { text-align: left; }
-            .profile-right { text-align: right; }
-            .date-badge { border: none; background: transparent; padding: 0; color: #666; font-size: 1rem; }
-            
+            .print-only-logo { display: flex !important; align-items: center; gap: 15px; } .print-only-logo img { height: 50px; } .print-only-logo div { font-weight: 800; color: var(--primary); font-size: 1.2rem; }
+            .user-profile { background: #f8f9fa !important; padding: 8px 20px; border: 1px solid #ccc; display: flex; justify-content: space-between; align-items: center; margin: 10px 0; border-radius: 6px; }
+            .profile-left { text-align: left; } .profile-right { text-align: right; } .date-badge { border: none; background: transparent; padding: 0; color: #666; font-size: 1rem; }
             #scoreDetails, #detailChartArea { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; row-gap: 10px; flex-grow: 1; align-content: center; margin: 10px 0; }
-            
-            .result-row { 
-                margin: 0; padding: 5px 15px; background: #fff !important; border: 1px solid #ddd; 
-                box-shadow: none; page-break-inside: avoid; display: flex; flex-direction: row !important; align-items: center;
-            }
-            .result-label { font-size: 0.9rem; margin-bottom: 0 !important; width: auto; flex: 0 0 45%; }
-            .result-bar-area { flex: 1; height: 12px; margin-bottom: 0; }
-            .result-score { font-size: 1rem; margin-top: 0 !important; text-align: right !important; width: 50px; }
-            .result-bar-bg { background: #eee !important; }
-            
+            .result-row { margin: 0; padding: 5px 15px; background: #fff !important; border: 1px solid #ddd; box-shadow: none; page-break-inside: avoid; display: flex; flex-direction: row !important; align-items: center; }
+            .result-label { font-size: 0.9rem; margin-bottom: 0 !important; width: auto; flex: 0 0 45%; } .result-bar-area { flex: 1; height: 12px; margin-bottom: 0; } .result-score { font-size: 1rem; margin-top: 0 !important; text-align: right !important; width: 50px; } .result-bar-bg { background: #eee !important; }
             #detailContainer { display: none; }
-            
-            .final-score-box { 
-                background: var(--primary) !important; color: white !important; display: flex; 
-                justify-content: space-between; align-items: center; padding: 15px 40px; height: 60px; margin-top: 10px; 
-            }
-            .final-score-box div:first-child { font-size: 1.2rem; text-transform: uppercase; }
-            .final-score-box #finalScoreDisplay, .final-score-box #detTotalScore { font-size: 3rem; margin: 0; line-height: 1; }
+            .final-score-box { background: var(--primary) !important; color: white !important; display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; height: 60px; margin-top: 10px; }
+            .final-score-box div:first-child { font-size: 1.2rem; text-transform: uppercase; } .final-score-box #finalScoreDisplay, .final-score-box #detTotalScore { font-size: 3rem; margin: 0; line-height: 1; }
         }
         .print-only-logo { display: none; }
     </style>
@@ -362,9 +208,18 @@
                 <p style="text-align:center; color:#666;">The 7 Habits of Highly Effective People</p>
                 <hr style="border:0; border-top:1px solid #eee; margin:30px 0;">
                 
-                <div class="form-group"><label>Nama Lengkap</label><input type="text" id="userName" required></div>
-                <div class="form-group"><label>Email Perusahaan</label><input type="email" id="userEmail" required placeholder="ex: example@worldwhiteenterprise.com"></div>
-                <div class="form-group"><label>Nomor Handphone</label><input type="tel" id="userPhone" required placeholder="ex: 085xxxxxxxxx"></div>
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="userName" required placeholder="Isi nama lengkap">
+                </div>
+                <div class="form-group">
+                    <label>Email Perusahaan</label>
+                    <input type="email" id="userEmail" required placeholder="ex: example@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label>Nomor Handphone</label>
+                    <input type="tel" id="userPhone" required placeholder="ex: 085xxxxxxxxx">
+                </div>
 
                 <div id="loadingMsg" style="text-align:center; color: var(--primary); display:none; margin-top:20px;">Mengambil data...</div>
 
@@ -379,7 +234,7 @@
                 <h2>Riwayat Evaluasi</h2>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" id="historyEmailInput">
+                    <input type="email" id="historyEmailInput" placeholder="ex: example@gmail.com">
                 </div>
                 <button class="btn" id="btnCheckHistory" onclick="checkHistory()">Cari Data</button>
                 <button class="btn btn-outline" style="border:none; color:#666;" onclick="showPage('introPage')">Kembali</button>
@@ -387,18 +242,17 @@
             </div>
         </div>
 
-        <!-- 3. DETAIL RIWAYAT (GRAFIK + DETAIL) -->
+        <!-- 3. DETAIL RIWAYAT -->
         <div id="historyDetailPage" class="page-section">
             <div class="card">
                 <div class="report-header">
                     <h2 style="width: 100%; text-align: center;">DETAIL RIWAYAT</h2>
                 </div>
 
-                <!-- User Profile Layout Baru (Box Kiri Kanan) -->
                 <div class="user-profile">
                     <div class="profile-left">
                         <h3 id="detName">User</h3>
-                        <p id="detEmail">Email</p> <!-- Ditambah Email untuk kelengkapan -->
+                        <p id="detEmail">Email</p>
                     </div>
                     <div class="profile-right">
                         <span id="detDate" class="date-badge">Date</span>
@@ -438,7 +292,6 @@
                     <h2>HASIL EVALUASI</h2>
                 </div>
 
-                <!-- User Profile Layout Baru (Box Kiri Kanan) -->
                 <div class="user-profile">
                     <div class="profile-left">
                         <h3 id="resName">Nama User</h3>
@@ -561,7 +414,7 @@
             if(result.status === 'success' && result.data.length > 0) {
                 let html = "";
                 result.data.forEach(item => {
-                    const d = new Date(item.timestamp).toLocaleString('id-ID'); // Full timestamp
+                    const d = new Date(item.timestamp).toLocaleString('id-ID'); 
                     const itemStr = encodeURIComponent(JSON.stringify(item));
                     html += `
                     <div class="history-item">
@@ -598,7 +451,6 @@
         }
 
         function renderDetailView(summary, details) {
-            // Summary Chart
             let chartHtml = "";
             categoryOrder.forEach((cat, i) => {
                 const s = summary.habitScores[i];
@@ -612,7 +464,6 @@
             });
             document.getElementById('detailChartArea').innerHTML = chartHtml;
 
-            // Details
             const qMap = {}; fetchedQuestions.forEach(q => qMap[q.id] = q);
             const ansMap = {}; details.forEach(d => ansMap[d.q_id] = d.score);
             let grouped = groupQuestions(fetchedQuestions);
@@ -656,10 +507,8 @@
 
             document.getElementById('detailContainer').innerHTML = html;
             document.getElementById('detName').innerText = summary.name;
-            // Di detail history, biasanya email tidak di-pass di summary object, 
-            // kita bisa ambil dari input email search jika sama
             document.getElementById('detEmail').innerText = document.getElementById('historyEmailInput').value || "-";
-            document.getElementById('detDate').innerText = new Date(summary.timestamp).toLocaleString('id-ID'); // Full timestamp
+            document.getElementById('detDate').innerText = new Date(summary.timestamp).toLocaleString('id-ID'); 
             document.getElementById('detTotalScore').innerText = summary.totalScore;
             showPage('historyDetailPage');
         }
@@ -713,16 +562,7 @@
         function displayResult(name, email, dateObj, scores, total, showPdfMsg = false) {
             document.getElementById('resName').innerText = name;
             document.getElementById('resEmail').innerText = email;
-            // Update: Full timestamp with time
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            };
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
             document.getElementById('resDate').innerText = new Date(dateObj).toLocaleDateString('id-ID', options);
             document.getElementById('finalScoreDisplay').innerText = total;
 
