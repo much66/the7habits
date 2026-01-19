@@ -77,18 +77,8 @@
         .page-section.active { display: block; width: 100%; margin-top: auto; margin-bottom: auto; }
         footer { text-align: center; padding: 25px; color: #888; font-size: 0.85rem; margin-top: auto; }
 
+        /* Responsive Fix */
         @media screen and (max-width: 768px) {
-            .container { padding: 15px; } 
-            .card { padding: 25px 20px; border-radius: 10px; }
-            h1 { font-size: 1.5rem; } h2 { font-size: 1.3rem; }
-            .user-profile { padding: 12px 15px; }
-            .profile-left h3 { font-size: 1rem; } .profile-left p { font-size: 0.85rem; }
-            .date-badge { font-size: 0.75rem; padding: 4px 8px; }
-            .btn { font-size: 1rem; padding: 14px; }
-            .question-item { padding: 20px 15px; }
-            .question-text { font-size: 1rem; margin-bottom: 15px; }
-            .scale-labels-header { font-size: 0.7rem; }
-            
             .result-row { flex-wrap: wrap; padding: 15px; gap: 5px; }
             .result-label { flex: 0 0 100%; width: 100%; margin-bottom: 8px; font-size: 0.95rem; padding-right: 0; text-align: left; }
             .result-bar-area { flex: 1; height: 12px; margin-bottom: 0; background: #e0e0e0; min-width: 0; }
@@ -175,8 +165,11 @@
                     <div id="detTotalScore" style="font-size:3rem; font-weight:bold;">0</div>
                 </div>
                 
-                <!-- TOMBOL DOWNLOAD PDF (BARU) -->
-                <button class="btn btn-outline" id="btnDownloadHistory" style="margin-top: 20px;" onclick="downloadPdf()">Download PDF Result</button>
+                <!-- TOMBOL-TOMBOL DI DETAIL HISTORY -->
+                <div style="display: flex; gap: 10px; flex-direction: column; margin-top: 20px;">
+                    <button class="btn btn-outline" id="btnDownloadHistory" style="margin:0;" onclick="downloadPdf()">Download PDF Result</button>
+                    <button class="btn btn-outline" id="btnResendEmail" style="margin:0;" onclick="triggerResendEmail()">Resend to Email</button>
+                </div>
                 
                 <div class="summary-link-box" onclick="backToHistoryList()">&larr; Back to History List</div>
             </div>
@@ -215,7 +208,7 @@
 
                 <p id="pdfNotification" style="display:none;">✅ A copy has been sent to your email.</p>
 
-                <!-- TOMBOL DOWNLOAD PDF -->
+                <!-- TOMBOL DOWNLOAD PDF (RESULT BARU) -->
                 <button class="btn btn-outline" id="btnDownloadResult" style="margin-top: 10px;" onclick="downloadPdf(true)">Download PDF Result</button>
                 <button class="btn btn-outline" style="margin-top: 10px; border:none; color:#666;" onclick="showPage('introPage'); location.reload();">Finish / Exit</button>
             </div>
@@ -299,7 +292,7 @@
             const div = document.getElementById('historyList');
             div.innerHTML = "<p style='text-align:center;'>Searching data...</p>";
             
-            const result = await fetchUserHistory(email, phone); // Pass Phone
+            const result = await fetchUserHistory(email, phone); 
             
             if(result.status === 'success' && result.data.length > 0) {
                 let html = "";
@@ -328,28 +321,21 @@
             if(detailRes.status === 'success') { renderDetailView(historyItem, detailRes.data); } else { alert("Failed to load details."); }
         }
 
-        // FUNGSI DOWNLOAD PDF (NEW)
+        // FUNGSI DOWNLOAD PDF
         async function downloadPdf(isNewResult = false) {
-            // Jika result baru, ID mungkin belum ada di variable global, 
-            // tapi kita bisa ambil dari response saveToGoogleSheet jika kita modifikasi return valuenya.
-            // Namun untuk simpelnya di sini, kita gunakan ID yang tersimpan di ActiveSubmissionId (untuk history)
-            // Untuk result baru, kita akan trigger download via backend url dengan parameter
-            
             const btn = isNewResult ? document.getElementById('btnDownloadResult') : document.getElementById('btnDownloadHistory');
             btn.disabled = true; btn.innerText = "Generating PDF...";
 
             if(!activeSubmissionId) {
-                alert("ID Submission not found. Please try again from History.");
+                alert("ID Submission not found.");
                 btn.disabled = false; btn.innerText = "Download PDF Result";
                 return;
             }
 
             const res = await requestDownloadPdf(activeSubmissionId);
-            
             if(res.status === 'success' && res.pdfUrl) {
-                // Buka PDF Base64 di tab baru atau download link
                 const a = document.createElement('a');
-                a.href = res.pdfUrl; // Data URI Base64
+                a.href = res.pdfUrl; 
                 a.download = "Assessment_Result.pdf";
                 document.body.appendChild(a);
                 a.click();
@@ -357,8 +343,20 @@
             } else {
                 alert("Failed to generate PDF.");
             }
-            
             btn.disabled = false; btn.innerText = "Download PDF Result";
+        }
+
+        // FUNGSI RESEND EMAIL
+        async function triggerResendEmail() {
+            if(!activeSubmissionId) return;
+            const btn = document.getElementById('btnResendEmail');
+            btn.disabled = true; btn.innerText = "Sending...";
+            
+            const res = await requestResendEmail(activeSubmissionId);
+            if(res.status === 'success') alert("Email Sent Successfully!");
+            else alert("Failed to send email: " + (res.message || "Error"));
+            
+            btn.disabled = false; btn.innerText = "Resend to Email";
         }
 
         function renderDetailView(summary, details) {
@@ -421,7 +419,7 @@
             };
             displayResult(payload.profile.name, payload.profile.email, new Date(), habitScores, grandTotal, true);
             const saveRes = await saveToGoogleSheet(payload);
-            if(saveRes.id) activeSubmissionId = saveRes.id; // Simpan ID baru untuk download PDF
+            if(saveRes.id) activeSubmissionId = saveRes.id; // Save ID for download
         }
 
         function displayResult(name, email, dateObj, scores, total, showPdfMsg = false) {
