@@ -7,7 +7,6 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyyuZ9tdNFH37V0i1btmLbhT6d-mIFPO3MJNDUN2-XRX7zqsNStmYWEWyTvw8Rul3BAWw/exec'; 
 
 async function fetchQuestionsFromSheet() {
-    // ... (sama)
     if (!SCRIPT_URL || SCRIPT_URL.includes('/dev')) return [];
     try { const response = await fetch(SCRIPT_URL); const result = await response.json(); return result.status === 'success' ? result.data : []; } catch (error) { return []; }
 }
@@ -18,8 +17,8 @@ async function saveToGoogleSheet(payload) {
     if(btn) { btn.disabled = true; btn.innerText = "Saving..."; }
     try {
         const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { "Content-Type": "text/plain" } });
-        const result = await response.json(); // Now backend returns ID, so we wait for JSON
-        return result; // Returns {status: 'success', id: '...'}
+        const result = await response.json(); 
+        return result; 
     } catch (error) { return { status: 'error' }; } 
     finally { if(btn) { btn.disabled = false; btn.innerText = "View Results"; } }
 }
@@ -43,6 +42,14 @@ async function fetchSubmissionDetails(submissionId) {
 async function requestDownloadPdf(submissionId) {
     try {
         const payload = { action: 'download_pdf', id: submissionId };
+        const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { "Content-Type": "text/plain" } });
+        return await response.json();
+    } catch (error) { return { status: 'error' }; }
+}
+
+async function requestResendEmail(submissionId) {
+    try {
+        const payload = { action: 'resend_email', id: submissionId };
         const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { "Content-Type": "text/plain" } });
         return await response.json();
     } catch (error) { return { status: 'error' }; }
