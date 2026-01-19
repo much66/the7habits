@@ -271,7 +271,7 @@
                         html += `
                         <div class="question-item">
                             <div class="question-text">${idx}. ${q.text}</div>
-                            <div class="scale-labels-header"><span style="color:#e74c3c">Strongly Disagree</span><span style="color:#27ae60">Strongly Agree</span></div>
+                            <div class="scale-labels-header"><span style="color:#e74c3c">Sangat Tidak Setuju</span><span style="color:#27ae60">Sangat Setuju</span></div>
                             <div class="scale-options"><div class="scale-track"></div>
                                 ${[0, 25, 50, 75, 100].map(v => `<label class="scale-option"><input type="radio" name="qid_${q.id}" data-cat="${cat}" data-rev="${q.reversed}" value="${v}" required title="Score: ${v}"></label>`).join('')}
                             </div>
@@ -378,7 +378,7 @@
                     html += `<div class="section-header"><span>${cat}</span><span class="header-score-badge">Score: ${habitScore}</span></div>`;
                     grouped[cat].forEach(q => {
                         const userScore = ansMap[q.id] !== undefined ? ansMap[q.id] : null;
-                        html += `<div class="question-item" style="background-color: #fcfcfc;"><div class="question-text">${idx}. ${q.text}</div><div class="scale-labels-header"><span style="color:#e74c3c">Strongly Disagree</span><span style="color:#27ae60">Strongly Agree</span></div><div class="scale-options"><div class="scale-track"></div>${[0, 25, 50, 75, 100].map(v => {
+                        html += `<div class="question-item" style="background-color: #fcfcfc;"><div class="question-text">${idx}. ${q.text}</div><div class="scale-labels-header"><span style="color:#e74c3c">Sangat Tidak Setuju</span><span style="color:#27ae60">Sangat Setuju</span></div><div class="scale-options"><div class="scale-track"></div>${[0, 25, 50, 75, 100].map(v => {
                             let rawValue = userScore; if(userScore !== null && q.reversed === true) rawValue = 100 - userScore;
                             const isChecked = (rawValue === v) ? 'checked' : ''; const opacity = isChecked ? '1' : '0.4';
                             return `<label class="scale-option" style="cursor: default;"><input type="radio" disabled ${isChecked} style="cursor: default; opacity: ${opacity}; accent-color: var(--primary);"></label>`;
