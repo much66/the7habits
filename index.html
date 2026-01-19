@@ -37,17 +37,42 @@
         .section-header { background: var(--secondary); color: var(--primary); padding: 15px 20px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; margin: 30px 0 20px 0; display: flex; justify-content: space-between; align-items: center; }
         .header-score-badge { background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; }
         
+        /* Pertanyaan Box */
         .question-item { background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 12px; padding: 25px; margin-bottom: 20px; transition: all 0.3s ease; }
         .question-text { font-weight: 600; color: #2c3e50; margin-bottom: 20px; font-size: 1.05rem; line-height: 1.5; }
         
-        .scale-labels-header { 
-            display: flex; justify-content: space-between; margin-bottom: 12px; 
-            font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 2px; 
+        /* --- VISUAL BARU: INLINE LABELS & OPTIONS --- */
+        .scale-line-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px; /* Jarak antara label dan opsi */
+            margin-top: 10px;
         }
-        .scale-options { display: flex; justify-content: space-between; position: relative; padding: 0 8px; align-items: center; height: 36px; }
-        .scale-track { position: absolute; top: 50%; left: 10px; right: 10px; height: 3px; background: #d1d5db; z-index: 1; transform: translateY(-50%); border-radius: 2px; }
-        .scale-option { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; z-index: 2; margin: 0; width: 30px; }
-        .scale-option input { width: 24px; height: 24px; accent-color: var(--primary); margin: 0; cursor: pointer; background-color: #fff; transition: transform 0.2s; -webkit-appearance: none; appearance: none; border: 2px solid #ccc; border-radius: 50%; }
+
+        .scale-label-side {
+            font-size: 0.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            flex: 0 0 75px; /* Lebar tetap untuk label agar konsisten */
+            text-align: center;
+        }
+        .scale-label-left { color: #e74c3c; text-align: center; }
+        .scale-label-right { color: #27ae60; text-align: center; }
+
+        .scale-options { 
+            flex-grow: 1; /* Opsi mengisi ruang tengah */
+            display: flex; 
+            justify-content: space-between; 
+            position: relative; 
+            padding: 0 5px; 
+            align-items: center; 
+            height: 36px; 
+        }
+        
+        .scale-track { position: absolute; top: 50%; left: 5px; right: 5px; height: 3px; background: #d1d5db; z-index: 1; transform: translateY(-50%); border-radius: 2px; }
+        .scale-option { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; z-index: 2; margin: 0; width: 24px; } /* Lebar area klik disesuaikan */
+        .scale-option input { width: 20px; height: 20px; accent-color: var(--primary); margin: 0; cursor: pointer; background-color: #fff; transition: transform 0.2s; -webkit-appearance: none; appearance: none; border: 2px solid #ccc; border-radius: 50%; }
         .scale-option input:checked { background-color: var(--primary); border-color: var(--primary); box-shadow: inset 0 0 0 4px #fff; }
         .scale-option input:hover { transform: scale(1.1); border-color: var(--primary); }
         
@@ -80,22 +105,19 @@
         .page-section.active { display: block; width: 100%; margin-top: auto; margin-bottom: auto; }
         footer { text-align: center; padding: 25px; color: #888; font-size: 0.85rem; margin-top: auto; }
 
-        /* Responsive Fix for Mobile */
+        /* Responsive Fix */
         @media screen and (max-width: 768px) {
-            .container { padding: 15px; } 
-            .card { padding: 25px 20px; }
+            .container { padding: 15px; }
+            .card { padding: 20px 15px; }
             
-            /* Font Size Adjustment for Mobile Labels */
-            .scale-labels-header { 
-                font-size: 0.7rem; /* Lebih kecil agar muat */
-                align-items: flex-end; /* Sejajarkan ke bawah agar rapi */
+            /* Penyesuaian Mobile agar Label Inline tetap rapi */
+            .scale-line-wrapper { gap: 8px; }
+            .scale-label-side { 
+                font-size: 0.7rem; /* Kecilkan font sedikit lagi */
+                flex: 0 0 60px; /* Kecilkan lebar label */
             }
-            .scale-labels-header span {
-                max-width: 45%; /* Batasi lebar agar tidak tabrakan */
-                line-height: 1.2; /* Spasi baris rapat */
-            }
-            .scale-labels-header span:first-child { text-align: left; }
-            .scale-labels-header span:last-child { text-align: right; }
+            .scale-option input { width: 18px; height: 18px; } /* Perkecil radio button */
+            .scale-track { height: 2px; }
 
             .result-row { flex-wrap: wrap; padding: 15px; gap: 5px; }
             .result-label { flex: 0 0 100%; width: 100%; margin-bottom: 8px; font-size: 0.95rem; padding-right: 0; text-align: left; }
@@ -109,9 +131,9 @@
             .history-item > div:last-child { width: 100%; display: flex; justify-content: space-between; align-items: center; }
         }
         
-        /* Small Phones */
         @media screen and (max-width: 380px) {
-            .scale-labels-header { font-size: 0.65rem; } /* Lebih kecil lagi untuk HP kecil */
+            /* Untuk HP sangat kecil */
+            .scale-label-side { font-size: 0.65rem; flex: 0 0 50px; } 
         }
     </style>
 </head>
@@ -293,10 +315,17 @@
                         html += `
                         <div class="question-item">
                             <div class="question-text">${idx}. ${q.text}</div>
-                            <div class="scale-labels-header"><span style="color:#e74c3c">Sangat Tidak Setuju</span><span style="color:#27ae60">Sangat Setuju</span></div>
-                            <div class="scale-options"><div class="scale-track"></div>
-                                ${[0, 25, 50, 75, 100].map(v => `<label class="scale-option"><input type="radio" name="qid_${q.id}" data-cat="${cat}" data-rev="${q.reversed}" value="${v}" required title="Score: ${v}"></label>`).join('')}
+                            
+                            <!-- UPDATED LAYOUT: INLINE LABELS & OPTIONS -->
+                            <div class="scale-line-wrapper">
+                                <div class="scale-label-side scale-label-left">Sangat Tidak Setuju</div>
+                                <div class="scale-options">
+                                    <div class="scale-track"></div>
+                                    ${[0, 25, 50, 75, 100].map(v => `<label class="scale-option"><input type="radio" name="qid_${q.id}" data-cat="${cat}" data-rev="${q.reversed}" value="${v}" required title="Score: ${v}"></label>`).join('')}
+                                </div>
+                                <div class="scale-label-side scale-label-right">Sangat Setuju</div>
                             </div>
+                            
                         </div>`;
                         idx++;
                     });
@@ -398,11 +427,26 @@
                     html += `<div class="section-header"><span>${cat}</span><span class="header-score-badge">Score: ${habitScore}</span></div>`;
                     grouped[cat].forEach(q => {
                         const userScore = ansMap[q.id] !== undefined ? ansMap[q.id] : null;
-                        html += `<div class="question-item" style="background-color: #fcfcfc;"><div class="question-text">${idx}. ${q.text}</div><div class="scale-labels-header"><span style="color:#e74c3c">Sangat Tidak Setuju</span><span style="color:#27ae60">Sangat Setuju</span></div><div class="scale-options"><div class="scale-track"></div>${[0, 25, 50, 75, 100].map(v => {
-                            let rawValue = userScore; if(userScore !== null && q.reversed === true) rawValue = 100 - userScore;
-                            const isChecked = (rawValue === v) ? 'checked' : ''; const opacity = isChecked ? '1' : '0.4';
-                            return `<label class="scale-option" style="cursor: default;"><input type="radio" disabled ${isChecked} style="cursor: default; opacity: ${opacity}; accent-color: var(--primary);"></label>`;
-                        }).join('')}</div></div>`;
+                        
+                        // RENDER DETAIL JUGA MENGGUNAKAN LAYOUT INLINE
+                        html += `
+                        <div class="question-item" style="background-color: #fcfcfc;">
+                            <div class="question-text">${idx}. ${q.text}</div>
+                            
+                            <div class="scale-line-wrapper">
+                                <div class="scale-label-side scale-label-left">Sangat Tidak Setuju</div>
+                                <div class="scale-options">
+                                    <div class="scale-track"></div>
+                                    ${[0, 25, 50, 75, 100].map(v => {
+                                        let rawValue = userScore; if(userScore !== null && q.reversed === true) rawValue = 100 - userScore;
+                                        const isChecked = (rawValue === v) ? 'checked' : ''; const opacity = isChecked ? '1' : '0.4';
+                                        return `<label class="scale-option" style="cursor: default;"><input type="radio" disabled ${isChecked} style="cursor: default; opacity: ${opacity}; accent-color: var(--primary);"></label>`;
+                                    }).join('')}
+                                </div>
+                                <div class="scale-label-side scale-label-right">Sangat Setuju</div>
+                            </div>
+                            
+                        </div>`;
                         idx++;
                     });
                 }
