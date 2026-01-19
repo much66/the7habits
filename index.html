@@ -39,7 +39,16 @@
         
         /* Pertanyaan Box */
         .question-item { background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 12px; padding: 25px; margin-bottom: 20px; transition: all 0.3s ease; }
-        .question-text { font-weight: 600; color: #2c3e50; margin-bottom: 20px; font-size: 1.05rem; line-height: 1.5; }
+        
+        /* PERBAIKAN: Text Align Justify */
+        .question-text { 
+            font-weight: 600; 
+            color: #2c3e50; 
+            margin-bottom: 20px; 
+            font-size: 1.05rem; 
+            line-height: 1.5;
+            text-align: justify; /* Rata Kiri Kanan */
+        }
         
         /* --- VISUAL BARU: INLINE LABELS & OPTIONS --- */
         .scale-line-wrapper {
@@ -119,6 +128,13 @@
             .scale-option input { width: 18px; height: 18px; } /* Perkecil radio button */
             .scale-track { height: 2px; }
 
+            /* PERBAIKAN: Font lebih kecil di HP dan RATA KIRI KANAN (Justify) */
+            .question-text { 
+                font-size: 0.9rem; 
+                margin-bottom: 12px; 
+                text-align: justify; /* Tetap justify di HP */
+            }
+
             .result-row { flex-wrap: wrap; padding: 15px; gap: 5px; }
             .result-label { flex: 0 0 100%; width: 100%; margin-bottom: 8px; font-size: 0.95rem; padding-right: 0; text-align: left; }
             .result-bar-area { flex: 1; height: 12px; margin-bottom: 0; background: #e0e0e0; min-width: 0; }
@@ -156,7 +172,7 @@
                 <hr style="border:0; border-top:1px solid #eee; margin:30px 0;">
                 
                 <div class="form-group"><label>Full Name</label><input type="text" id="userName" required placeholder="Enter full name"></div>
-                <div class="form-group"><label>Company Email</label><input type="email" id="userEmail" required placeholder="ex: example@gmail.com"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="userEmail" required placeholder="ex: example@gmail.com"></div>
                 <div class="form-group"><label>Phone Number</label><input type="tel" id="userPhone" required placeholder="ex: 085xxxxxxxxx"></div>
 
                 <div id="loadingMsg" style="text-align:center; color: var(--primary); display:none; margin-top:20px;">Loading...</div>
@@ -264,7 +280,7 @@
     <script>
         const categoryOrder = [
             "Habit 1: Be Proactive", "Habit 2: Begin with the End in Mind", "Habit 3: Put First Things First",
-            "Emotional Bank Account", "Habit 4: Think Win-Win", "Habit 5: Seek First to Understand Then to Be Understood",
+            "Emotional Bank Account", "Habit 4: Think Win-Win", " Habit 5: Seek First to Understand Then to Be Understood",
             "Habit 6: Synergize", "Habit 7: Sharpen the Saw"
         ];
         let fetchedQuestions = [];
@@ -315,8 +331,6 @@
                         html += `
                         <div class="question-item">
                             <div class="question-text">${idx}. ${q.text}</div>
-                            
-                            <!-- UPDATED LAYOUT: INLINE LABELS & OPTIONS -->
                             <div class="scale-line-wrapper">
                                 <div class="scale-label-side scale-label-left">Sangat Tidak Setuju</div>
                                 <div class="scale-options">
@@ -325,7 +339,6 @@
                                 </div>
                                 <div class="scale-label-side scale-label-right">Sangat Setuju</div>
                             </div>
-                            
                         </div>`;
                         idx++;
                     });
@@ -427,26 +440,11 @@
                     html += `<div class="section-header"><span>${cat}</span><span class="header-score-badge">Score: ${habitScore}</span></div>`;
                     grouped[cat].forEach(q => {
                         const userScore = ansMap[q.id] !== undefined ? ansMap[q.id] : null;
-                        
-                        // RENDER DETAIL JUGA MENGGUNAKAN LAYOUT INLINE
-                        html += `
-                        <div class="question-item" style="background-color: #fcfcfc;">
-                            <div class="question-text">${idx}. ${q.text}</div>
-                            
-                            <div class="scale-line-wrapper">
-                                <div class="scale-label-side scale-label-left">Sangat Tidak Setuju</div>
-                                <div class="scale-options">
-                                    <div class="scale-track"></div>
-                                    ${[0, 25, 50, 75, 100].map(v => {
-                                        let rawValue = userScore; if(userScore !== null && q.reversed === true) rawValue = 100 - userScore;
-                                        const isChecked = (rawValue === v) ? 'checked' : ''; const opacity = isChecked ? '1' : '0.4';
-                                        return `<label class="scale-option" style="cursor: default;"><input type="radio" disabled ${isChecked} style="cursor: default; opacity: ${opacity}; accent-color: var(--primary);"></label>`;
-                                    }).join('')}
-                                </div>
-                                <div class="scale-label-side scale-label-right">Sangat Setuju</div>
-                            </div>
-                            
-                        </div>`;
+                        html += `<div class="question-item" style="background-color: #fcfcfc;"><div class="question-text">${idx}. ${q.text}</div><div class="scale-line-wrapper"><div class="scale-label-side scale-label-left">Sangat Tidak Setuju</div><div class="scale-options"><div class="scale-track"></div>${[0, 25, 50, 75, 100].map(v => {
+                            let rawValue = userScore; if(userScore !== null && q.reversed === true) rawValue = 100 - userScore;
+                            const isChecked = (rawValue === v) ? 'checked' : ''; const opacity = isChecked ? '1' : '0.4';
+                            return `<label class="scale-option" style="cursor: default;"><input type="radio" disabled ${isChecked} style="cursor: default; opacity: ${opacity}; accent-color: var(--primary);"></label>`;
+                        }).join('')}</div><div class="scale-label-side scale-label-right">Sangat Setuju</div></div></div>`;
                         idx++;
                     });
                 }
