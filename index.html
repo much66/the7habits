@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -40,7 +40,10 @@
         .question-item { background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 12px; padding: 25px; margin-bottom: 20px; transition: all 0.3s ease; }
         .question-text { font-weight: 600; color: #2c3e50; margin-bottom: 20px; font-size: 1.05rem; line-height: 1.5; }
         
-        .scale-labels-header { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 2px; }
+        .scale-labels-header { 
+            display: flex; justify-content: space-between; margin-bottom: 12px; 
+            font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 2px; 
+        }
         .scale-options { display: flex; justify-content: space-between; position: relative; padding: 0 8px; align-items: center; height: 36px; }
         .scale-track { position: absolute; top: 50%; left: 10px; right: 10px; height: 3px; background: #d1d5db; z-index: 1; transform: translateY(-50%); border-radius: 2px; }
         .scale-option { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; z-index: 2; margin: 0; width: 30px; }
@@ -77,8 +80,23 @@
         .page-section.active { display: block; width: 100%; margin-top: auto; margin-bottom: auto; }
         footer { text-align: center; padding: 25px; color: #888; font-size: 0.85rem; margin-top: auto; }
 
-        /* Responsive Fix */
+        /* Responsive Fix for Mobile */
         @media screen and (max-width: 768px) {
+            .container { padding: 15px; } 
+            .card { padding: 25px 20px; }
+            
+            /* Font Size Adjustment for Mobile Labels */
+            .scale-labels-header { 
+                font-size: 0.7rem; /* Lebih kecil agar muat */
+                align-items: flex-end; /* Sejajarkan ke bawah agar rapi */
+            }
+            .scale-labels-header span {
+                max-width: 45%; /* Batasi lebar agar tidak tabrakan */
+                line-height: 1.2; /* Spasi baris rapat */
+            }
+            .scale-labels-header span:first-child { text-align: left; }
+            .scale-labels-header span:last-child { text-align: right; }
+
             .result-row { flex-wrap: wrap; padding: 15px; gap: 5px; }
             .result-label { flex: 0 0 100%; width: 100%; margin-bottom: 8px; font-size: 0.95rem; padding-right: 0; text-align: left; }
             .result-bar-area { flex: 1; height: 12px; margin-bottom: 0; background: #e0e0e0; min-width: 0; }
@@ -89,6 +107,11 @@
             .history-item { flex-direction: column; align-items: flex-start; gap: 10px; }
             .history-item button { width: 100%; margin-top: 5px; }
             .history-item > div:last-child { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+        }
+        
+        /* Small Phones */
+        @media screen and (max-width: 380px) {
+            .scale-labels-header { font-size: 0.65rem; } /* Lebih kecil lagi untuk HP kecil */
         }
     </style>
 </head>
@@ -111,7 +134,7 @@
                 <hr style="border:0; border-top:1px solid #eee; margin:30px 0;">
                 
                 <div class="form-group"><label>Full Name</label><input type="text" id="userName" required placeholder="Enter full name"></div>
-                <div class="form-group"><label>Email</label><input type="email" id="userEmail" required placeholder="ex: example@gmail.com"></div>
+                <div class="form-group"><label>Company Email</label><input type="email" id="userEmail" required placeholder="ex: example@gmail.com"></div>
                 <div class="form-group"><label>Phone Number</label><input type="tel" id="userPhone" required placeholder="ex: 085xxxxxxxxx"></div>
 
                 <div id="loadingMsg" style="text-align:center; color: var(--primary); display:none; margin-top:20px;">Loading...</div>
@@ -142,7 +165,7 @@
             </div>
         </div>
 
-        <!-- 3. DETAIL NEW VIEW -->
+        <!-- 3. DETAIL VIEW -->
         <div id="historyDetailPage" class="page-section">
             <div class="card">
                 <h2 style="text-align:center;">Result Detail</h2>
@@ -165,11 +188,9 @@
                     <div id="detTotalScore" style="font-size:3rem; font-weight:bold;">0</div>
                 </div>
                 
-                <!-- TOMBOL-TOMBOL DI DETAIL HISTORY -->
-                <div style="display: flex; gap: 10px; flex-direction: column; margin-top: 20px;">
-                    <button class="btn btn-outline" id="btnDownloadHistory" style="margin:0;" onclick="downloadPdf()">Download PDF Result</button>
-                    <button class="btn btn-outline" id="btnResendEmail" style="margin:0;" onclick="triggerResendEmail()">Resend to Email</button>
-                </div>
+                <!-- TOMBOL DOWNLOAD PDF -->
+                <button class="btn btn-outline" id="btnDownloadHistory" style="margin-top: 20px;" onclick="downloadPdf()">Download PDF Result</button>
+                <button class="btn btn-outline" id="btnResendEmail" style="margin-top: 10px;" onclick="triggerResendEmail()">Resend to Email</button>
                 
                 <div class="summary-link-box" onclick="backToHistoryList()">&larr; Back to History List</div>
             </div>
@@ -208,7 +229,7 @@
 
                 <p id="pdfNotification" style="display:none;">✅ A copy has been sent to your email.</p>
 
-                <!-- TOMBOL DOWNLOAD PDF (RESULT BARU) -->
+                <!-- TOMBOL DOWNLOAD PDF -->
                 <button class="btn btn-outline" id="btnDownloadResult" style="margin-top: 10px;" onclick="downloadPdf(true)">Download PDF Result</button>
                 <button class="btn btn-outline" style="margin-top: 10px; border:none; color:#666;" onclick="showPage('introPage'); location.reload();">Finish / Exit</button>
             </div>
@@ -216,11 +237,12 @@
 
     </div>
 
+    <footer>&copy; 2026 Worldwhite Enterprise</footer>
     <script src="api_handler.js"></script>
     <script>
         const categoryOrder = [
             "Habit 1: Be Proactive", "Habit 2: Begin with the End in Mind", "Habit 3: Put First Things First",
-            "Emotional Bank Account", "Habit 4: Think Win-Win", "Habit 5: Seek First to Understand Then to Be Understood",
+            "Emotional Bank Account", "Habit 4: Think Win-Win", "Habit 5: Seek First to Understand",
             "Habit 6: Synergize", "Habit 7: Sharpen the Saw"
         ];
         let fetchedQuestions = [];
@@ -312,7 +334,7 @@
 
         async function loadDetail(submissionId, itemStr) {
             const historyItem = JSON.parse(decodeURIComponent(itemStr));
-            activeSubmissionId = submissionId; // Set Active ID
+            activeSubmissionId = submissionId; 
             const btn = event.target; btn.innerText = "Loading..."; btn.disabled = true;
             await ensureQuestionsLoaded(); 
             const detailRes = await fetchSubmissionDetails(submissionId);
@@ -320,7 +342,6 @@
             if(detailRes.status === 'success') { renderDetailView(historyItem, detailRes.data); } else { alert("Failed to load details."); }
         }
 
-        // FUNGSI DOWNLOAD PDF
         async function downloadPdf(isNewResult = false) {
             const btn = isNewResult ? document.getElementById('btnDownloadResult') : document.getElementById('btnDownloadHistory');
             btn.disabled = true; btn.innerText = "Generating PDF...";
@@ -345,7 +366,6 @@
             btn.disabled = false; btn.innerText = "Download PDF Result";
         }
 
-        // FUNGSI RESEND EMAIL
         async function triggerResendEmail() {
             if(!activeSubmissionId) return;
             const btn = document.getElementById('btnResendEmail');
