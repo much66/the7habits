@@ -1,155 +1,141 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>7 Habits Assessment - Worldwhite Enterprise</title>
+    <title>Peer Assessment - Worldwhite Enterprise</title>
     <link rel="icon" href="LOGO news.png" type="image/png">
+    
+    <!-- IMPORT GOOGLE FONT: POPPINS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
         :root { --primary: #0f2c59; --secondary: #dac0a3; --accent: #3498db; --bg: #f0f2f5; --card-bg: #ffffff; --text: #333333; --border: #e1e4e8; }
         
-        body { font-family: 'Segoe UI', 'Roboto', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+        /* UPDATE FONT FAMILY HERE */
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            margin: 0; padding: 0; 
+            line-height: 1.6; 
+            min-height: 100vh; 
+            display: flex; flex-direction: column; 
+            -webkit-font-smoothing: antialiased; 
+        }
         
         header { background: #fff; padding: 15px 0; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
         .logo-container { display: flex; align-items: center; justify-content: center; gap: 12px; }
         .logo-container img { height: 40px; width: auto; }
-        .logo-text { font-size: 1.1rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; }
+        .logo-text { font-size: 1.1rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; }
 
         .container { max-width: 800px; margin: 0 auto; padding: 20px; flex: 1; width: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; }
-        .card { background: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 40px; margin-bottom: 20px; animation: fadeIn 0.5s ease-out; width: 100%; box-sizing: border-box; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card { background: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 40px; margin-bottom: 20px; width: 100%; box-sizing: border-box; }
         
-        h1 { color: var(--primary); margin-top: 0; text-align: center; font-size: 1.8rem; line-height: 1.3; }
-        h2 { color: var(--primary); margin-top: 0; text-align: center; font-size: 1.5rem; }
-        
-        .btn { display: block; width: 100%; padding: 16px; background-color: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 20px; transition: background 0.2s; touch-action: manipulation; }
+        .btn { display: block; width: 100%; padding: 16px; background-color: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-top: 20px; transition: background 0.2s; touch-action: manipulation; }
         .btn:hover { background-color: #1a4a8d; }
         .btn:disabled { background-color: #95a5a6; cursor: not-allowed; }
         .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
         .btn-outline:hover { background: var(--primary); color: white; }
         
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--primary); font-size: 0.95rem; }
-        .form-group input { width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        .form-group { margin-bottom: 20px; position: relative; } /* Added relative pos */
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--primary); }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; box-sizing: border-box; font-size: 15px; font-family: 'Poppins', sans-serif; }
         .form-group input:focus { border-color: var(--accent); outline: none; }
-        .form-group input::placeholder { color: #aaa; font-style: italic; }
+        .form-group input::placeholder { color: #aaa; font-style: italic; font-weight: 300; }
 
-        .section-header { background: var(--secondary); color: var(--primary); padding: 15px 20px; border-radius: 8px; font-weight: bold; font-size: 1.1rem; margin: 30px 0 20px 0; display: flex; justify-content: space-between; align-items: center; }
-        .header-score-badge { background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; }
-        
-        /* Pertanyaan Box */
-        .question-item { background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 12px; padding: 25px; margin-bottom: 20px; transition: all 0.3s ease; }
-        
-        /* PERBAIKAN: Text Align Justify */
-        .question-text { 
-            font-weight: 600; 
-            color: #2c3e50; 
-            margin-bottom: 20px; 
-            font-size: 1.05rem; 
-            line-height: 1.5;
-            text-align: justify; /* Rata Kiri Kanan */
+        /* --- CUSTOM DROPDOWN STYLING --- */
+        .custom-dropdown-list {
+            position: absolute;
+            top: 100%; /* Menempel tepat di bawah input */
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        
-        /* --- VISUAL BARU: INLINE LABELS & OPTIONS --- */
-        .scale-line-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px; /* Jarak antara label dan opsi */
-            margin-top: 10px;
+        .custom-dropdown-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem;
         }
-
-        .scale-label-side {
-            font-size: 0.8rem;
-            font-weight: 700;
-            line-height: 1.2;
-            flex: 0 0 75px; /* Lebar tetap untuk label agar konsisten */
-            text-align: center;
-        }
-        .scale-label-left { color: #e74c3c; text-align: center; }
-        .scale-label-right { color: #27ae60; text-align: center; }
-
-        .scale-options { 
-            flex-grow: 1; /* Opsi mengisi ruang tengah */
-            display: flex; 
-            justify-content: space-between; 
-            position: relative; 
-            padding: 0 5px; 
-            align-items: center; 
-            height: 36px; 
-        }
-        
-        .scale-track { position: absolute; top: 50%; left: 5px; right: 5px; height: 3px; background: #d1d5db; z-index: 1; transform: translateY(-50%); border-radius: 2px; }
-        .scale-option { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; z-index: 2; margin: 0; width: 24px; } /* Lebar area klik disesuaikan */
-        .scale-option input { width: 20px; height: 20px; accent-color: var(--primary); margin: 0; cursor: pointer; background-color: #fff; transition: transform 0.2s; -webkit-appearance: none; appearance: none; border: 2px solid #ccc; border-radius: 50%; }
-        .scale-option input:checked { background-color: var(--primary); border-color: var(--primary); box-shadow: inset 0 0 0 4px #fff; }
-        .scale-option input:hover { transform: scale(1.1); border-color: var(--primary); }
-        
-        .history-item { border: 1px solid #eee; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
-        .history-item:hover { background: #f9f9f9; }
-        
-        .detail-item { padding: 15px; border-bottom: 1px dashed #eee; display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; }
-        .detail-q { flex: 1; font-weight: 500; font-size: 0.95rem; }
-        .detail-a { font-weight: bold; color: var(--primary); background: #f0f2f5; padding: 4px 10px; border-radius: 6px; white-space: nowrap; font-size: 0.9rem; }
-
-        .user-profile { background: #f8f9fa; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; border: 1px solid #e1e4e8; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .profile-left h3 { margin: 0; color: var(--primary); font-size: 1.1rem; text-align: left; }
-        .profile-left p { margin: 2px 0 0 0; color: #666; font-size: 0.9rem; text-align: left; }
-        .profile-right { text-align: right; }
-        .date-badge { background: #fff; border: 1px solid #ccc; padding: 5px 10px; border-radius: 6px; font-size: 0.85rem; color: #555; white-space: nowrap; display: inline-block; }
-
-        .result-row { display: flex; align-items: center; margin-bottom: 15px; background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 12px; padding: 20px; transition: all 0.2s ease; }
-        .result-label { flex: 0 0 40%; font-size: 0.95rem; font-weight: 600; padding-right: 15px; color: #2c3e50; }
-        .result-bar-area { flex: 1; background: #e0e0e0; height: 12px; border-radius: 6px; overflow: hidden; }
-        .result-bar-fill { height: 100%; border-radius: 6px; }
-        .result-score { width: 50px; text-align: right; font-weight: bold; font-size: 1.1rem; }
-
-        .final-score-box { background: linear-gradient(135deg, var(--primary), #1a4a8d); color: white; padding: 15px 25px; border-radius: 12px; text-align: center; margin-top: 30px; }
-        .summary-link-box { background: white; border: 2px solid var(--primary); color: var(--primary); padding: 15px; border-radius: 12px; text-align: center; margin-top: 15px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
-        .summary-link-box:hover { background: var(--primary); color: white; }
-        
-        #pdfNotification { text-align: center; color: #27ae60; font-weight: bold; margin-top: 20px; padding: 10px; border-radius: 5px; background-color: rgba(39, 174, 96, 0.1); transition: opacity 1s ease-out; font-size: 0.9rem; }
+        .custom-dropdown-item:last-child { border-bottom: none; }
+        .custom-dropdown-item:hover { background-color: #f0f8ff; color: var(--primary); }
+        .custom-dropdown-item strong { color: var(--primary); }
 
         .page-section { display: none; }
-        .page-section.active { display: block; width: 100%; margin-top: auto; margin-bottom: auto; }
-        footer { text-align: center; padding: 25px; color: #888; font-size: 0.85rem; margin-top: auto; }
+        .page-section.active { display: block; }
+        .section-divider { border-top: 2px dashed #eee; margin: 30px 0; position: relative; }
+        .section-divider span { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #fff; padding: 0 15px; color: #999; font-size: 0.8rem; font-weight: 600; }
+        
+        .question-item { background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 12px; padding: 25px; margin-bottom: 20px; }
+        .question-text { font-size: 1.05rem; margin-bottom: 20px; text-align: justify; font-weight: 500; color: #2c3e50; }
+        .scale-line-wrapper { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 10px; }
+        .scale-label-side { font-size: 0.8rem; font-weight: 600; flex: 0 0 75px; text-align: center; line-height: 1.2; }
+        .scale-label-left { color: #e74c3c; } .scale-label-right { color: #27ae60; }
+        .scale-options { flex-grow: 1; display: flex; justify-content: space-between; position: relative; padding: 0 5px; align-items: center; height: 36px; }
+        .scale-track { position: absolute; top: 50%; left: 5px; right: 5px; height: 3px; background: #d1d5db; z-index: 1; transform: translateY(-50%); border-radius: 2px; }
+        .scale-option { display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; z-index: 2; margin: 0; width: 24px; }
+        .scale-option input { width: 20px; height: 20px; accent-color: var(--primary); margin: 0; cursor: pointer; background-color: #fff; border: 2px solid #ccc; border-radius: 50%; }
 
-        /* Responsive Fix */
+        .history-item { border: 1px solid #eee; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .detail-item { padding: 15px; border-bottom: 1px dashed #eee; display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; }
+        .detail-q { flex: 1; font-weight: 500; font-size: 0.95rem; }
+        .detail-a { font-weight: 600; color: var(--primary); background: #f0f2f5; padding: 4px 10px; border-radius: 6px; white-space: nowrap; font-size: 0.9rem; }
+
+        .user-profile { background: #f8f9fa; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; border: 1px solid #e1e4e8; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .profile-left h3 { margin: 0; color: var(--primary); font-size: 1.1rem; font-weight: 600; }
+        .result-row { display: flex; align-items: center; margin-bottom: 15px; background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 12px; padding: 20px; }
+        .result-label { flex: 0 0 40%; font-weight: 500; padding-right: 15px; }
+        .result-bar-area { flex: 1; background: #e0e0e0; height: 12px; border-radius: 6px; overflow: hidden; }
+        .result-bar-fill { height: 100%; }
+        .result-score { width: 50px; text-align: right; font-weight: 700; }
+        .final-score-box { background: linear-gradient(135deg, var(--primary), #1a4a8d); color: white; padding: 15px 25px; border-radius: 12px; text-align: center; margin-top: 30px; }
+        .summary-link-box { background: white; border: 2px solid var(--primary); color: var(--primary); padding: 15px; border-radius: 12px; text-align: center; margin-top: 15px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+        .summary-link-box:hover { background: var(--primary); color: white; }
+        
+        #pdfNotification { text-align: center; color: #27ae60; font-weight: 600; margin-top: 20px; padding: 10px; border-radius: 5px; background-color: rgba(39, 174, 96, 0.1); display: none; }
+
+        /* AI Box */
+        .ai-box { background: linear-gradient(to right, #f8f9fa, #eef2f7); border: 2px solid #e1e4e8; border-radius: 12px; padding: 20px; margin-top: 20px; display: none; }
+        .ai-header { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--primary); font-size: 1.1rem; margin-bottom: 15px; }
+        .ai-content { font-size: 0.95rem; color: #444; text-align: justify; white-space: pre-wrap; font-weight: 400; }
+        .btn-ai { background: linear-gradient(45deg, #6a11cb, #2575fc); color: white; border: none; }
+        .btn-ai:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        footer { text-align: center; padding: 25px; color: #888; font-size: 0.85rem; margin-top: auto; font-weight: 400; }
+        
         @media screen and (max-width: 768px) {
-            .container { padding: 15px; }
-            .card { padding: 20px 15px; }
-            
-            /* Penyesuaian Mobile agar Label Inline tetap rapi */
-            .scale-line-wrapper { gap: 8px; }
-            .scale-label-side { 
-                font-size: 0.7rem; /* Kecilkan font sedikit lagi */
-                flex: 0 0 60px; /* Kecilkan lebar label */
-            }
-            .scale-option input { width: 18px; height: 18px; } /* Perkecil radio button */
-            .scale-track { height: 2px; }
-
-            /* PERBAIKAN: Font lebih kecil di HP dan RATA KIRI KANAN (Justify) */
-            .question-text { 
-                font-size: 0.9rem; 
-                margin-bottom: 12px; 
-                text-align: justify; /* Tetap justify di HP */
-            }
-
+            .scale-label-side { font-size: 0.7rem; flex: 0 0 60px; }
+            .scale-option input { width: 18px; height: 18px; }
+            .question-text { font-size: 0.95rem; }
             .result-row { flex-wrap: wrap; padding: 15px; gap: 5px; }
             .result-label { flex: 0 0 100%; width: 100%; margin-bottom: 8px; font-size: 0.95rem; padding-right: 0; text-align: left; }
             .result-bar-area { flex: 1; height: 12px; margin-bottom: 0; background: #e0e0e0; min-width: 0; }
             .result-score { flex: 0 0 auto; width: auto; min-width: 35px; text-align: right; font-size: 1rem; margin-top: 0; margin-left: 10px; }
-            
             .section-header { flex-direction: column; align-items: flex-start; gap: 5px; padding: 15px; font-size: 1rem; }
             .header-score-badge { align-self: flex-start; margin-top: 5px; }
             .history-item { flex-direction: column; align-items: flex-start; gap: 10px; }
             .history-item button { width: 100%; margin-top: 5px; }
             .history-item > div:last-child { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+            .user-profile { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .profile-right { text-align: left !important; width: 100%; border-top: 1px dashed #ddd; padding-top: 10px; }
         }
-        
         @media screen and (max-width: 380px) {
-            /* Untuk HP sangat kecil */
             .scale-label-side { font-size: 0.65rem; flex: 0 0 50px; } 
+        }
+        @media print {
+             header, footer, .btn, .btn-outline, #introPage, #historyPage, #surveyPage, .summary-link-box, .btn-ai, .ai-box { display: none !important; }
+             #historyDetailPage, #resultPage { display: block !important; width: 100%; }
         }
     </style>
 </head>
@@ -164,165 +150,322 @@
 
     <div class="container">
         
-        <!-- 1. INTRO -->
+        <!-- 1. INTRO & SELECTION -->
         <div id="introPage" class="page-section active">
             <div class="card">
-                <h1>The 7 Habits Assessment</h1>
-                <p style="text-align:center; color:#666;">Worldwhite Enterprise</p>
-                <hr style="border:0; border-top:1px solid #eee; margin:30px 0;">
+                <h1 style="color:#0f2c59; text-align:center; font-weight:700;">Peer Assessment</h1>
+                <p style="text-align:center; color:#666; font-weight:400;">Evaluate your team members.</p>
+                <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
                 
-                <div class="form-group"><label>Full Name</label><input type="text" id="userName" required placeholder="Enter full name"></div>
-                <div class="form-group"><label>Email</label><input type="email" id="userEmail" required placeholder="ex: example@gmail.com"></div>
-                <div class="form-group"><label>Phone Number</label><input type="tel" id="userPhone" required placeholder="ex: 085xxxxxxxxx"></div>
+                <div class="form-group">
+                    <label>Your Name (Assessor)</label>
+                    <!-- CUSTOM SEARCHABLE DROPDOWN -->
+                    <input type="text" id="assessorName" placeholder="Type to search your name..." autocomplete="off" oninput="filterAssessorList()" onfocus="filterAssessorList()">
+                    <div id="assessorDropdown" class="custom-dropdown-list"></div>
+                    
+                    <input type="hidden" id="assessorEmail">
+                    <input type="hidden" id="assessorTeam">
+                </div>
 
-                <div id="loadingMsg" style="text-align:center; color: var(--primary); display:none; margin-top:20px;">Loading...</div>
+                <div class="section-divider"><span>WHO ARE YOU ASSESSING?</span></div>
 
-                <button class="btn" id="startBtn" onclick="initSurvey()">Start Assessment</button>
-                <button class="btn btn-outline" onclick="goToHistory()">Check History</button>
+                <div class="form-group">
+                    <label>Target Name (Person to Assess)</label>
+                    <select id="targetSelect" disabled>
+                        <option value="">Select your name above first...</option>
+                    </select>
+                    <input type="hidden" id="targetName">
+                    <input type="hidden" id="targetEmail">
+                    <input type="hidden" id="targetPhone">
+                    <input type="hidden" id="targetTeam">
+                </div>
+
+                <div id="loadingMsg" style="text-align:center; color: #0f2c59; display:none; margin-top:20px;">Loading Data...</div>
+
+                <button class="btn" id="startBtn" onclick="initSurvey()" disabled>Start Assessment</button>
+                <button class="btn btn-outline" onclick="goToHistory()">Check My Feedback</button>
             </div>
         </div>
 
-        <!-- 2. HISTORY VERIFICATION -->
+        <!-- 2. SURVEY -->
+        <div id="surveyPage" class="page-section">
+            <div id="questionsContainer"></div>
+            <div class="card">
+                <button class="btn btn-submit-final" onclick="calculateAndSubmit()">Submit Assessment</button>
+                <p id="errorMsg" style="color:red; text-align:center; display:none;">Please answer all questions!</p>
+            </div>
+        </div>
+
+        <!-- 3. RESULT -->
+        <div id="resultPage" class="page-section">
+            <div class="card">
+                <h2 style="text-align:center; color:#0f2c59; font-weight:700;">Submission Successful</h2>
+                <div style="text-align:center; margin:20px 0;">
+                    <p>Thank you, <strong id="resAssessorName"></strong>.</p>
+                    <p>Assessment for <strong id="resTargetName"></strong> has been submitted.</p>
+                    <p style="color:#27ae60; font-weight:600;">A PDF report has been emailed to the target.</p>
+                </div>
+
+                <div class="final-score-box">
+                    <div style="font-weight:600;">OVERALL SCORE</div>
+                    <div id="finalScoreDisplay" style="font-size:3rem; font-weight:700;">0</div>
+                </div>
+
+                <!-- AI SECTION -->
+                <button class="btn btn-ai" id="btnAiResult" onclick="analyzeWithAI('res')">✨ Analisis Hasil dengan AI</button>
+                <div id="aiBoxResult" class="ai-box">
+                    <div class="ai-header">✨ Gemini Insight</div>
+                    <div id="aiContentResult" class="ai-content"></div>
+                </div>
+
+                <button class="btn btn-outline" style="margin-top:20px;" onclick="location.reload()">Assess Another Teammate</button>
+            </div>
+        </div>
+
+        <!-- 4. HISTORY CHECK -->
         <div id="historyPage" class="page-section">
             <div class="card">
-                <h2>Assessment History</h2>
-                <p style="text-align:center; color:#666; font-size:0.9rem;">Enter details to view past results</p>
-                
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="historyEmailInput" placeholder="ex: example@gmail.com">
-                </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="historyPhoneInput" placeholder="ex: 085xxxxxxxxx">
-                </div>
-                
+                <h2 style="font-weight:700;">Check My Feedback</h2>
+                <p style="text-align:center; color:#666; font-size:0.9rem;">View assessments regarding YOU.</p>
+                <div class="form-group"><label>Your Email</label><input type="email" id="historyEmailInput" placeholder="ex: example@gmail.com"></div>
+                <div class="form-group"><label>Your Phone Number</label><input type="tel" id="historyPhoneInput" placeholder="ex: 085xxxxxxxxx"></div>
                 <button class="btn" id="btnCheckHistory" onclick="checkHistory()">Search</button>
                 <button class="btn btn-outline" style="border:none; color:#666;" onclick="showPage('introPage')">Back</button>
                 <div id="historyList" style="margin-top: 30px;"></div>
             </div>
         </div>
 
-        <!-- 3. DETAIL VIEW -->
+        <!-- 5. HISTORY DETAIL -->
         <div id="historyDetailPage" class="page-section">
             <div class="card">
-                <h2 style="text-align:center;">Result Detail</h2>
-                
+                <h2 style="text-align:center; font-weight:700;">Feedback Detail</h2>
                 <div class="user-profile">
                     <div class="profile-left">
-                        <h3 id="detName">User</h3>
-                        <p id="detEmail">Email</p>
+                        <small style="color:#999; text-transform:uppercase; font-size:0.75rem; font-weight:600;">Review For (Target)</small>
+                        <h3 id="detName" style="margin:0; color:var(--primary);">Me</h3>
+                        <p id="detEmail" style="margin:0; color:#666; font-size:0.9rem;">Email</p>
                     </div>
                     <div class="profile-right">
-                        <span id="detDate" class="date-badge">Date</span>
+                        <small style="color:#999; text-transform:uppercase; font-size:0.75rem; font-weight:600;">Reviewed By</small>
+                        <h3 id="detAssessor" style="margin:0; color:var(--primary);">Assessor Name</h3>
+                        <span id="detDate" class="date-badge" style="margin-top:5px; display:inline-block;">Date</span>
                     </div>
                 </div>
-                
-                <div id="detailChartArea" style="margin-bottom: 30px; border-bottom: 2px dashed #ccc; padding-bottom: 20px;"></div>
+                <div id="detailChartArea" style="margin-bottom:20px;"></div>
                 <div id="detailContainer"></div>
-
-                <div class="final-score-box">
-                    <div>OVERALL SCORE</div>
-                    <div id="detTotalScore" style="font-size:3rem; font-weight:bold;">0</div>
-                </div>
                 
-                <!-- TOMBOL DOWNLOAD PDF -->
-                <button class="btn btn-outline" id="btnDownloadHistory" style="margin-top: 20px;" onclick="downloadPdf()">Download PDF Result</button>
+                <div class="final-score-box">
+                    <div style="font-weight:600;">OVERALL SCORE</div>
+                    <div id="detTotalScore" style="font-size:3rem; font-weight:700;">0</div>
+                </div>
+
+                <!-- AI SECTION -->
+                <button class="btn btn-ai" id="btnAiDetail" onclick="analyzeWithAI('det')">✨ Analisis Hasil dengan AI</button>
+                <div id="aiBoxDetail" class="ai-box">
+                    <div class="ai-header">✨ Gemini Insight</div>
+                    <div id="aiContentDetail" class="ai-content"></div>
+                </div>
+
+                <button class="btn btn-outline" style="margin-top:20px;" onclick="downloadPdf()">Download PDF Result</button>
                 <button class="btn btn-outline" id="btnResendEmail" style="margin-top: 10px;" onclick="triggerResendEmail()">Resend to Email</button>
                 
                 <div class="summary-link-box" onclick="backToHistoryList()">&larr; Back to History List</div>
             </div>
         </div>
 
-        <!-- 4. SURVEY -->
-        <div id="surveyPage" class="page-section">
-            <div id="questionsContainer"></div>
-            <div class="card">
-                <button class="btn btn-submit-final" onclick="calculateAndSubmit()">View Results</button>
-                <p id="errorMsg" style="color:red; text-align:center; display:none; margin-top:10px;">Please answer all questions!</p>
-            </div>
-        </div>
-
-        <!-- 5. RESULT -->
-        <div id="resultPage" class="page-section">
-            <div class="card">
-                <h2 style="text-align:center;">ASSESSMENT RESULT</h2>
-                
-                <div class="user-profile">
-                    <div class="profile-left">
-                        <h3 id="resName">Name</h3>
-                        <p id="resEmail">email@example.com</p>
-                    </div>
-                    <div class="profile-right">
-                        <span id="resDate" class="date-badge">-</span>
-                    </div>
-                </div>
-
-                <div id="scoreDetails"></div>
-
-                <div class="final-score-box">
-                    <div>OVERALL SCORE</div>
-                    <div id="finalScoreDisplay" style="font-size:3rem; font-weight:bold;">0</div>
-                </div>
-
-                <p id="pdfNotification" style="display:none;">✅ A copy has been sent to your email.</p>
-
-                <!-- TOMBOL DOWNLOAD PDF -->
-                <button class="btn btn-outline" id="btnDownloadResult" style="margin-top: 10px;" onclick="downloadPdf(true)">Download PDF Result</button>
-                <button class="btn btn-outline" style="margin-top: 10px; border:none; color:#666;" onclick="showPage('introPage'); location.reload();">Finish / Exit</button>
-            </div>
-        </div>
-
     </div>
 
-    <footer>&copy; 2026 Worldwhite Enterprise</footer>
     <script src="api_handler.js"></script>
     <script>
+        const apiKey = ""; 
         const categoryOrder = [
             "Habit 1: Be Proactive", "Habit 2: Begin with the End in Mind", "Habit 3: Put First Things First",
             "Emotional Bank Account", "Habit 4: Think Win-Win", "Habit 5: Seek First to Understand Then to Be Understood",
             "Habit 6: Synergize", "Habit 7: Sharpen the Saw"
         ];
+        
+        let employeesData = []; 
         let fetchedQuestions = [];
-        let activeSubmissionId = null; 
+        let submittedPairs = [];
+        let activeSubmissionId = null;
+        let currentScoresForAI = [];
+        let selectedAssessor = null; // Store selected assessor obj for validation
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            window.scrollTo(0,0);
+        // --- GEMINI AI ---
+        async function analyzeWithAI(context) {
+            const btnId = context === 'res' ? 'btnAiResult' : 'btnAiDetail';
+            const boxId = context === 'res' ? 'aiBoxResult' : 'aiBoxDetail';
+            const contentId = context === 'res' ? 'aiContentResult' : 'aiContentDetail';
+            const targetName = document.getElementById(context === 'res' ? 'resTargetName' : 'detName').innerText;
+            const btn = document.getElementById(btnId);
+            const box = document.getElementById(boxId);
+            const content = document.getElementById(contentId);
+
+            if (currentScoresForAI.length === 0) { alert("Data skor tidak tersedia."); return; }
+
+            btn.disabled = true; btn.innerText = "✨ Sedang Menganalisis..."; box.style.display = 'none';
+
+            let scoresText = "";
+            categoryOrder.forEach((cat, index) => { scoresText += `${cat}: ${currentScoresForAI[index]}\n`; });
+
+            const prompt = `Bertindaklah sebagai ahli pengembangan diri Stephen Covey (7 Habits). Analisis hasil untuk ${targetName}: ${scoresText}. Berikan analisis Bahasa Indonesia: 1. Kekuatan terbesar (pujian singkat). 2. Area pengembangan (saran konkret). Nada profesional & memotivasi.`;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+                const data = await response.json();
+                const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (aiText) {
+                    content.innerText = aiText;
+                    box.style.display = 'block';
+                    btn.innerText = "✨ Analisis Ulang";
+                    box.scrollIntoView({ behavior: 'smooth' });
+                } else { throw new Error("No AI response"); }
+            } catch (error) {
+                console.error("AI Error:", error);
+                alert("Gagal menghubungi AI.");
+                btn.innerText = "✨ Analisis Hasil dengan AI";
+            } finally { btn.disabled = false; }
         }
 
-        function goToHistory() {
-            const email = document.getElementById('userEmail').value;
-            const phone = document.getElementById('userPhone').value;
-            if(email) document.getElementById('historyEmailInput').value = email;
-            if(phone) document.getElementById('historyPhoneInput').value = phone;
-            showPage('historyPage');
-            document.getElementById('historyList').innerHTML = ""; 
+        // --- INIT ---
+        window.onload = async function() {
+            document.getElementById('loadingMsg').style.display = 'block';
+            
+            const [questions, employees, submitted] = await Promise.all([
+                fetchQuestionsFromSheet(),
+                fetchEmployees(),
+                fetchSubmittedPairs()
+            ]);
+
+            fetchedQuestions = questions;
+            employeesData = employees;
+            submittedPairs = submitted;
+
+            if (employeesData.length > 0 && fetchedQuestions.length > 0) {
+                // Remove populateAssessorDatalist() as we use custom logic
+                document.getElementById('startBtn').innerText = "Start Assessment";
+                document.getElementById('startBtn').disabled = false;
+                document.getElementById('loadingMsg').style.display = 'none';
+                
+                // Add click outside listener to close dropdown
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('#assessorName')) {
+                        document.getElementById('assessorDropdown').style.display = 'none';
+                        validateAssessorInput();
+                    }
+                });
+            } else { alert("Failed to load system data. Please refresh."); }
+        };
+
+        // --- CUSTOM DROPDOWN LOGIC ---
+        function filterAssessorList() {
+            const input = document.getElementById('assessorName');
+            const dropdown = document.getElementById('assessorDropdown');
+            const filter = input.value.toLowerCase();
+            
+            dropdown.innerHTML = "";
+            const filtered = employeesData.filter(e => e.name.toLowerCase().includes(filter));
+            
+            if (filtered.length > 0) {
+                filtered.forEach(e => {
+                    const div = document.createElement('div');
+                    div.className = "custom-dropdown-item";
+                    div.innerHTML = `<strong>${e.name}</strong> <span style='font-size:0.8rem; color:#666;'>(${e.dept || e.team})</span>`;
+                    div.onclick = function() { selectAssessor(e); };
+                    dropdown.appendChild(div);
+                });
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
         }
 
-        function backToHistoryList() { showPage('historyPage'); }
+        function selectAssessor(emp) {
+            const input = document.getElementById('assessorName');
+            input.value = emp.name;
+            document.getElementById('assessorDropdown').style.display = 'none';
+            selectedAssessor = emp; // Simpan objek yang dipilih
+            updateTargetOptions(emp);
+        }
 
-        async function ensureQuestionsLoaded() {
-            if(fetchedQuestions.length === 0) fetchedQuestions = await fetchQuestionsFromSheet();
+        function validateAssessorInput() {
+            const input = document.getElementById('assessorName');
+            // Jika nilai input tidak sama dengan nama yang disimpan di selectedAssessor, reset
+            if (!selectedAssessor || input.value !== selectedAssessor.name) {
+                // Cek lagi apakah input persis sama dengan salah satu karyawan (jika user mengetik full tanpa klik)
+                const exactMatch = employeesData.find(e => e.name === input.value);
+                if (exactMatch) {
+                    selectAssessor(exactMatch);
+                } else {
+                    input.value = ""; // Reset jika tidak valid
+                    selectedAssessor = null;
+                    updateTargetOptions(null);
+                }
+            }
+        }
+
+        function updateTargetOptions(emp) {
+            const targetSelect = document.getElementById('targetSelect');
+            const startBtn = document.getElementById('startBtn');
+
+            if (emp) {
+                document.getElementById('assessorEmail').value = emp.email;
+                document.getElementById('assessorTeam').value = emp.team;
+                
+                const assessedEmails = submittedPairs
+                    .filter(p => p.assessor === emp.email)
+                    .map(p => p.target);
+
+                const teamMates = employeesData.filter(e => 
+                    e.team === emp.team && e.name !== emp.name && !assessedEmails.includes(e.email)
+                );
+                
+                targetSelect.innerHTML = '<option value="">-- Select Teammate --</option>';
+                if(teamMates.length === 0) { 
+                    targetSelect.innerHTML += '<option disabled>No eligible teammates (all assessed)</option>'; 
+                } else {
+                    teamMates.forEach(tm => {
+                        const opt = document.createElement('option');
+                        opt.value = tm.id; opt.text = tm.name;
+                        targetSelect.appendChild(opt);
+                    });
+                }
+                targetSelect.disabled = false;
+            } else {
+                document.getElementById('assessorEmail').value = "";
+                targetSelect.innerHTML = '<option value="">Select your name above first...</option>';
+                targetSelect.disabled = true; startBtn.disabled = true;
+            }
+            
+            targetSelect.onchange = function() {
+                 if(this.value) {
+                     const selectedTm = employeesData.find(e => String(e.id) === String(this.value));
+                     if(selectedTm) {
+                         document.getElementById('targetName').value = selectedTm.name;
+                         document.getElementById('targetEmail').value = selectedTm.email;
+                         document.getElementById('targetPhone').value = selectedTm.phone;
+                         document.getElementById('targetTeam').value = selectedTm.team;
+                         startBtn.disabled = false;
+                     }
+                 } else { startBtn.disabled = true; }
+            };
         }
 
         async function initSurvey() {
-            const name = document.getElementById('userName').value;
-            if(!name) { alert("Please enter your Name."); return; }
-            document.getElementById('startBtn').disabled = true;
-            document.getElementById('loadingMsg').style.display = 'block';
-            await ensureQuestionsLoaded();
-            if(fetchedQuestions.length > 0) { renderSurvey(fetchedQuestions); showPage('surveyPage'); } 
-            else { alert("Failed to load questions."); }
-            document.getElementById('startBtn').disabled = false;
-            document.getElementById('loadingMsg').style.display = 'none';
+            const assessor = document.getElementById('assessorName').value;
+            const target = document.getElementById('targetName').value;
+            if(!assessor || !target) { alert("Please select both Assessor and Target."); return; }
+            renderSurvey(fetchedQuestions);
+            showPage('surveyPage');
         }
 
         function renderSurvey(questions) {
             const container = document.getElementById('questionsContainer');
             let html = "";
-            let grouped = groupQuestions(questions);
+            let grouped = {}; questions.forEach(q => { if(!grouped[q.category]) grouped[q.category]=[]; grouped[q.category].push(q); });
             let idx = 1;
             categoryOrder.forEach(cat => {
                 if(grouped[cat]) {
@@ -331,14 +474,7 @@
                         html += `
                         <div class="question-item">
                             <div class="question-text">${idx}. ${q.text}</div>
-                            <div class="scale-line-wrapper">
-                                <div class="scale-label-side scale-label-left">Sangat Tidak Setuju</div>
-                                <div class="scale-options">
-                                    <div class="scale-track"></div>
-                                    ${[0, 25, 50, 75, 100].map(v => `<label class="scale-option"><input type="radio" name="qid_${q.id}" data-cat="${cat}" data-rev="${q.reversed}" value="${v}" required title="Score: ${v}"></label>`).join('')}
-                                </div>
-                                <div class="scale-label-side scale-label-right">Sangat Setuju</div>
-                            </div>
+                            <div class="scale-line-wrapper"><div class="scale-label-side scale-label-left">Sangat Tidak Setuju</div><div class="scale-options"><div class="scale-track"></div>${[0,25,50,75,100].map(v => `<label class="scale-option"><input type="radio" name="qid_${q.id}" data-cat="${cat}" data-rev="${q.reversed}" value="${v}" required title="Score: ${v}"></label>`).join('')}</div><div class="scale-label-side scale-label-right">Sangat Setuju</div></div>
                         </div>`;
                         idx++;
                     });
@@ -347,122 +483,10 @@
             container.innerHTML = html;
         }
 
-        async function checkHistory() {
-            const email = document.getElementById('historyEmailInput').value;
-            const phone = document.getElementById('historyPhoneInput').value;
-            if(!email || !phone) { alert("Please enter both Email and Phone Number."); return; }
-            
-            const div = document.getElementById('historyList');
-            div.innerHTML = "<p style='text-align:center;'>Searching data...</p>";
-            
-            const result = await fetchUserHistory(email, phone); 
-            
-            if(result.status === 'success' && result.data.length > 0) {
-                let html = "";
-                result.data.forEach(item => {
-                    const d = new Date(item.timestamp).toLocaleString('en-GB'); 
-                    const itemStr = encodeURIComponent(JSON.stringify(item));
-                    html += `
-                    <div class="history-item">
-                        <div><strong>${item.name}</strong> <small>(${d})</small><div style="font-size:0.85rem; color:#666; margin-top:2px;">Total: ${item.totalScore}</div></div>
-                        <div style="display:flex; justify-content:flex-end;"><button class="btn btn-outline" style="margin:0; padding:6px 15px; width:auto; font-size:0.85rem;" onclick="loadDetail('${item.id}', '${itemStr}')">View Detail</button></div>
-                    </div>`;
-                });
-                div.innerHTML = html;
-            } else {
-                div.innerHTML = "<p style='text-align:center; color:red;'>No data found or details incorrect.</p>";
-            }
-        }
-
-        async function loadDetail(submissionId, itemStr) {
-            const historyItem = JSON.parse(decodeURIComponent(itemStr));
-            activeSubmissionId = submissionId; 
-            const btn = event.target; btn.innerText = "Loading..."; btn.disabled = true;
-            await ensureQuestionsLoaded(); 
-            const detailRes = await fetchSubmissionDetails(submissionId);
-            btn.innerText = "View Detail"; btn.disabled = false;
-            if(detailRes.status === 'success') { renderDetailView(historyItem, detailRes.data); } else { alert("Failed to load details."); }
-        }
-
-        async function downloadPdf(isNewResult = false) {
-            const btn = isNewResult ? document.getElementById('btnDownloadResult') : document.getElementById('btnDownloadHistory');
-            btn.disabled = true; btn.innerText = "Generating PDF...";
-
-            if(!activeSubmissionId) {
-                alert("ID Submission not found.");
-                btn.disabled = false; btn.innerText = "Download PDF Result";
-                return;
-            }
-
-            const res = await requestDownloadPdf(activeSubmissionId);
-            if(res.status === 'success' && res.pdfUrl) {
-                const a = document.createElement('a');
-                a.href = res.pdfUrl; 
-                a.download = "Assessment_Result.pdf";
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            } else {
-                alert("Failed to generate PDF.");
-            }
-            btn.disabled = false; btn.innerText = "Download PDF Result";
-        }
-
-        async function triggerResendEmail() {
-            if(!activeSubmissionId) return;
-            const btn = document.getElementById('btnResendEmail');
-            btn.disabled = true; btn.innerText = "Sending...";
-            
-            const res = await requestResendEmail(activeSubmissionId);
-            if(res.status === 'success') alert("Email Sent Successfully!");
-            else alert("Failed to send email: " + (res.message || "Error"));
-            
-            btn.disabled = false; btn.innerText = "Resend to Email";
-        }
-
-        function renderDetailView(summary, details) {
-            let chartHtml = "";
-            categoryOrder.forEach((cat, i) => {
-                const s = summary.habitScores[i];
-                let color = s >= 80 ? "#27ae60" : (s >= 60 ? "#f39c12" : "#e74c3c");
-                chartHtml += `<div class="result-row"><div class="result-label">${cat}</div><div class="result-bar-area"><div class="result-bar-fill" style="width: ${s}%; background-color: ${color}"></div></div><div class="result-score" style="color:${color}">${s}</div></div>`;
-            });
-            document.getElementById('detailChartArea').innerHTML = chartHtml;
-
-            const qMap = {}; fetchedQuestions.forEach(q => qMap[q.id] = q);
-            const ansMap = {}; details.forEach(d => ansMap[d.q_id] = d.score);
-            let grouped = groupQuestions(fetchedQuestions);
-            let html = ""; let idx = 1;
-            
-            categoryOrder.forEach((cat, i) => {
-                if(grouped[cat]) {
-                    const habitScore = summary.habitScores[i];
-                    html += `<div class="section-header"><span>${cat}</span><span class="header-score-badge">Score: ${habitScore}</span></div>`;
-                    grouped[cat].forEach(q => {
-                        const userScore = ansMap[q.id] !== undefined ? ansMap[q.id] : null;
-                        html += `<div class="question-item" style="background-color: #fcfcfc;"><div class="question-text">${idx}. ${q.text}</div><div class="scale-line-wrapper"><div class="scale-label-side scale-label-left">Sangat Tidak Setuju</div><div class="scale-options"><div class="scale-track"></div>${[0, 25, 50, 75, 100].map(v => {
-                            let rawValue = userScore; if(userScore !== null && q.reversed === true) rawValue = 100 - userScore;
-                            const isChecked = (rawValue === v) ? 'checked' : ''; const opacity = isChecked ? '1' : '0.4';
-                            return `<label class="scale-option" style="cursor: default;"><input type="radio" disabled ${isChecked} style="cursor: default; opacity: ${opacity}; accent-color: var(--primary);"></label>`;
-                        }).join('')}</div><div class="scale-label-side scale-label-right">Sangat Setuju</div></div></div>`;
-                        idx++;
-                    });
-                }
-            });
-            document.getElementById('detailContainer').innerHTML = html;
-            document.getElementById('detName').innerText = summary.name;
-            document.getElementById('detEmail').innerText = document.getElementById('historyEmailInput').value || "-";
-            document.getElementById('detDate').innerText = new Date(summary.timestamp).toLocaleString('en-GB'); 
-            document.getElementById('detTotalScore').innerText = summary.totalScore;
-            showPage('historyDetailPage');
-        }
-
-        function groupQuestions(qs) { let g = {}; qs.forEach(q => { if(!g[q.category]) g[q.category] = []; g[q.category].push(q); }); return g; }
-
         async function calculateAndSubmit() {
             const inputs = document.querySelectorAll('input[type="radio"]:checked');
             if(inputs.length < fetchedQuestions.length) { document.getElementById('errorMsg').style.display = 'block'; return; }
-            document.getElementById('errorMsg').style.display = 'none';
+            
             let scoresObj = {}; categoryOrder.forEach(c => scoresObj[c] = {sum:0, count:0});
             let detailAnswers = [];
             inputs.forEach(inp => {
@@ -473,33 +497,112 @@
             let habitScores = []; let total = 0;
             categoryOrder.forEach(c => { let s = scoresObj[c]; let avg = s.count ? Math.round(s.sum/s.count) : 0; habitScores.push(avg); total += avg; });
             let grandTotal = Math.round(total/8);
+
             const payload = {
-                profile: { name: document.getElementById('userName').value, email: document.getElementById('userEmail').value, phone: document.getElementById('userPhone').value },
+                assessor: { name: document.getElementById('assessorName').value, email: document.getElementById('assessorEmail').value },
+                target: { name: document.getElementById('targetName').value, email: document.getElementById('targetEmail').value, phone: document.getElementById('targetPhone').value, team: document.getElementById('targetTeam').value },
                 summary: { totalScore: grandTotal, habitScores: habitScores },
                 answers: detailAnswers
             };
-            displayResult(payload.profile.name, payload.profile.email, new Date(), habitScores, grandTotal, true);
-            const saveRes = await saveToGoogleSheet(payload);
-            if(saveRes.id) activeSubmissionId = saveRes.id; // Save ID for download
+            
+            currentScoresForAI = habitScores;
+
+            document.getElementById('resAssessorName').innerText = payload.assessor.name;
+            document.getElementById('resTargetName').innerText = payload.target.name;
+            document.getElementById('finalScoreDisplay').innerText = grandTotal;
+            showPage('resultPage');
+            
+            document.getElementById('aiBoxResult').style.display = 'none';
+            document.getElementById('aiContentResult').innerText = "";
+
+            await saveToGoogleSheet(payload);
         }
 
-        function displayResult(name, email, dateObj, scores, total, showPdfMsg = false) {
-            document.getElementById('resName').innerText = name;
-            document.getElementById('resEmail').innerText = email;
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-            document.getElementById('resDate').innerText = new Date(dateObj).toLocaleDateString('en-GB', options);
-            document.getElementById('finalScoreDisplay').innerText = total;
-            let html = "";
-            categoryOrder.forEach((cat, i) => {
-                const s = scores[i];
-                let color = s >= 80 ? "#27ae60" : (s >= 60 ? "#f39c12" : "#e74c3c");
-                html += `<div class="result-row"><div class="result-label">${cat}</div><div class="result-bar-area"><div class="result-bar-fill" style="width: ${s}%; background-color: ${color}"></div></div><div class="result-score" style="color:${color}">${s}</div></div>`;
-            });
-            document.getElementById('scoreDetails').innerHTML = html;
-            const pdfMsg = document.getElementById('pdfNotification');
-            if(showPdfMsg) { pdfMsg.style.display = 'block'; setTimeout(() => { pdfMsg.style.opacity = '0'; setTimeout(() => { pdfMsg.style.display = 'none'; pdfMsg.style.opacity = '1'; }, 1000); }, 5000); } else { pdfMsg.style.display = 'none'; }
-            showPage('resultPage');
+        async function checkHistory() {
+            const email = document.getElementById('historyEmailInput').value;
+            const phone = document.getElementById('historyPhoneInput').value;
+            if(!email || !phone) { alert("Enter Email and Phone."); return; }
+            document.getElementById('historyList').innerHTML = "Searching...";
+            const res = await fetchUserHistory(email, phone);
+            
+            if(res.status === 'success' && res.data.length > 0) {
+                let html = "";
+                res.data.forEach(item => {
+                    const d = new Date(item.timestamp).toLocaleString('en-GB');
+                    const itemStr = encodeURIComponent(JSON.stringify(item));
+                    html += `<div class="history-item"><div><strong>Review by: ${item.assessor || 'Anonymous'}</strong><br><small>${d}</small></div><button class="btn btn-outline" style="margin:0; width:auto; padding:5px 15px;" onclick="loadDetail('${item.id}', '${itemStr}')">View</button></div>`;
+                });
+                document.getElementById('historyList').innerHTML = html;
+            } else { document.getElementById('historyList').innerHTML = "No assessments found for you."; }
         }
+
+        async function loadDetail(id, str) {
+            const data = JSON.parse(decodeURIComponent(str));
+            activeSubmissionId = id;
+            currentScoresForAI = data.habitScores;
+            document.getElementById('detName').innerText = data.name;
+            document.getElementById('detEmail').innerText = document.getElementById('historyEmailInput').value; 
+            document.getElementById('detAssessor').innerText = data.assessor || "Unknown";
+            document.getElementById('detDate').innerText = new Date(data.timestamp).toLocaleDateString();
+            document.getElementById('detTotalScore').innerText = data.totalScore;
+            document.getElementById('aiBoxDetail').style.display = 'none';
+            document.getElementById('aiContentDetail').innerText = "";
+            let chartHtml = "";
+            categoryOrder.forEach((cat, i) => {
+                const s = data.habitScores[i];
+                let color = s >= 80 ? "#27ae60" : (s >= 60 ? "#f39c12" : "#e74c3c");
+                chartHtml += `<div class="result-row"><div class="result-label">${cat}</div><div class="result-bar-area"><div class="result-bar-fill" style="width: ${s}%; background-color: ${color}"></div></div><div class="result-score" style="color:${color}">${s}</div></div>`;
+            });
+            document.getElementById('detailChartArea').innerHTML = chartHtml;
+            const res = await fetchSubmissionDetails(id);
+            if(res.status==='success') { renderDetailQuestions(res.data); }
+            showPage('historyDetailPage');
+        }
+
+        function renderDetailQuestions(details) {
+            const ansMap = {}; details.forEach(d => ansMap[d.q_id] = d.score);
+            let grouped = {}; fetchedQuestions.forEach(q => { if(!grouped[q.category]) grouped[q.category]=[]; grouped[q.category].push(q); });
+            let html = ""; let idx = 1;
+            categoryOrder.forEach(cat => {
+                if(grouped[cat]) {
+                    html += `<div class="section-header">${cat}</div>`;
+                    grouped[cat].forEach(q => {
+                        const userScore = ansMap[q.id] !== undefined ? ansMap[q.id] : null;
+                        html += `<div class="question-item" style="background-color:#fcfcfc;"><div class="question-text">${idx}. ${q.text}</div><div class="scale-line-wrapper"><div class="scale-label-side scale-label-left">Sangat Tidak Setuju</div><div class="scale-options"><div class="scale-track"></div>${[0, 25, 50, 75, 100].map(v => {
+                            let rawValue = userScore; if(userScore !== null && q.reversed === true) rawValue = 100 - userScore;
+                            const isChecked = (rawValue === v) ? 'checked' : ''; const opacity = isChecked ? '1' : '0.4';
+                            return `<label class="scale-option" style="cursor: default;"><input type="radio" disabled ${isChecked} style="cursor: default; opacity: ${opacity}; accent-color: var(--primary);"></label>`;
+                        }).join('')}</div><div class="scale-label-side scale-label-right">Sangat Setuju</div></div></div>`;
+                        idx++;
+                    });
+                }
+            });
+            document.getElementById('detailContainer').innerHTML = html;
+        }
+
+        async function downloadPdf() {
+            if(!activeSubmissionId) return;
+            const btn = event.target; btn.disabled = true; btn.innerText = "Generating...";
+            const res = await requestDownloadPdf(activeSubmissionId);
+            if(res.status === 'success') {
+                const a = document.createElement('a'); a.href = res.pdfUrl; a.download = "Feedback.pdf"; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            } else { alert("Error generating PDF"); }
+            btn.disabled = false; btn.innerText = "Download PDF Result";
+        }
+
+        async function triggerResendEmail() {
+            if(!activeSubmissionId) return;
+            const btn = document.getElementById('btnResendEmail');
+            btn.disabled = true; btn.innerText = "Sending...";
+            const res = await requestResendEmail(activeSubmissionId);
+            if(res.status === 'success') alert("Email Sent Successfully!");
+            else alert("Failed to send email: " + (res.message || "Error"));
+            btn.disabled = false; btn.innerText = "Resend to Email";
+        }
+
+        function showPage(id) { document.querySelectorAll('.page-section').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
+        function backToHistoryList() { showPage('historyPage'); }
+        function groupQuestions(qs) { let g = {}; qs.forEach(q => { if(!g[q.category]) g[q.category] = []; g[q.category].push(q); }); return g; }
     </script>
 </body>
 </html>
